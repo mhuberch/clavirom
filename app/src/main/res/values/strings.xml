@@ -395,6 +395,16 @@
     <!-- Description for English (US) keyboard subtype
          (US) should be an abbreviation of United States. -->
     <string name="subtype_en_US">English (US)</string>
+    <!-- Description for Romontsch Sursilvan keyboard subtype -->
+    <string name="subtype_rm_SR">Romontsch (Sursilvan)</string>
+    <!-- Description for Rumàntsch Sutsilvan keyboard subtype -->
+    <string name="subtype_rm_ST">Rumàntsch Sutsilvan</string>
+    <!-- Description for Rumantsch Surmiran keyboard subtype -->
+    <string name="subtype_rm_SM">Rumantsch Surmiran</string>
+    <!-- Description for Rumauntsch Puter keyboard subtype -->
+    <string name="subtype_rm_PU">Rumauntsch Puter</string>
+    <!-- Description for Rumantsch Valladerkeyboard subtype -->
+    <string name="subtype_rm_VA">Rumantsch Vallader</string>
     <!-- Description for Spanish (US) keyboard subtype
          (US) should be an abbreviation of United States. -->
     <string name="subtype_es_US">Spanish (US)</string>
