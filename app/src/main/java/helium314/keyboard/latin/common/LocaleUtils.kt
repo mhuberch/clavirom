@@ -187,6 +187,11 @@ object LocaleUtils {
             "dru" -> R.string.subtype_xdq
             "st" -> R.string.subtype_st
             "dag" -> R.string.subtype_dag
+            "rm-SR" -> R.string.subtype_rm_SR
+            "rm-ST" -> R.string.subtype_rm_ST
+            "rm-SM" -> R.string.subtype_rm_SM
+            "rm-PU" -> R.string.subtype_rm_PU
+            "rm-VA" -> R.string.subtype_rm_VA
             else -> 0
         }
         if (overrideResId != 0) {
