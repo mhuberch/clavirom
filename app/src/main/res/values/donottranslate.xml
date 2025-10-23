@@ -13,6 +13,11 @@
         <item>dru</item>
         <item>xdq</item>
         <item>sr-Latn</item>
+        <item>rm-SR</item>
+        <item>rm-ST</item>
+        <item>rm-SM</item>
+        <item>rm-PU</item>
+        <item>rm-VA</item>
     </string-array>
     <!-- Display names for language tags in subtype_locale_displayed_in_root_locale -->
     <string-array name="subtype_locale_displayed_in_root_locale_display_names">
@@ -21,6 +26,11 @@
         <item>ХӀурухъла лугъат</item>
         <item>Хайдаҡьан</item>
         <item>Srpski</item>
+        <item>Sursilvan</item>
+        <item>Sutsilvan</item>
+        <item>Surmiran</item>
+        <item>Puter</item>
+        <item>Vallader</item>
     </string-array>
 
     <!-- Generic subtype label -->
@@ -55,7 +65,7 @@
 
     <!-- Description for Bulgarian (BDS) subtype. -->
     <string name="subtype_bulgarian_bds" translatable="false">%s (BDS)</string>
-	
+
     <!-- Description for Bulgarian (BEKL) subtype. -->
     <string name="subtype_bulgarian_bekl" translatable="false">%s (BEKL)</string>
 
