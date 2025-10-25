@@ -396,14 +396,14 @@
          (US) should be an abbreviation of United States. -->
     <string name="subtype_en_US">English (US)</string>
     <!-- Description for Romontsch Sursilvan keyboard subtype -->
-    <string name="subtype_rm_SR">Romontsch (Sursilvan)</string>
+    <string name="subtype_rm_SR">Romontsch Sursilvan</string>
     <!-- Description for Rumàntsch Sutsilvan keyboard subtype -->
     <string name="subtype_rm_ST">Rumàntsch Sutsilvan</string>
     <!-- Description for Rumantsch Surmiran keyboard subtype -->
     <string name="subtype_rm_SM">Rumantsch Surmiran</string>
     <!-- Description for Rumauntsch Puter keyboard subtype -->
     <string name="subtype_rm_PU">Rumauntsch Puter</string>
-    <!-- Description for Rumantsch Valladerkeyboard subtype -->
+    <!-- Description for Rumantsch Vallader keyboard subtype -->
     <string name="subtype_rm_VA">Rumantsch Vallader</string>
     <!-- Description for Spanish (US) keyboard subtype
          (US) should be an abbreviation of United States. -->
@@ -558,11 +558,11 @@ language, hence "No language". -->
     <!-- Title of the button to revert to the default value of the device in the settings dialog. Preferably 10 characters or less. -->
     <string name="button_default">Default</string>
     <!-- Title of the setup wizard welcome screen. %s is the application name. -->
-    <string name="setup_welcome_title">"Welcome to %s"</string>
+    <string name="setup_welcome_title">"Beinvegni tier ClaviRom"</string>
     <!-- Additional title of the setup wizard welcome screen, just below the setup_welcome_title. -->
     <string name="setup_welcome_additional_description">with Gesture Typing</string>
     <!-- The label of the button that starts the setup wizard. -->
-    <string name="setup_start_action">Get started</string>
+    <string name="setup_start_action">Lein nus entscheiver...</string>
     <!-- Title of the setup wizard. %s is the application name. -->
     <string name="setup_steps_title">"Setting up %s"</string>
     <!-- Title of the 1st step in the setup wizard. %s is the application name. -->

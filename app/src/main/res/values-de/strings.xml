@@ -64,9 +64,11 @@
     <string name="prefs_enable_emoji_alt_physical_key">"Emoji für physische Tastatur"</string>
     <string name="prefs_enable_emoji_alt_physical_key_summary">"Emoji-Palette auf physischen Tastaturen über Alt-Taste aufrufen"</string>
     <string name="button_default">"Standard"</string>
-    <string name="setup_welcome_title">Willkommen bei %s</string>
+    <!--
+    <string name="setup_welcome_title">Willkommen bei %s</string>-->
     <string name="setup_welcome_additional_description">mit Gesten-Tippen</string>
-    <string name="setup_start_action">"Jetzt starten"</string>
+    <!--
+    <string name="setup_start_action">"Jetzt starten"</string>-->
     <string name="setup_steps_title">%s einrichten</string>
     <string name="setup_step1_title">%s aktivieren</string>
     <string name="setup_step1_instruction">Bitte aktiviere %s\" unter der Systemeinstellung „Sprachen und Eingabe“.</string>
