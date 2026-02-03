@@ -127,6 +127,7 @@ private fun dictsAvailable(locale: Locale, context: Context): Boolean {
 
 // sorting by display name is still slow, even with the cache... but probably good enough
 private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
+    val claviromPrivilegedSubtypes = SubtypeSettings.getClaviromPrivilegedSubtypes()
     val systemLocales = SubtypeSettings.getSystemLocales()
     val enabledSubtypes = SubtypeSettings.getEnabledSubtypes(true)
     val localesWithDictionary = DictionaryInfoUtils.getCacheDirectories(context).mapNotNull { dir ->
@@ -142,6 +143,7 @@ private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
         defaultAdditionalSubtypes.any { it.first == subtype.locale().language && it.second == subtype.extraValue }
 
     val subtypeSortComparator = compareBy<InputMethodSubtype>(
+        { it !in claviromPrivilegedSubtypes},
         { it !in enabledSubtypes },
         { it.locale() !in localesWithDictionary },
         { it.locale() !in systemLocales},
