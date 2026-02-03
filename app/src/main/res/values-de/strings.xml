@@ -79,7 +79,7 @@
     <string name="setup_step3_title">Hauptsprache(n) für %s wählen</string>
     <string name="setup_step3_instruction">Aktiviere Deine Hauptsprachen für die Eingabe\"Später stets annpassbar.</string>
     <string name="setup_step3_action">"Sprachen aktivieren"</string>
-    <string name="setup_step3_finish_action">"Sprachen aktiviert? Fast fertig..."</string>
+    <string name="setup_step3_finish_action">"Sprachen aktiviert? Fast fertig…"</string>
     <string name="setup_step4_title">Hurra, die Einrichtung ist abgeschlossen!</string>
     <string name="setup_step4_instruction">Jetzt kannst du in all deinen Lieblingsapps mit %s schreiben.</string>
     <string name="setup_finish_action">"Fertig"</string>
