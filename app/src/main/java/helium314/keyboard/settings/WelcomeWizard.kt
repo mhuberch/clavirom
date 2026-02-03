@@ -181,7 +181,7 @@ fun WelcomeWizard(
                             Modifier.padding(end = 6.dp).size(32.dp),
                             tint = textColor
                         )
-                        Text(stringResource(R.string.setup_finish_action), Modifier.weight(1f))
+                        Text(stringResource(R.string.setup_step3_finish_action), Modifier.weight(1f))
                     }
                 } else { // step 4
                     Step(
