@@ -10,9 +10,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import helium314.keyboard.latin.common.LocaleUtils.constructLocale
 import helium314.keyboard.latin.settings.SettingsSubtype.Companion.toSettingsSubtype
 import helium314.keyboard.latin.settings.getTransitionAnimationScale
@@ -41,9 +41,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsNavHost(
     onClickBack: () -> Unit,
+    navController: NavHostController,
     startDestination: String? = null,
 ) {
-    val navController = rememberNavController()
     val dir = if (LocalLayoutDirection.current == LayoutDirection.Ltr) 1 else -1
     val target = SettingsDestination.navTarget.collectAsState()
 

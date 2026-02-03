@@ -26,6 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import helium314.keyboard.compat.locale
 import helium314.keyboard.keyboard.KeyboardSwitcher
 import helium314.keyboard.latin.BuildConfig
@@ -106,8 +108,11 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
                             }
                         }
                     else {
-                        SettingsNavHost(onClickBack = { this.finish() })
-                        if (showWelcomeWizard) {
+                        val navController = rememberNavController()
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentRoute = navBackStackEntry?.destination?.route
+                        SettingsNavHost(onClickBack = { this.finish() }, navController = navController)
+                        if (showWelcomeWizard && currentRoute == SettingsDestination.Settings) {
                             WelcomeWizard(
                                 onLanguageClick = { SettingsDestination.navigateTo(SettingsDestination.Languages) },
                                 finish = { showWelcomeWizard = false }

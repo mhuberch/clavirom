@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -75,7 +76,7 @@ fun WelcomeWizard(
                 step = 3
             }
     }
-    val useWideLayout = isWideScreen()
+    val useWideLayout = LocalConfiguration.current.screenWidthDp > 600
     val stepBackgroundColor = Color(ContextCompat.getColor(ctx, R.color.setup_step_background))
     val textColor = Color(ContextCompat.getColor(ctx, R.color.setup_text_action))
     val textColorDim = textColor.copy(alpha = 0.5f)
