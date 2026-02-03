@@ -36,10 +36,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.util.TypedValueCompat
 import helium314.keyboard.keyboard.internal.KeyboardIconsSet
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.settings.customIconNames
+import helium314.keyboard.latin.utils.dpToPx
 import helium314.keyboard.latin.utils.getStringResourceOrName
 import helium314.keyboard.latin.utils.prefs
 import helium314.keyboard.settings.Theme
@@ -47,6 +47,7 @@ import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.previewDark
 import helium314.keyboard.settings.screens.GetIcon
 import kotlinx.serialization.json.Json
+import androidx.core.content.edit
 
 @Composable
 fun CustomizeIconsDialog(
@@ -117,7 +118,7 @@ fun CustomizeIconsDialog(
                 runCatching {
                     val newIcons = customIconNames(prefs).toMutableMap()
                     newIcons[iconName] = selectedIcon?.let { ctx.resources.getResourceEntryName(it) } ?: return@runCatching
-                    prefs.edit().putString(prefKey, Json.encodeToString(newIcons)).apply()
+                    prefs.edit { putString(prefKey, Json.encodeToString(newIcons)) }
                     KeyboardIconsSet.instance.loadIcons(ctx)
                 }
                 reloadItem(iconName)
@@ -128,8 +129,8 @@ fun CustomizeIconsDialog(
                 runCatching {
                     val icons2 = customIconNames(prefs).toMutableMap()
                     icons2.remove(iconName)
-                    if (icons2.isEmpty()) prefs.edit().remove(prefKey).apply()
-                    else prefs.edit().putString(prefKey, Json.encodeToString(icons2)).apply()
+                    if (icons2.isEmpty()) prefs.edit { remove(prefKey) }
+                    else prefs.edit { putString(prefKey, Json.encodeToString(icons2)) }
                     KeyboardIconsSet.instance.loadIcons(ctx)
                 }
                 reloadItem(iconName)
@@ -154,7 +155,7 @@ fun CustomizeIconsDialog(
                                 if (drawable is VectorDrawable)
                                     Icon(painterResource(resId), null, Modifier.fillMaxSize(0.8f))
                                 else {
-                                    val px = TypedValueCompat.dpToPx(40f, ctx.resources.displayMetrics).toInt()
+                                    val px = 40.dpToPx(ctx.resources)
                                     Icon(drawable.toBitmap(px, px).asImageBitmap(), null, Modifier.fillMaxSize(0.8f))
                                 }
                             }
@@ -170,7 +171,7 @@ fun CustomizeIconsDialog(
             onConfirmed = {
                 showDeletePrefConfirmDialog = false
                 onDismissRequest()
-                prefs.edit().remove(prefKey).apply()
+                prefs.edit { remove(prefKey) }
                 KeyboardIconsSet.instance.loadIcons(ctx)
             },
             content = { Text(stringResource(R.string.customize_icons_reset_message)) }

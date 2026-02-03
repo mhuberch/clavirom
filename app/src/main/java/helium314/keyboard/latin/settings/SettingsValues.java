@@ -55,6 +55,7 @@ public class SettingsValues {
     public final boolean mVibrateInDndMode;
     public final boolean mSoundOn;
     public final boolean mSuggestEmojis;
+    public final boolean mInlineEmojiSearch;
     public final boolean mShowEmojiDescriptions;
     public final boolean mKeyPreviewPopupOn;
     public final boolean mShowsVoiceInputKey;
@@ -62,6 +63,7 @@ public class SettingsValues {
     public final boolean mLanguageSwitchKeyToOtherSubtypes;
     private final boolean mShowsLanguageSwitchKey;
     public final boolean mShowsNumberRow;
+    public final boolean mShowsNumberRowInSymbols;
     public final boolean mLocalizedNumberRow;
     public final boolean mShowNumberRowHints;
     public final boolean mShowsHints;
@@ -84,6 +86,7 @@ public class SettingsValues {
     public final boolean mShiftRemovesAutospace;
     public final boolean mClipboardHistoryEnabled;
     public final long mClipboardHistoryRetentionTime;
+    public final boolean mClipboardHistoryPinnedFirst;
     public final boolean mOneHandedModeEnabled;
     public final int mOneHandedModeGravity;
     public final float mOneHandedModeScale;
@@ -173,6 +176,7 @@ public class SettingsValues {
         mVibrateInDndMode = prefs.getBoolean(Settings.PREF_VIBRATE_IN_DND_MODE, Defaults.PREF_VIBRATE_IN_DND_MODE);
         mSoundOn = prefs.getBoolean(Settings.PREF_SOUND_ON, Defaults.PREF_SOUND_ON);
         mSuggestEmojis = prefs.getBoolean(Settings.PREF_SUGGEST_EMOJIS, Defaults.PREF_SUGGEST_EMOJIS);
+        mInlineEmojiSearch = prefs.getBoolean(Settings.PREF_INLINE_EMOJI_SEARCH, Defaults.PREF_INLINE_EMOJI_SEARCH);
         mShowEmojiDescriptions = prefs.getBoolean(Settings.PREF_SHOW_EMOJI_DESCRIPTIONS, Defaults.PREF_SHOW_EMOJI_DESCRIPTIONS);
         mKeyPreviewPopupOn = prefs.getBoolean(Settings.PREF_POPUP_ON, Defaults.PREF_POPUP_ON);
         mSlidingKeyInputPreviewEnabled = prefs.getBoolean(
@@ -183,6 +187,7 @@ public class SettingsValues {
         mLanguageSwitchKeyToOtherSubtypes = languagePref.equals("internal") || languagePref.equals("both");
         mShowsLanguageSwitchKey = prefs.getBoolean(Settings.PREF_SHOW_LANGUAGE_SWITCH_KEY, Defaults.PREF_SHOW_LANGUAGE_SWITCH_KEY);
         mShowsNumberRow = prefs.getBoolean(Settings.PREF_SHOW_NUMBER_ROW, Defaults.PREF_SHOW_NUMBER_ROW);
+        mShowsNumberRowInSymbols = prefs.getBoolean(Settings.PREF_SHOW_NUMBER_ROW_IN_SYMBOLS, Defaults.PREF_SHOW_NUMBER_ROW_IN_SYMBOLS);
         mLocalizedNumberRow = SubtypeUtilsKt.getHasLocalizedNumberRow(selectedSubtype, prefs);
         mShowNumberRowHints = prefs.getBoolean(Settings.PREF_SHOW_NUMBER_ROW_HINTS, Defaults.PREF_SHOW_NUMBER_ROW_HINTS);
         mShowsHints = prefs.getBoolean(Settings.PREF_SHOW_HINTS, Defaults.PREF_SHOW_HINTS);
@@ -241,8 +246,8 @@ public class SettingsValues {
                 && ((inputAttributes.mInputType & InputType.TYPE_MASK_VARIATION) != InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
                   || !prefs.getBoolean(Settings.PREF_ALWAYS_SHOW_SUGGESTIONS_EXCEPT_WEB_TEXT, Defaults.PREF_ALWAYS_SHOW_SUGGESTIONS_EXCEPT_WEB_TEXT));
         final boolean suggestionsEnabled = prefs.getBoolean(Settings.PREF_SHOW_SUGGESTIONS, Defaults.PREF_SHOW_SUGGESTIONS);
-        mSuggestionsEnabledPerUserSettings = ((mInputAttributes.mShouldShowSuggestions && suggestionsEnabled)
-                || mOverrideShowingSuggestions) && !mSuggestionStripHiddenPerUserSettings;
+        mSuggestionsEnabledPerUserSettings = suggestionsEnabled && (mInputAttributes.mShouldShowSuggestions || mOverrideShowingSuggestions)
+                && !mSuggestionStripHiddenPerUserSettings;
         mSecondaryStripVisible = mToolbarMode != ToolbarMode.HIDDEN || ! mToolbarHidingGlobal;
         mIncognitoModeEnabled = prefs.getBoolean(Settings.PREF_ALWAYS_INCOGNITO_MODE, Defaults.PREF_ALWAYS_INCOGNITO_MODE) || mInputAttributes.mNoLearning
                 || mInputAttributes.mIsPasswordField;
@@ -258,6 +263,7 @@ public class SettingsValues {
         mShiftRemovesAutospace = prefs.getBoolean(Settings.PREF_SHIFT_REMOVES_AUTOSPACE, Defaults.PREF_SHIFT_REMOVES_AUTOSPACE);
         mClipboardHistoryEnabled = prefs.getBoolean(Settings.PREF_ENABLE_CLIPBOARD_HISTORY, Defaults.PREF_ENABLE_CLIPBOARD_HISTORY);
         mClipboardHistoryRetentionTime = prefs.getInt(Settings.PREF_CLIPBOARD_HISTORY_RETENTION_TIME, Defaults.PREF_CLIPBOARD_HISTORY_RETENTION_TIME);
+        mClipboardHistoryPinnedFirst = prefs.getBoolean(Settings.PREF_CLIPBOARD_HISTORY_PINNED_FIRST, Defaults.PREF_CLIPBOARD_HISTORY_PINNED_FIRST);
 
         mOneHandedModeEnabled = Settings.readOneHandedModeEnabled(prefs, isLandscape, mIsSplitKeyboardEnabled);
         mOneHandedModeGravity = Settings.readOneHandedModeGravity(prefs, isLandscape, mIsSplitKeyboardEnabled);
@@ -307,7 +313,7 @@ public class SettingsValues {
 
     public boolean needsToLookupSuggestions() {
         return (mInputAttributes.mShouldShowSuggestions || mOverrideShowingSuggestions)
-                && (mAutoCorrectEnabled || isSuggestionsEnabledPerUserSettings());
+                && (mAutoCorrectEnabled || mSuggestionsEnabledPerUserSettings);
     }
 
     public boolean isSuggestionsEnabledPerUserSettings() {
