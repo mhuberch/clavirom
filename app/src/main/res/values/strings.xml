@@ -599,6 +599,12 @@ language, hence "No language". -->
     <!-- The label of the button that triggers the settings screen for the keyboard. -->
     <string name="setup_step3_action">Configure the keyboard</string>
     <!-- The label of the button that finishes the setup wizard. -->
+    <string name="setup_step4_title">Select main languages for %s</string>
+    <!-- Title of the 4th step in the setup wizard. -->
+    <string name="setup_step4_instruction">Activate your main language for the keyboard. Configuration can be changed steadily.</string>
+    <!-- Detailed instruction of the 4th step in the setup wizard. -->
+    <string name="setup_step4_action">"Activate languages"</string>
+    <!-- The label of the button for 4th step of the setup wizard. -->
     <string name="setup_finish_action">Finished</string>
     <!-- Option to show setup wizard icon. Legacy setting only displayed for Android 9 and older. -->
     <string name="show_setup_wizard_icon">Show app icon</string>
