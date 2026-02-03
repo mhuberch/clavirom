@@ -146,7 +146,7 @@ object SubtypeSettings {
 
     fun getAvailableSubtypeLocales(): List<Locale> = resourceSubtypesByLocale.keys.toList()
 
-    fun getClaviromPrivilegedSubtypes(): List<Locale> = resourceSubtypesByLocale.keys.toList().filter( it.startsWith("rm") ).toList()
+    fun getClaviromPrivilegedSubtypes(): List<Locale> = resourceSubtypesByLocale.keys.filter { it.language.startsWith("rm") }
 
     /**
      * Update subtypes that contain the layout. If new name is null (layout deleted) and the
