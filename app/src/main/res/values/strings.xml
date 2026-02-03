@@ -593,17 +593,17 @@ language, hence "No language". -->
     <!-- The label of the button that triggers the choose input method dialog in order to select the keyboard. -->
     <string name="setup_step2_action">Switch input methods</string>
     <!-- Title of the 3rd step in the setup wizard. -->
-    <string name="setup_step3_title">"Congratulations, you're all set!"</string>
+    <string name="setup_step4_title">"Congratulations, you're all set!"</string>
     <!-- Detailed instruction of the 3rd step in the setup wizard. %s is the application name. -->
-    <string name="setup_step3_instruction">Now you can type in all your favorite apps with %s.</string>
+    <string name="setup_step4_instruction">Now you can type in all your favorite apps with %s.</string>
     <!-- The label of the button that triggers the settings screen for the keyboard. -->
-    <string name="setup_step3_action">Configure the keyboard</string>
+    <string name="setup_step4_action">Configure the keyboard</string>
     <!-- The label of the button that finishes the setup wizard. -->
-    <string name="setup_step4_title">Select main languages for %s</string>
+    <string name="setup_step3_title">Select main languages for %s</string>
     <!-- Title of the 4th step in the setup wizard. -->
-    <string name="setup_step4_instruction">Activate your main language for the keyboard. Configuration can be changed steadily.</string>
+    <string name="setup_step3_instruction">Activate your main language for the keyboard. Configuration can be changed steadily.</string>
     <!-- Detailed instruction of the 4th step in the setup wizard. -->
-    <string name="setup_step4_action">"Activate languages"</string>
+    <string name="setup_step3_action">"Activate languages"</string>
     <!-- The label of the button for 4th step of the setup wizard. -->
     <string name="setup_finish_action">Finished</string>
     <!-- Option to show setup wizard icon. Legacy setting only displayed for Android 9 and older. -->

@@ -160,9 +160,9 @@ fun WelcomeWizard(
                 } else if (step == 3) {
                     Step(
                         step,
-                        stringResource(R.string.setup_step4_title, appName),
-                        stringResource(R.string.setup_step4_instruction),
-                        stringResource(R.string.setup_step4_action),
+                        stringResource(R.string.setup_step3_title, appName),
+                        stringResource(R.string.setup_step3_instruction),
+                        stringResource(R.string.setup_step3_action),
                         painterResource(R.drawable.sym_keyboard_language_switch)
                     ) {
                         onLanguageClick()
@@ -186,8 +186,8 @@ fun WelcomeWizard(
                 } else { // step 4
                     Step(
                         step,
-                        stringResource(R.string.setup_step3_title),
-                        stringResource(R.string.setup_step3_instruction, appName),
+                        stringResource(R.string.setup_step4_title),
+                        stringResource(R.string.setup_step4_instruction, appName),
                         stringResource(R.string.setup_finish_action),
                         painterResource(R.drawable.ic_setup_check),
                         finish

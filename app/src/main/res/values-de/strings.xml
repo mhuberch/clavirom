@@ -76,11 +76,11 @@
     <string name="setup_step2_title">Zu %s wechseln</string>
     <string name="setup_step2_instruction">Wähle als nächstes %s\" als deine aktive Bildschirmtastatur.</string>
     <string name="setup_step2_action">"Eingabemethode wechseln"</string>
-    <string name="setup_step4_title">Hauptsprache(n) für %s wählen</string>
-    <string name="setup_step4_instruction">Aktiviere Deine Hauptsprachen für die Eingabe\"Später stets annpassbar.</string>
-    <string name="setup_step4_action">"Sprachen aktivieren"</string>
-    <string name="setup_step3_title">Hurra, die Einrichtung ist abgeschlossen!</string>
-    <string name="setup_step3_instruction">Jetzt kannst du in all deinen Lieblingsapps mit %s schreiben.</string>
+    <string name="setup_step3_title">Hauptsprache(n) für %s wählen</string>
+    <string name="setup_step3_instruction">Aktiviere Deine Hauptsprachen für die Eingabe\"Später stets annpassbar.</string>
+    <string name="setup_step3_action">"Sprachen aktivieren"</string>
+    <string name="setup_step4_title">Hurra, die Einrichtung ist abgeschlossen!</string>
+    <string name="setup_step4_instruction">Jetzt kannst du in all deinen Lieblingsapps mit %s schreiben.</string>
     <string name="setup_finish_action">"Fertig"</string>
     <string name="show_setup_wizard_icon">"App-Symbol anzeigen"</string>
     <string name="show_setup_wizard_icon_summary">"App-Symbol in der Übersicht anzeigen"</string>
@@ -239,7 +239,7 @@
     <string name="dictionary_settings_category">Wörterbücher</string>
     <string name="button_title_add_custom_layout">Benutzerdefiniertes Layout hinzufügen</string>
     <string name="select_color_key_hint">Tasten-Hinweistext</string>
-    <string name="setup_step3_action">Tastatur konfigurieren</string>
+    <string name="setup_step4_action">Tastatur konfigurieren</string>
     <string name="popup_keys_symbols" tools:keep="@string/popup_keys_symbols">Symbole</string>
     <string name="add_new_dictionary_title">Wörterbuch aus Datei hinzufügen</string>
     <string name="theme_name_brown" tools:keep="@string/theme_name_brown">Braun</string>
