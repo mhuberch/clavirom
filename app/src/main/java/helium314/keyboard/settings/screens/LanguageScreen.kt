@@ -146,7 +146,7 @@ private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
         defaultAdditionalSubtypes.any { it.first == subtype.locale().language && it.second == subtype.extraValue }
 
     val subtypeSortComparator = compareBy<InputMethodSubtype>(
-        { it !in claviromPrivilegedSubtypes},
+        { it.locale() !in claviromPrivilegedSubtypes},
         { it !in enabledSubtypes },
         { it.locale() !in localesWithDictionary },
         { it.locale() !in systemLocales},
