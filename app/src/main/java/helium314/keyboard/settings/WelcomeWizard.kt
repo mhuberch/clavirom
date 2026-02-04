@@ -160,34 +160,19 @@ fun WelcomeWizard(
                 } else if (step == 3) {
                     Step(
                         step,
-                        stringResource(R.string.setup_step3_title, appName),
-                        stringResource(R.string.setup_step3_instruction),
-                        stringResource(R.string.setup_step3_action),
+                        stringResource(R.string.setup_step4_title, appName),
+                        stringResource(R.string.setup_step4_instruction),
+                        stringResource(R.string.setup_step4_action),
                         painterResource(R.drawable.sym_keyboard_language_switch)
                     ) {
                         onLanguageClick()
                         step = 4
                     }
-                    Spacer(Modifier.height(4.dp))
-                    Row(
-                        Modifier.clickable { step = 4 }
-                            .background(color = stepBackgroundColor)
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            painterResource(R.drawable.ic_setup_check),
-                            null,
-                            Modifier.padding(end = 6.dp).size(32.dp),
-                            tint = textColor
-                        )
-                        Text(stringResource(R.string.setup_step3_finish_action), Modifier.weight(1f))
-                    }
                 } else { // step 4
                     Step(
                         step,
-                        stringResource(R.string.setup_step4_title),
-                        stringResource(R.string.setup_step4_instruction, appName),
+                        stringResource(R.string.setup_step3_title),
+                        stringResource(R.string.setup_step3_instruction, appName),
                         stringResource(R.string.setup_finish_action),
                         painterResource(R.drawable.ic_setup_check),
                         finish

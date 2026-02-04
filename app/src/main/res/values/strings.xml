@@ -605,8 +605,6 @@ language, hence "No language". -->
     <!-- Detailed instruction of the 3rd step in the setup wizard. -->
     <string name="setup_step3_action">"Activate languages"</string>
     <!-- The label of the button for 3rd step of the setup wizard. -->
-    <string name="setup_step3_finish_action">"Languages activated? Nearly finished…"</string>
-    <!-- The label of the finish button for 3rd step of the setup wizard. -->
     <string name="setup_finish_action">Finished</string>
     <!-- Option to show setup wizard icon. Legacy setting only displayed for Android 9 and older. -->
     <string name="show_setup_wizard_icon">Show app icon</string>
