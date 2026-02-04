@@ -36,6 +36,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -60,6 +61,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val APP_NAME = "ClaviRom"
+
+private var persistedStep: Int? = null
+private var persistedLanguage: String? = null
 
 data class WizardStrings(
     val welcomeTitle: String,
@@ -135,7 +139,7 @@ val wizardTranslations = mapOf(
         step4Instruction = "Ussa sas Te scriver ainten tut las teas applicaziuns preferidas cun $APP_NAME.",
         finishAction = "Finit"
     ),
-    "rm-puter" to WizardStrings(
+    "rm-PU" to WizardStrings(
         welcomeTitle = "Bagnvignieu tar $APP_NAME",
         additionalDescription = "cun scriver cul daint",
         startAction = "Lains accumensar...",
@@ -153,7 +157,7 @@ val wizardTranslations = mapOf(
         step4Instruction = "Uossa pudais Vus scriver aint in tuot vossas applicaziuns preferidas cun $APP_NAME.",
         finishAction = "Finit"
     ),
-    "rm-vallader" to WizardStrings(
+    "rm-VA" to WizardStrings(
         welcomeTitle = "Bagnvignü tar $APP_NAME",
         additionalDescription = "cun scriver cul daint",
         startAction = "Lains cumanzar...",
@@ -221,12 +225,28 @@ fun WelcomeWizard(
         !UncachedInputMethodManagerUtils.isThisImeCurrent(ctx, imm) -> 2
         else -> 3
     }
-    var step by rememberSaveable { mutableIntStateOf(determineStep()) }
-    var selectedLanguage by rememberSaveable { mutableStateOf("rm-SR") }
+
+    val languages = remember {
+        val base = listOf(
+            "rm-SR" to "Romontsch Sursilvan",
+            "rm-ST" to "Rumàntsch Sutsilvan",
+            "rm-SM" to "Rumantsch Surmiran",
+            "rm-PU" to "Rumauntsch Puter",
+            "rm-VA" to "Rumantsch Vallader"
+        ).shuffled()
+        base + listOf(
+            "de-CH" to "Deutsch (Schweiz)",
+            "it-CH" to "Italiano (Svizzera)"
+        )
+    }
+
+    var step by rememberSaveable { mutableIntStateOf(persistedStep ?: determineStep()) }
+    var selectedLanguage by rememberSaveable { mutableStateOf(persistedLanguage ?: languages.first().first) }
     val strings = wizardTranslations[selectedLanguage] ?: wizardTranslations["rm-SR"]!!
 
     val scope = rememberCoroutineScope()
     LaunchedEffect(step) {
+        persistedStep = step
         if (step == 2)
             scope.launch {
                 while (step == 2 && !UncachedInputMethodManagerUtils.isThisImeCurrent(ctx, imm)) {
@@ -235,6 +255,10 @@ fun WelcomeWizard(
                 step = 3
             }
     }
+    LaunchedEffect(selectedLanguage) {
+        persistedLanguage = selectedLanguage
+    }
+
     val useWideLayout = LocalConfiguration.current.screenWidthDp > 600
     val stepBackgroundColor = Color(ContextCompat.getColor(ctx, R.color.setup_step_background))
     val textColor = Color(ContextCompat.getColor(ctx, R.color.setup_text_action))
@@ -289,6 +313,7 @@ fun WelcomeWizard(
     @Composable fun steps() {
         if (step == 0)
             Step0(
+                languages = languages,
                 selectedLanguage = selectedLanguage,
                 onLanguageSelected = { selectedLanguage = it },
                 startText = strings.startAction,
@@ -329,6 +354,7 @@ fun WelcomeWizard(
                         strings.step3Action,
                         painterResource(R.drawable.sym_keyboard_language_switch)
                     ) {
+                        persistedStep = 4
                         step = 4
                         onLanguageClick()
                     }
@@ -374,21 +400,12 @@ fun WelcomeWizard(
 
 @Composable
 fun Step0(
+    languages: List<Pair<String, String>>,
     selectedLanguage: String,
     onLanguageSelected: (String) -> Unit,
     startText: String,
     onClick: () -> Unit
 ) {
-    val languages = listOf(
-        "rm-SR" to "Romontsch Sursilvan",
-        "rm-ST" to "Rumàntsch Sutsilvan",
-        "rm-SM" to "Rumantsch Surmiran",
-        "rm-PU" to "Rumauntsch Puter",
-        "rm-VA" to "Rumantsch Vallader",
-        "de-CH" to "Deutsch (Schweiz)",
-        "it-CH" to "Italiano (Svizzera)"
-    )
-
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Image(painterResource(R.drawable.setup_welcome_image), null, modifier = Modifier.size(120.dp))
 
