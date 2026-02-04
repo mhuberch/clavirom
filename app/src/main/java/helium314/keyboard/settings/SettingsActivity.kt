@@ -115,7 +115,8 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
                         if (showWelcomeWizard && currentRoute == SettingsDestination.Settings) {
                             WelcomeWizard(
                                 onLanguageClick = { SettingsDestination.navigateTo(SettingsDestination.Languages) },
-                                finish = { showWelcomeWizard = false }
+                                close = { showWelcomeWizard = false },
+                                finish = this::finish
                             )
                         } else if (crashReports.isNotEmpty()) {
                             ConfirmationDialog(
