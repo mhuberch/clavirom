@@ -49,6 +49,14 @@ import helium314.keyboard.settings.previewDark
 import java.io.File
 import java.util.Locale
 
+private val ROMONTSCH_DISPLAY_NAMES = mapOf(
+    "rm-SR" to "Romontsch Sursilvan",
+    "rm-ST" to "Rumàntsch Sutsilvan",
+    "rm-SM" to "Rumantsch Surmiran",
+    "rm-PU" to "Rumauntsch Puter",
+    "rm-VA" to "Rumantsch Vallader"
+)
+
 @Composable
 fun DictionaryScreen(
     onClickBack: () -> Unit,
@@ -67,10 +75,11 @@ fun DictionaryScreen(
         filteredItems = { term ->
             if (term.isBlank()) dictionaryLocales
             else dictionaryLocales.filter { loc ->
-                    loc.language != SubtypeLocaleUtils.NO_LANGUAGE
-                            && loc.localizedDisplayName(ctx.resources).replace("(", "")
-                                .splitOnWhitespace().any { it.startsWith(term, true) }
-                }
+                val displayName = ROMONTSCH_DISPLAY_NAMES[loc.toLanguageTag()] ?: loc.localizedDisplayName(ctx.resources)
+                loc.language != SubtypeLocaleUtils.NO_LANGUAGE
+                        && displayName.replace("(", "")
+                            .splitOnWhitespace().any { it.startsWith(term, true) }
+            }
         },
         itemContent = { locale ->
             if (locale.language == SubtypeLocaleUtils.NO_LANGUAGE) {
@@ -98,7 +107,8 @@ fun DictionaryScreen(
                     val types = dicts.mapTo(mutableListOf()) { it.name.substringBefore("_${DictionaryInfoUtils.USER_DICTIONARY_SUFFIX}") }
                     if (hasInternal && !types.contains(Dictionary.TYPE_MAIN))
                         types.add(0, stringResource(R.string.internal_dictionary_summary))
-                    Text(locale.localizedDisplayName(LocalResources.current))
+                    val displayName = ROMONTSCH_DISPLAY_NAMES[locale.toLanguageTag()] ?: locale.localizedDisplayName(LocalResources.current)
+                    Text(displayName)
                     Text(
                         types.joinToString(", "),
                         style = MaterialTheme.typography.bodyMedium,
