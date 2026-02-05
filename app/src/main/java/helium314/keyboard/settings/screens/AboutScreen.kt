@@ -100,7 +100,7 @@ fun createAboutSettings(context: Context) = listOf(
                 intent.action = Intent.ACTION_VIEW
                 ctx.startActivity(intent)
             },
-            icon = R.drawable.sym_keyboard_return_holo // Using a placeholder for question mark icon, should find a better one
+            icon = R.drawable.sym_keyboard_return_holo
         )
     },
     Setting(context, SettingsWithoutKey.APP, R.string.english_ime_name, R.string.app_slogan) {
