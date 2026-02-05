@@ -56,7 +56,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.utils.JniUtils
+import helium314.keyboard.latin.utils.SubtypeSettings
 import helium314.keyboard.latin.utils.UncachedInputMethodManagerUtils
+import helium314.keyboard.latin.utils.locale
+import helium314.keyboard.latin.utils.prefs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -195,6 +198,12 @@ fun WelcomeWizard(
                     ) {
                         persistedStep = 4
                         step = 4
+                        // Activate the selected language before navigating
+                        SubtypeSettings.getAllAvailableSubtypes().firstOrNull {
+                            it.locale().toLanguageTag() == selectedLanguage
+                        }?.let { subtype ->
+                            SubtypeSettings.addEnabledSubtype(ctx.prefs(), subtype)
+                        }
                         onLanguageClick()
                     }
                 } else { // step 4
