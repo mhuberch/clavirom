@@ -46,7 +46,9 @@ import helium314.keyboard.settings.SearchScreen
 import helium314.keyboard.settings.SettingsActivity
 import helium314.keyboard.settings.SettingsDestination
 import helium314.keyboard.settings.Theme
+import helium314.keyboard.settings.getSpecialDisplayName
 import helium314.keyboard.settings.initPreview
+import helium314.keyboard.settings.isClaviromPrivileged
 import helium314.keyboard.settings.previewDark
 import java.util.Locale
 
@@ -74,7 +76,7 @@ fun LanguageScreen(
         },
         filteredItems = { term ->
             sortedSubtypes.filter { subtype ->
-                subtype.displayName().replace("(", "")
+                subtype.locale().getSpecialDisplayName(subtype.displayName()).replace("(", "")
                     .splitOnWhitespace().any { it.startsWith(term, true) }
             }
         },
@@ -130,7 +132,6 @@ private fun dictsAvailable(locale: Locale, context: Context): Boolean {
 
 // sorting by display name is still slow, even with the cache... but probably good enough
 private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
-    val claviromPrivilegedSubtypes = SubtypeSettings.getClaviromPrivilegedSubtypes()
     val systemLocales = SubtypeSettings.getSystemLocales()
     val enabledSubtypes = SubtypeSettings.getEnabledSubtypes(true)
     val localesWithDictionary = DictionaryInfoUtils.getCacheDirectories(context).mapNotNull { dir ->
@@ -146,7 +147,7 @@ private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
         defaultAdditionalSubtypes.any { it.first == subtype.locale().language && it.second == subtype.extraValue }
 
     val subtypeSortComparator = compareBy<InputMethodSubtype>(
-        { it.locale() !in claviromPrivilegedSubtypes},
+        { !it.locale().isClaviromPrivileged() },
         { it !in enabledSubtypes },
         { it.locale() !in localesWithDictionary },
         { it.locale() !in systemLocales},
@@ -156,7 +157,7 @@ private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) it.languageTag == SubtypeLocaleUtils.NO_LANGUAGE
             else it.locale == SubtypeLocaleUtils.NO_LANGUAGE
         },
-        { it.displayName() }
+        { it.locale().getSpecialDisplayName(it.displayName()) }
     )
     return SubtypeSettings.getAllAvailableSubtypes().sortedWith(subtypeSortComparator)
 }
