@@ -5,7 +5,7 @@ import java.util.Locale
 
 const val APP_NAME = "ClaviRom"
 
-val ROMONTSCH_DISPLAY_NAMES = mapOf(
+val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
     "rm-SR" to "Romontsch Sursilvan",
     "rm-ST" to "Rumàntsch Sutsilvan",
     "rm-SM" to "Rumantsch Surmiran",
@@ -18,7 +18,17 @@ val ROMONTSCH_DISPLAY_NAMES = mapOf(
 fun Locale.isClaviromPrivileged(): Boolean = language.startsWith("rm")
 
 fun Locale.getSpecialDisplayName(default: String): String {
-    return ROMONTSCH_DISPLAY_NAMES[toLanguageTag()] ?: default
+    return CLAVIROM_WIZARD_DISPLAY_NAMES[toLanguageTag()] ?: default
+}
+
+/** Returns the list of languages for the wizard, with the first 5 (Romansh dialects) shuffled. */
+fun getShuffledWizardLanguages(): List<Pair<String, String>> {
+    val romanshDialects = listOf("rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA")
+    val swissOthers = listOf("de-CH", "it-CH")
+
+    val base = romanshDialects.map { it to CLAVIROM_WIZARD_DISPLAY_NAMES[it]!! }.shuffled()
+    val others = swissOthers.map { it to CLAVIROM_WIZARD_DISPLAY_NAMES[it]!! }
+    return base + others
 }
 
 data class WizardStrings(

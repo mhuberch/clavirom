@@ -39,7 +39,7 @@ import helium314.keyboard.latin.utils.getDictionaryLocales
 import helium314.keyboard.latin.utils.htmlToAnnotated
 import helium314.keyboard.latin.utils.locale
 import helium314.keyboard.latin.utils.withHtmlLink
-import helium314.keyboard.settings.ROMONTSCH_DISPLAY_NAMES
+import helium314.keyboard.settings.CLAVIROM_WIZARD_DISPLAY_NAMES
 import helium314.keyboard.settings.SearchScreen
 import helium314.keyboard.settings.Theme
 import helium314.keyboard.settings.dialogs.ConfirmationDialog
@@ -68,7 +68,7 @@ fun DictionaryScreen(
         filteredItems = { term ->
             if (term.isBlank()) dictionaryLocales
             else dictionaryLocales.filter { loc ->
-                val displayName = ROMONTSCH_DISPLAY_NAMES[loc.toLanguageTag()] ?: loc.localizedDisplayName(ctx.resources)
+                val displayName = CLAVIROM_WIZARD_DISPLAY_NAMES[loc.toLanguageTag()] ?: loc.localizedDisplayName(ctx.resources)
                 loc.language != SubtypeLocaleUtils.NO_LANGUAGE
                         && displayName.replace("(", "")
                             .splitOnWhitespace().any { it.startsWith(term, true) }
@@ -100,7 +100,7 @@ fun DictionaryScreen(
                     val types = dicts.mapTo(mutableListOf()) { it.name.substringBefore("_${DictionaryInfoUtils.USER_DICTIONARY_SUFFIX}") }
                     if (hasInternal && !types.contains(Dictionary.TYPE_MAIN))
                         types.add(0, stringResource(R.string.internal_dictionary_summary))
-                    val displayName = ROMONTSCH_DISPLAY_NAMES[locale.toLanguageTag()] ?: locale.localizedDisplayName(LocalResources.current)
+                    val displayName = CLAVIROM_WIZARD_DISPLAY_NAMES[locale.toLanguageTag()] ?: locale.localizedDisplayName(LocalResources.current)
                     Text(displayName)
                     Text(
                         types.joinToString(", "),
