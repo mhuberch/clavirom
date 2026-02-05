@@ -21,6 +21,7 @@ import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.latin.settings.SettingsSubtype
 import helium314.keyboard.latin.settings.SettingsSubtype.Companion.toSettingsSubtype
 import helium314.keyboard.latin.utils.ScriptUtils.script
+import helium314.keyboard.settings.isClaviromPrivileged
 import java.util.Locale
 
 object SubtypeSettings {
@@ -146,7 +147,7 @@ object SubtypeSettings {
 
     fun getAvailableSubtypeLocales(): List<Locale> = resourceSubtypesByLocale.keys.toList()
 
-    fun getClaviromPrivilegedSubtypes(): List<Locale> = resourceSubtypesByLocale.keys.filter { it.language.startsWith("rm") }
+    fun getClaviromPrivilegedSubtypes(): List<Locale> = resourceSubtypesByLocale.keys.filter { it.isClaviromPrivileged() }
 
     /**
      * Update subtypes that contain the layout. If new name is null (layout deleted) and the

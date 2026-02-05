@@ -39,6 +39,7 @@ import helium314.keyboard.latin.utils.getDictionaryLocales
 import helium314.keyboard.latin.utils.htmlToAnnotated
 import helium314.keyboard.latin.utils.locale
 import helium314.keyboard.latin.utils.withHtmlLink
+import helium314.keyboard.settings.ROMONTSCH_DISPLAY_NAMES
 import helium314.keyboard.settings.SearchScreen
 import helium314.keyboard.settings.Theme
 import helium314.keyboard.settings.dialogs.ConfirmationDialog
@@ -48,14 +49,6 @@ import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.previewDark
 import java.io.File
 import java.util.Locale
-
-private val ROMONTSCH_DISPLAY_NAMES = mapOf(
-    "rm-SR" to "Romontsch Sursilvan",
-    "rm-ST" to "Rumàntsch Sutsilvan",
-    "rm-SM" to "Rumantsch Surmiran",
-    "rm-PU" to "Rumauntsch Puter",
-    "rm-VA" to "Rumantsch Vallader"
-)
 
 @Composable
 fun DictionaryScreen(
