@@ -67,6 +67,20 @@ fun AboutScreen(
 }
 
 fun createAboutSettings(context: Context) = listOf(
+    Setting(context, SettingsWithoutKey.APP_CLAVIROM, R.string.english_ime_name) {
+        val ctx = LocalContext.current
+        Preference(
+            name = APP_NAME,
+            description = CLAVIROM_DESC,
+            onClick = {
+                val intent = Intent()
+                intent.data = CLAVIROM_GITHUB_URL.toUri()
+                intent.action = Intent.ACTION_VIEW
+                ctx.startActivity(intent)
+            },
+            icon = R.drawable.ic_settings_about
+        )
+    },
     Setting(context, SettingsWithoutKey.APP, R.string.english_ime_name, R.string.app_slogan) {
         Preference(
             name = it.title,
