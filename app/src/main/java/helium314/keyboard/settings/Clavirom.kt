@@ -15,7 +15,7 @@ val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
     "it-CH" to "Italiano (Svizzera)"
 )
 
-fun Locale.isClaviromPrivileged(): Boolean = language.startsWith("rm")
+fun Locale.isClaviromPrivileged(): Boolean = CLAVIROM_WIZARD_DISPLAY_NAMES.containsKey(toLanguageTag())
 
 fun Locale.getSpecialDisplayName(default: String): String {
     return CLAVIROM_WIZARD_DISPLAY_NAMES[toLanguageTag()] ?: default
