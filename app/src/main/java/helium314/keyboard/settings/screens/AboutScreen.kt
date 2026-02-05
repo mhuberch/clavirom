@@ -44,6 +44,9 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import androidx.core.content.edit
+import helium314.keyboard.settings.CLAVIROM_DESC
+import helium314.keyboard.settings.CLAVIROM_GITHUB_URL
+import helium314.keyboard.settings.APP_NAME
 import java.util.Locale
 
 @Composable
@@ -51,6 +54,7 @@ fun AboutScreen(
     onClickBack: () -> Unit,
 ) {
     val items = listOf(
+        SettingsWithoutKey.APP_CLAVIROM,
         SettingsWithoutKey.APP,
         SettingsWithoutKey.VERSION,
         SettingsWithoutKey.LICENSE,

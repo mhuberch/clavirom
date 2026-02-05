@@ -4,6 +4,8 @@ package helium314.keyboard.settings
 import java.util.Locale
 
 const val APP_NAME = "ClaviRom"
+const val CLAVIROM_DESC = "Ina claviatura romontscha. Clickar per ir sin github."
+const val CLAVIROM_GITHUB_URL = "https://github.com/mhuberch/clavirom"
 
 val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
     "rm-SR" to "Romontsch Sursilvan",
