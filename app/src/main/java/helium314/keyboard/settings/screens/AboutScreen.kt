@@ -45,6 +45,9 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import androidx.core.content.edit
 import helium314.keyboard.settings.CLAVIROM_DESC
+import helium314.keyboard.settings.CLAVIROM_DISCUSSIONS_DESC
+import helium314.keyboard.settings.CLAVIROM_DISCUSSIONS_TITLE
+import helium314.keyboard.settings.CLAVIROM_DISCUSSIONS_URL
 import helium314.keyboard.settings.CLAVIROM_GITHUB_URL
 import helium314.keyboard.settings.APP_NAME
 import java.util.Locale
@@ -55,6 +58,7 @@ fun AboutScreen(
 ) {
     val items = listOf(
         SettingsWithoutKey.APP_CLAVIROM,
+        SettingsWithoutKey.APP_CLAVIROM_DISCUSSIONS,
         SettingsWithoutKey.APP,
         SettingsWithoutKey.VERSION,
         SettingsWithoutKey.LICENSE,
@@ -82,7 +86,21 @@ fun createAboutSettings(context: Context) = listOf(
                 intent.action = Intent.ACTION_VIEW
                 ctx.startActivity(intent)
             },
-            icon = R.drawable.ic_settings_about
+            icon = R.mipmap.ic_launcher_round
+        )
+    },
+    Setting(context, SettingsWithoutKey.APP_CLAVIROM_DISCUSSIONS, R.string.english_ime_name) {
+        val ctx = LocalContext.current
+        Preference(
+            name = CLAVIROM_DISCUSSIONS_TITLE,
+            description = CLAVIROM_DISCUSSIONS_DESC,
+            onClick = {
+                val intent = Intent()
+                intent.data = CLAVIROM_DISCUSSIONS_URL.toUri()
+                intent.action = Intent.ACTION_VIEW
+                ctx.startActivity(intent)
+            },
+            icon = R.drawable.sym_keyboard_return_holo // Using a placeholder for question mark icon, should find a better one
         )
     },
     Setting(context, SettingsWithoutKey.APP, R.string.english_ime_name, R.string.app_slogan) {
