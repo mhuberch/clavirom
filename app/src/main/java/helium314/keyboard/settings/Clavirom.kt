@@ -5,11 +5,11 @@ import java.util.Locale
 
 const val APP_NAME = "ClaviRom"
 
-const val CLAVIROM_DESC = "Ina claviatura romontscha. Clickar per ir sin github."
+const val CLAVIROM_DESC = "Ina tastatura romontscha. Clicca cheu per ir silla pagina dil project."
 const val CLAVIROM_GITHUB_URL = "https://github.com/mhuberch/clavirom"
 
 const val CLAVIROM_DISCUSSIONS_TITLE = "Damondas, propostas ni commentaris?"
-const val CLAVIROM_DISCUSSIONS_DESC = "Seregistrescha e participescha al svilup da ClaviRom"
+const val CLAVIROM_DISCUSSIONS_DESC = "Participescha al svilup da ClaviRom"
 const val CLAVIROM_DISCUSSIONS_URL = "https://github.com/mhuberch/clavirom/discussions"
 
 val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
@@ -22,6 +22,9 @@ val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
     "it-CH" to "Italiano (Svizzera)"
 )
 
+val CLAVIROM_WIZARD_LANGUAGES_ROMANSH = listOf("rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA")
+val CLAVIROM_WIZARD_LANGUAGES_OTHER = listOf("de-CH", "it-CH")
+
 fun Locale.isClaviromPrivileged(): Boolean = CLAVIROM_WIZARD_DISPLAY_NAMES.containsKey(toLanguageTag())
 
 fun Locale.getSpecialDisplayName(default: String): String {
@@ -30,11 +33,8 @@ fun Locale.getSpecialDisplayName(default: String): String {
 
 /** Returns the list of languages for the wizard, with the first 5 (Romansh dialects) shuffled. */
 fun getShuffledWizardLanguages(): List<Pair<String, String>> {
-    val romanshDialects = listOf("rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA")
-    val swissOthers = listOf("de-CH", "it-CH")
-
-    val base = romanshDialects.map { it to CLAVIROM_WIZARD_DISPLAY_NAMES[it]!! }.shuffled()
-    val others = swissOthers.map { it to CLAVIROM_WIZARD_DISPLAY_NAMES[it]!! }
+    val base = CLAVIROM_WIZARD_LANGUAGES_ROMANSH.map { it to CLAVIROM_WIZARD_DISPLAY_NAMES[it]!! }.shuffled()
+    val others = CLAVIROM_WIZARD_LANGUAGES_OTHER.map { it to CLAVIROM_WIZARD_DISPLAY_NAMES[it]!! }
     return base + others
 }
 
@@ -59,24 +59,43 @@ data class WizardStrings(
 )
 
 val WIZARD_TRANSLATIONS = mapOf(
+    "de-CH" to WizardStrings(
+        welcomeTitle = "Willkommen bei $APP_NAME",
+        additionalDescription = "Eine Tastatur für Bündner Sprachen",
+        startAction = "Starten wir...",
+        stepsTitle = "$APP_NAME einrichten",
+        step1Title = "$APP_NAME aktivieren",
+        step1Instruction = "Bitte aktiviere \"$APP_NAME\" in deinen Sprachen- & Eingabeeinstellungen, um die Nutzung auf Deinem Gerät zu erlauben.",
+        step1Action = "In den Einstellungen aktivieren",
+        step2Title = "Auf $APP_NAME wechseln",
+        step2Instruction = "Wähle als nächstes \"$APP_NAME\" als deine aktive Eingabemethode aus.",
+        step2Action = "Eingabemethoden wechseln",
+        step3Title = "Hauptsprachen für $APP_NAME wählen",
+        step3Instruction = "Aktiviere deine Hauptsprachen für die Tastatur (kann später verändert werden).",
+        step3Action = "Meine Sprachen aktivieren",
+        step4Title = "Glückwunsch, du bist fertig!",
+        step4Instruction = "Jetzt kannst du in allen Apps mit $APP_NAME tippen.",
+        step4Action = "Mehr Details konfigurieren?",
+        finishAction = "Oder nun einfach benutzen?"
+    ),
     "rm-SR" to WizardStrings(
         welcomeTitle = "Beinvegni tier $APP_NAME",
-        additionalDescription = "cun scriver cul det",
-        startAction = "Lein nus entscheiver...",
-        stepsTitle = "Installar $APP_NAME",
+        additionalDescription = "Ina tastatura culs lungatgs Grischuns",
+        startAction = "Adatg, pinau, los...",
+        stepsTitle = "Drizzar en $APP_NAME",
         step1Title = "Activar $APP_NAME",
-        step1Instruction = "Activescha plevon \"$APP_NAME\" en tias preferenzas da lungatg e d'introducziun. Quei dretg permetta ad el d'exequir sin tiu apparat.",
-        step1Action = "Activar en las preferenzas",
+        step1Instruction = "Activescha \"$APP_NAME\" ella configuraziun dils lungatgs per permetter l'utilisaziun sin Tiu telefonin.",
+        step1Action = "Activar ella configuraziun",
         step2Title = "Midar sin $APP_NAME",
-        step2Instruction = "Suenter seligias Ti \"$APP_NAME\" sco metoda d'introducziun activa.",
-        step2Action = "Midar las metodas d'introducziun",
-        step3Title = "Seligir ils lungatgs principals per $APP_NAME",
-        step3Instruction = "Activescha Tiu lungatg principal per la tastatura. La configuraziun sa vegnir midadada regularmein.",
-        step3Action = "Activar lungatgs",
-        step4Title = "Gratulaziun, Ti eis parats!",
-        step4Instruction = "Ussa sas Ti scriver en tut tias applicaziuns preferidas cun $APP_NAME.",
-        step4Action = "Configurar la tastatura",
-        finishAction = "Finit"
+        step2Instruction = "Selecziunescha \"$APP_NAME\" sco opziun per scriver.",
+        step2Action = "Midar opziun per scriver",
+        step3Title = "Lungatgs principals per $APP_NAME",
+        step3Instruction = "Activescha Tes lungatgs principals per la tastatura (sa vegni midaus pli tard).",
+        step3Action = "Activar mes lungatgs",
+        step4Title = "Gratulaziun, tut ei pinaus!",
+        step4Instruction = "Ussa sas Ti scriver en tuts apps cun $APP_NAME.",
+        step4Action = "Configurar dapli detagls?",
+        finishAction = "Ni semplamein duvrar ussa?"
     ),
     "rm-ST" to WizardStrings(
         welcomeTitle = "Bagnvigni tier $APP_NAME",
@@ -153,25 +172,6 @@ val WIZARD_TRANSLATIONS = mapOf(
         step4Instruction = "Uossa pudais Vus scriver aint in tuot vossas applicaziuns preferidas cun $APP_NAME.",
         step4Action = "Configurar la tastatura",
         finishAction = "Finit"
-    ),
-    "de-CH" to WizardStrings(
-        welcomeTitle = "Willkommen bei $APP_NAME",
-        additionalDescription = "mit Gesten-Tippen",
-        startAction = "Lass uns anfangen...",
-        stepsTitle = "$APP_NAME einrichten",
-        step1Title = "$APP_NAME aktivieren",
-        step1Instruction = "Bitte aktiviere \"$APP_NAME\" in deinen Sprachen- & Eingabeeinstellungen. Dies erlaubt die Ausführung auf deinem Gerät.",
-        step1Action = "In den Einstellungen aktivieren",
-        step2Title = "Zu $APP_NAME wechseln",
-        step2Instruction = "Wähle als Nächstes \"$APP_NAME\" als deine aktive Eingabemethode aus.",
-        step2Action = "Eingabemethoden wechseln",
-        step3Title = "Hauptsprachen für $APP_NAME wählen",
-        step3Instruction = "Aktiviere deine Hauptsprachen für die Tastatur. Die Konfiguration kann jederzeit geändert werden.",
-        step3Action = "Sprachen aktivieren",
-        step4Title = "Glückwunsch, du bist fertig!",
-        step4Instruction = "Jetzt kannst du in all deinen Lieblings-Apps mit $APP_NAME tippen.",
-        step4Action = "Konfiguriere die Tastatur",
-        finishAction = "Fertig"
     ),
     "it-CH" to WizardStrings(
         welcomeTitle = "Benvenuto in $APP_NAME",
