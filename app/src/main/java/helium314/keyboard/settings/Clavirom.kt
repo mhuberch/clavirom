@@ -175,21 +175,21 @@ val WIZARD_TRANSLATIONS = mapOf(
     ),
     "it-CH" to WizardStrings(
         welcomeTitle = "Benvenuto in $APP_NAME",
-        additionalDescription = "con digitazione gestuale",
+        additionalDescription = "Una tastiera per le lingue grigionesi",
         startAction = "Inizia...",
         stepsTitle = "Configura $APP_NAME",
         step1Title = "Attiva $APP_NAME",
-        step1Instruction = "Scegli \"$APP_NAME\" nelle impostazioni 'Lingua e immissione' per autorizzare l'app sul tuo dispositivo.",
+        step1Instruction = "Scegli \"$APP_NAME\" nelle impostazioni \'Lingua e immissione\' per autorizzare l\'app.",
         step1Action = "Attiva nelle impostazioni",
         step2Title = "Passa a $APP_NAME",
-        step2Instruction = "Infine, seleziona \"$APP_NAME\" come metodo di immissione di testo attivo.",
+        step2Instruction = "Attiva \"$APP_NAME\" come metodo di immissione di testo.",
         step2Action = "Cambia metodo di immissione",
         step3Title = "Scegli le lingue principali per $APP_NAME",
-        step3Instruction = "Attiva la tua lingua principale per la tastiera. La configurazione può essere modificata regolarmente.",
-        step3Action = "Attiva lingue",
+        step3Instruction = "Attiva le lingue principali della tastiera (puoi modificarle in seguito).",
+        step3Action = "Attiva le mie lingue",
         step4Title = "Congratulazioni, hai finito!",
-        step4Instruction = "Ora puoi usare $APP_NAME per scrivere in tutte le tue app preferite.",
-        step4Action = "Configura la tastiera",
-        finishAction = "Fine"
+        step4Instruction = "Puoi usare $APP_NAME per digitare in qualsiasi app.",
+        step4Action = "Configurare più dettagli",
+        finishAction = "Tutto pronto!"
     )
 )
