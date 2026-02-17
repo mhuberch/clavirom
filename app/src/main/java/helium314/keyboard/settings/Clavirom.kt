@@ -5,7 +5,7 @@ import java.util.Locale
 
 const val APP_NAME = "ClaviRom"
 
-const val CLAVIROM_DESC = "Ina tastatura romontscha. Clicca cheu per ir silla pagina dil project."
+const val CLAVIROM_DESC = "Ina claviatura romontscha. Clicca cheu per ir silla pagina dil project."
 const val CLAVIROM_GITHUB_URL = "https://github.com/mhuberch/clavirom"
 
 const val CLAVIROM_DISCUSSIONS_TITLE = "Damondas, propostas ni commentaris?"
@@ -74,7 +74,7 @@ val welcomeTitles = translations(
 
 val additionalDescriptions = translations(
     de = "Eine Tastatur für Bündner Sprachen",
-    sr = "Ina tastatura culs lungatgs Grischuns",
+    sr = "Ina tastatura pils lungatgs Grischuns",
     st = "cun scriver cul det",
     sm = "cun scriver cul det",
     pu = "cun scriver cul daint",
