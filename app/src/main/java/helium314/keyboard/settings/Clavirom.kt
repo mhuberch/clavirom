@@ -58,138 +58,198 @@ data class WizardStrings(
     val finishAction: String
 )
 
-val WIZARD_TRANSLATIONS = mapOf(
-    "de-CH" to WizardStrings(
-        welcomeTitle = "Willkommen bei $APP_NAME",
-        additionalDescription = "Eine Tastatur für Bündner Sprachen",
-        startAction = "Starten wir...",
-        stepsTitle = "$APP_NAME einrichten",
-        step1Title = "$APP_NAME aktivieren",
-        step1Instruction = "Bitte aktiviere \"$APP_NAME\" in deinen Sprachen- & Eingabeeinstellungen, um die Nutzung auf Deinem Gerät zu erlauben.",
-        step1Action = "In den Einstellungen aktivieren",
-        step2Title = "Auf $APP_NAME wechseln",
-        step2Instruction = "Wähle als nächstes \"$APP_NAME\" als deine aktive Eingabemethode aus.",
-        step2Action = "Eingabemethoden wechseln",
-        step3Title = "Hauptsprachen für $APP_NAME wählen",
-        step3Instruction = "Aktiviere deine Hauptsprachen für die Tastatur (kann später verändert werden).",
-        step3Action = "Meine Sprachen aktivieren",
-        step4Title = "Glückwunsch, du bist fertig!",
-        step4Instruction = "Jetzt kannst du in allen Apps mit $APP_NAME tippen.",
-        step4Action = "Mehr Details konfigurieren?",
-        finishAction = "Oder nun einfach benutzen?"
-    ),
-    "rm-SR" to WizardStrings(
-        welcomeTitle = "Beinvegni tier $APP_NAME",
-        additionalDescription = "Ina tastatura culs lungatgs Grischuns",
-        startAction = "Adatg, pinau, los...",
-        stepsTitle = "Drizzar en $APP_NAME",
-        step1Title = "Activar $APP_NAME",
-        step1Instruction = "Activescha \"$APP_NAME\" ella configuraziun dils lungatgs per permetter l'utilisaziun sin Tiu telefonin.",
-        step1Action = "Activar ella configuraziun",
-        step2Title = "Midar sin $APP_NAME",
-        step2Instruction = "Selecziunescha \"$APP_NAME\" sco opziun per scriver.",
-        step2Action = "Midar opziun per scriver",
-        step3Title = "Lungatgs principals per $APP_NAME",
-        step3Instruction = "Activescha Tes lungatgs principals per la tastatura (sa vegni midaus pli tard).",
-        step3Action = "Activar mes lungatgs",
-        step4Title = "Gratulaziun, tut ei pinaus!",
-        step4Instruction = "Ussa sas Ti scriver en tuts apps cun $APP_NAME.",
-        step4Action = "Configurar dapli detagls?",
-        finishAction = "Ni semplamein duvrar ussa?"
-    ),
-    "rm-ST" to WizardStrings(
-        welcomeTitle = "Bagnvigni tier $APP_NAME",
-        additionalDescription = "cun scriver cul det",
-        startAction = "Lagn nus antscheiver...",
-        stepsTitle = "Installar $APP_NAME",
-        step1Title = "Activar $APP_NAME",
-        step1Instruction = "Activescha par plischer \"$APP_NAME\" aint igls tes ragluments da lungatg e d'introducziun. Quegl permetta ad el d'esser activs sen igl tes apparat.",
-        step1Action = "Activar aint igls ragluments",
-        step2Title = "Midar sen $APP_NAME",
-        step2Instruction = "Suenter seligias Te \"$APP_NAME\" sco metoda d'introducziun activa.",
-        step2Action = "Midar las metodas d'introducziun",
-        step3Title = "Selaier or ils lungatgs principals par $APP_NAME",
-        step3Instruction = "Activescha tes lungatg principal par la tastatira. La configuraziun sa vignir midadada regularmeing.",
-        step3Action = "Activar lungatgs",
-        step4Title = "Gratulaziun, Te es parats!",
-        step4Instruction = "Ussa sas Te scriver aint par tut las teas applicaziuns preferidas cun $APP_NAME.",
-        step4Action = "Configurar la tastatira",
-        finishAction = "Finit"
-    ),
-    "rm-SM" to WizardStrings(
-        welcomeTitle = "Bagnvigni tar $APP_NAME",
-        additionalDescription = "cun scriver cul det",
-        startAction = "Lagn antscheiver...",
-        stepsTitle = "Installar $APP_NAME",
-        step1Title = "Activar $APP_NAME",
-        step1Instruction = "Activai per plaschair \"$APP_NAME\" ainten vossas preferenzas da lungatg e d'introducziun. Chegl permetta ad el d'esser activs sen igl voss apparat.",
-        step1Action = "Activar ainten las preferenzas",
-        step2Title = "Midar sen $APP_NAME",
-        step2Instruction = "Suenter seligias Te \"$APP_NAME\" sco metoda d'introducziun activa.",
-        step2Action = "Midar las metodas d'introducziun",
-        step3Title = "Seligir ils lungatgs principals per $APP_NAME",
-        step3Instruction = "Activai voss lungatg principal per la tastatira. La configuraziun po vignir midadada regularmeing.",
-        step3Action = "Activar lungatgs",
-        step4Title = "Gratulaziun, Vus esas parats!",
-        step4Instruction = "Ussa sas Te scriver ainten tut las teas applicaziuns preferidas cun $APP_NAME.",
-        step4Action = "Configurar la tastatira",
-        finishAction = "Finit"
-    ),
-    "rm-PU" to WizardStrings(
-        welcomeTitle = "Bagnvignieu tar $APP_NAME",
-        additionalDescription = "cun scriver cul daint",
-        startAction = "Lains accumensar...",
-        stepsTitle = "Installar $APP_NAME",
-        step1Title = "Activar $APP_NAME",
-        step1Instruction = "Activè per plaschair \"$APP_NAME\" aint in vossas preferenzas da lingua e d'introducziun. Quai permetta ad el d'esser activ sün voss apparat.",
-        step1Action = "Activar aint in las preferenzas",
-        step2Title = "Mudar sün $APP_NAME",
-        step2Instruction = "Zieva schelgliais Vus \"$APP_NAME\" sco metoda d'introducziun activa.",
-        step2Action = "Mudar las metodas d'introducziun",
-        step3Title = "Schelglier las linguas principalas per $APP_NAME",
-        step3Instruction = "Activè vossa lingua principala per la tastatura. La configuraziun po gnir mudada regularmaing.",
-        step3Action = "Activar linguas",
-        step4Title = "Gratulaziun, Vus essas paros!",
-        step4Instruction = "Uossa pudais Vus scriver aint in tuot vossas applicaziuns preferidas cun $APP_NAME.",
-        step4Action = "Configurer la tastatura",
-        finishAction = "Finit"
-    ),
-    "rm-VA" to WizardStrings(
-        welcomeTitle = "Bagnvignü tar $APP_NAME",
-        additionalDescription = "cun scriver cul daint",
-        startAction = "Lains cumanzar...",
-        stepsTitle = "Installar $APP_NAME",
-        step1Title = "Activar $APP_NAME",
-        step1Instruction = "Activai per plaschair \"$APP_NAME\" aint in vossas preferenzas da lingua e d'introducziun. Quai permetta ad el d'esser activ sün voss apparat.",
-        step1Action = "Activar aint in las preferenzas",
-        step2Title = "Mudar sün $APP_NAME",
-        step2Instruction = "Davo selecziunais Vus \"$APP_NAME\" sco metoda d'introducziun activa.",
-        step2Action = "Mudar las metodas d'introducziun",
-        step3Title = "Selecziunar las linguas principalas per $APP_NAME",
-        step3Instruction = "Activai vossa lingua principala per la tastatura. La configuraziun po gnir mudada regularmaing.",
-        step3Action = "Activar linguas",
-        step4Title = "Gratulaziun, Vus essas parats!",
-        step4Instruction = "Uossa pudais Vus scriver aint in tuot vossas applicaziuns preferidas cun $APP_NAME.",
-        step4Action = "Configurar la tastatura",
-        finishAction = "Finit"
-    ),
-    "it-CH" to WizardStrings(
-        welcomeTitle = "Benvenuto in $APP_NAME",
-        additionalDescription = "Una tastiera per le lingue grigionesi",
-        startAction = "Inizia...",
-        stepsTitle = "Configura $APP_NAME",
-        step1Title = "Attiva $APP_NAME",
-        step1Instruction = "Scegli \"$APP_NAME\" nelle impostazioni \'Lingua e immissione\' per autorizzare l\'app.",
-        step1Action = "Attiva nelle impostazioni",
-        step2Title = "Passa a $APP_NAME",
-        step2Instruction = "Attiva \"$APP_NAME\" come metodo di immissione di testo.",
-        step2Action = "Cambia metodo di immissione",
-        step3Title = "Scegli le lingue principali per $APP_NAME",
-        step3Instruction = "Attiva le lingue principali della tastiera (puoi modificarle in seguito).",
-        step3Action = "Attiva le mie lingue",
-        step4Title = "Congratulazioni, hai finito!",
-        step4Instruction = "Puoi usare $APP_NAME per digitare in qualsiasi app.",
-        step4Action = "Configurare più dettagli",
-        finishAction = "Tutto pronto!"
-    )
+private fun translations(de: String, sr: String, st: String, sm: String, pu: String, va: String, it: String) = mapOf(
+    "de-CH" to de, "rm-SR" to sr, "rm-ST" to st, "rm-SM" to sm, "rm-PU" to pu, "rm-VA" to va, "it-CH" to it
 )
+
+val welcomeTitles = translations(
+    de = "Willkommen bei $APP_NAME",
+    sr = "Beinvegni tier $APP_NAME",
+    st = "Bagnvigni tier $APP_NAME",
+    sm = "Bagnvigni tar $APP_NAME",
+    pu = "Bagnvignieu tar $APP_NAME",
+    va = "Bagnvign\u00fc tar $APP_NAME",
+    it = "Benvenuto in $APP_NAME"
+)
+
+val additionalDescriptions = translations(
+    de = "Eine Tastatur f\u00fcr B\u00fcndner Sprachen",
+    sr = "Ina tastatura culs lungatgs Grischuns",
+    st = "cun scriver cul det",
+    sm = "cun scriver cul det",
+    pu = "cun scriver cul daint",
+    va = "cun scriver cul daint",
+    it = "Una tastiera per le lingue grigionesi"
+)
+
+val startActions = translations(
+    de = "Starten wir...",
+    sr = "Adatg, pinau, los...",
+    st = "Lagn nus antscheiver...",
+    sm = "Lagn antscheiver...",
+    pu = "Lains accumensar...",
+    va = "Lains cumanzar...",
+    it = "Inizia..."
+)
+
+val stepsTitles = translations(
+    de = "$APP_NAME einrichten",
+    sr = "Drizzar en $APP_NAME",
+    st = "Installar $APP_NAME",
+    sm = "Installar $APP_NAME",
+    pu = "Installar $APP_NAME",
+    va = "Installar $APP_NAME",
+    it = "Configura $APP_NAME"
+)
+
+val step1Titles = translations(
+    de = "$APP_NAME aktivieren",
+    sr = "Activar $APP_NAME",
+    st = "Activar $APP_NAME",
+    sm = "Activar $APP_NAME",
+    pu = "Activar $APP_NAME",
+    va = "Activar $APP_NAME",
+    it = "Attiva $APP_NAME"
+)
+
+val step1Instructions = translations(
+    de = "Bitte aktiviere \"$APP_NAME\" in deinen Sprachen- & Eingabeeinstellungen, um die Nutzung auf Deinem Ger\u00e4t zu erlauben.",
+    sr = "Activescha \"$APP_NAME\" ella configuraziun dils lungatgs per permetter l'utilisaziun sin Tiu telefonin.",
+    st = "Activescha par plischer \"$APP_NAME\" aint igls tes ragluments da lungatg e d'introducziun. Quegl permetta ad el d'esser activs sen igl tes apparat.",
+    sm = "Activai per plaschair \"$APP_NAME\" ainten vossas preferenzas da lungatg e d'introducziun. Chegl permetta ad el d'esser activs sen igl voss apparat.",
+    pu = "Activ\u00e8 per plaschair \"$APP_NAME\" aint in vossas preferenzas da lingua e d'introducziun. Quai permetta ad el d'esser activ s\u00fcn voss apparat.",
+    va = "Activai per plaschair \"$APP_NAME\" aint in vossas preferenzas da lingua e d'introducziun. Quai permetta ad el d'esser activ s\u00fcn voss apparat.",
+    it = "Scegli \"$APP_NAME\" nelle impostazioni 'Lingua e immissione' per autorizzare l'app."
+)
+
+val step1Actions = translations(
+    de = "In den Einstellungen aktivieren",
+    sr = "Activar ella configuraziun",
+    st = "Activar aint igls ragluments",
+    sm = "Activar ainten las preferenzas",
+    pu = "Activar aint in las preferenzas",
+    va = "Activar aint in las preferenzas",
+    it = "Attiva nelle impostazioni"
+)
+
+val step2Titles = translations(
+    de = "Auf $APP_NAME wechseln",
+    sr = "Midar sin $APP_NAME",
+    st = "Midar sen $APP_NAME",
+    sm = "Midar sen $APP_NAME",
+    pu = "Mudar s\u00fcn $APP_NAME",
+    va = "Mudar s\u00fcn $APP_NAME",
+    it = "Passa a $APP_NAME"
+)
+
+val step2Instructions = translations(
+    de = "W\u00e4hle als n\u00e4chste \"$APP_NAME\" als deine aktive Eingabemethode aus.",
+    sr = "Selecziunescha \"$APP_NAME\" sco opziun per scriver.",
+    st = "Suenter seligias Te \"$APP_NAME\" sco metoda d'introducziun activa.",
+    sm = "Suenter seligias Te \"$APP_NAME\" sco metoda d'introducziun activa.",
+    pu = "Zieva schelgliais Vus \"$APP_NAME\" sco metoda d'introducziun activa.",
+    va = "Davo selecziunais Vus \"$APP_NAME\" sco metoda d'introducziun activa.",
+    it = "Attiva \"$APP_NAME\" come metodo di immissione di testo."
+)
+
+val step2Actions = translations(
+    de = "Eingabemethoden wechseln",
+    sr = "Midar opziun per scriver",
+    st = "Midar las metodas d'introducziun",
+    sm = "Midar las metodas d'introducziun",
+    pu = "Mudar las metodas d'introducziun",
+    va = "Mudar las metodas d'introducziun",
+    it = "Cambia metodo di immissione"
+)
+
+val step3Titles = translations(
+    de = "Hauptsprachen f\u00fcr $APP_NAME w\u00e4hlen",
+    sr = "Lungatgs principals per $APP_NAME",
+    st = "Selaier or ils lungatgs principals par $APP_NAME",
+    sm = "Seligir ils lungatgs principals per $APP_NAME",
+    pu = "Schelglier las linguas principalas per $APP_NAME",
+    va = "Selecziunar las linguas principalas per $APP_NAME",
+    it = "Scegli le lingue principali per $APP_NAME"
+)
+
+val step3Instructions = translations(
+    de = "Aktiviere deine Hauptsprachen f\u00fcr die Tastatur (kann sp\u00e4ter ver\u00e4ndert werden).",
+    sr = "Activescha Tes lungatgs principals per la tastatura (sa vegni midaus pli tard).",
+    st = "Activescha tes lungatg principal par la tastatira. La configuraziun sa vignir midadada regularmeing.",
+    sm = "Activai voss lungatg principal per la tastatira. La configuraziun po vignir midadada regularmeing.",
+    pu = "Activ\u00e8 vossa lingua principala per la tastatura. La configuraziun po gnir mudada regularmaing.",
+    va = "Activai vossa lingua principala per la tastatura. La configuraziun po gnir mudada regularmaing.",
+    it = "Attiva le lingue principali della tastiera (puoi modificarle in seguito)."
+)
+
+val step3Actions = translations(
+    de = "Meine Sprachen aktivieren",
+    sr = "Activar mes lungatgs",
+    st = "Activar lungatgs",
+    sm = "Activar lungatgs",
+    pu = "Activar linguas",
+    va = "Activar linguas",
+    it = "Attiva le mie lingue"
+)
+
+val step4Titles = translations(
+    de = "Gl\u00fcckwunsch, du bist fertig!",
+    sr = "Gratulaziun, tut ei pinaus!",
+    st = "Gratulaziun, Te es parats!",
+    sm = "Gratulaziun, Vus esas parats!",
+    pu = "Gratulaziun, Vus essas paros!",
+    va = "Gratulaziun, Vus essas parats!",
+    it = "Congratulazioni, hai finito!"
+)
+
+val step4Instructions = translations(
+    de = "Jetzt kannst du in allen Apps mit $APP_NAME tippen.",
+    sr = "Ussa sas Ti scriver en tuts apps cun $APP_NAME.",
+    st = "Ussa sas Te scriver aint par tut las teas applicaziuns preferidas cun $APP_NAME.",
+    sm = "Ussa sas Te scriver ainten tut las teas applicaziuns preferidas cun $APP_NAME.",
+    pu = "Uossa pudais Vus scriver aint in tuot vossas applicaziuns preferidas cun $APP_NAME.",
+    va = "Uossa pudais Vus scriver aint in tuot vossas applicaziuns preferidas cun $APP_NAME.",
+    it = "Puoi usare $APP_NAME per digitare in qualsiasi app."
+)
+
+val step4Actions = translations(
+    de = "Mehr Details konfigurieren?",
+    sr = "Configurar dapli detagls?",
+    st = "Configurar la tastatira",
+    sm = "Configurar la tastatira",
+    pu = "Configurer la tastatura",
+    va = "Configurar la tastatura",
+    it = "Configurare pi\u00f9 dettagli"
+)
+
+val finishActions = translations(
+    de = "Oder nun einfach benutzen?",
+    sr = "Ni semplamein duvrar ussa?",
+    st = "Finit",
+    sm = "Finit",
+    pu = "Finit",
+    va = "Finit",
+    it = "Tutto pronto!"
+)
+
+val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA", "it-CH").associateWith { locale ->
+    WizardStrings(
+        welcomeTitle = welcomeTitles[locale]!!,
+        additionalDescription = additionalDescriptions[locale]!!,
+        startAction = startActions[locale]!!,
+        stepsTitle = stepsTitles[locale]!!,
+        step1Title = step1Titles[locale]!!,
+        step1Instruction = step1Instructions[locale]!!,
+        step1Action = step1Actions[locale]!!,
+        step2Title = step2Titles[locale]!!,
+        step2Instruction = step2Instructions[locale]!!,
+        step2Action = step2Actions[locale]!!,
+        step3Title = step3Titles[locale]!!,
+        step3Instruction = step3Instructions[locale]!!,
+        step3Action = step3Actions[locale]!!,
+        step4Title = step4Titles[locale]!!,
+        step4Instruction = step4Instructions[locale]!!,
+        step4Action = step4Actions[locale]!!,
+        finishAction = finishActions[locale]!!
+    )
+}
