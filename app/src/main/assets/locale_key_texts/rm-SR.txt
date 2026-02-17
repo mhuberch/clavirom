@@ -1,5 +1,5 @@
 [popup_keys]
-a ä à
+a ä à á
 e é è
 i î
 o ö ô
@@ -10,3 +10,6 @@ u ü
 [extra_keys]
 1: è ü
 2: é ö
+
+[tlds]
+ch
