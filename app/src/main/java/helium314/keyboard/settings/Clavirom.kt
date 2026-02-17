@@ -68,12 +68,12 @@ val welcomeTitles = translations(
     st = "Bagnvigni tier $APP_NAME",
     sm = "Bagnvigni tar $APP_NAME",
     pu = "Bagnvignieu tar $APP_NAME",
-    va = "Bagnvign\u00fc tar $APP_NAME",
+    va = "Bagnvignü tar $APP_NAME",
     it = "Benvenuto in $APP_NAME"
 )
 
 val additionalDescriptions = translations(
-    de = "Eine Tastatur f\u00fcr B\u00fcndner Sprachen",
+    de = "Eine Tastatur für Bündner Sprachen",
     sr = "Ina tastatura culs lungatgs Grischuns",
     st = "cun scriver cul det",
     sm = "cun scriver cul det",
@@ -113,12 +113,12 @@ val step1Titles = translations(
 )
 
 val step1Instructions = translations(
-    de = "Bitte aktiviere \"$APP_NAME\" in deinen Sprachen- & Eingabeeinstellungen, um die Nutzung auf Deinem Ger\u00e4t zu erlauben.",
+    de = "Bitte aktiviere \"$APP_NAME\" in deinen Sprachen- & Eingabeeinstellungen, um die Nutzung auf Deinem Gerät zu erlauben.",
     sr = "Activescha \"$APP_NAME\" ella configuraziun dils lungatgs per permetter l'utilisaziun sin Tiu telefonin.",
     st = "Activescha par plischer \"$APP_NAME\" aint igls tes ragluments da lungatg e d'introducziun. Quegl permetta ad el d'esser activs sen igl tes apparat.",
     sm = "Activai per plaschair \"$APP_NAME\" ainten vossas preferenzas da lungatg e d'introducziun. Chegl permetta ad el d'esser activs sen igl voss apparat.",
-    pu = "Activ\u00e8 per plaschair \"$APP_NAME\" aint in vossas preferenzas da lingua e d'introducziun. Quai permetta ad el d'esser activ s\u00fcn voss apparat.",
-    va = "Activai per plaschair \"$APP_NAME\" aint in vossas preferenzas da lingua e d'introducziun. Quai permetta ad el d'esser activ s\u00fcn voss apparat.",
+    pu = "Activà per plaschair \"$APP_NAME\" aint in vossas preferenzas da lingua e d'introducziun. Quai permetta ad el d'esser activ sün voss apparat.",
+    va = "Activai per plaschair \"$APP_NAME\" aint in vossas preferenzas da lingua e d'introducziun. Quai permetta ad el d'esser activ sün voss apparat.",
     it = "Scegli \"$APP_NAME\" nelle impostazioni 'Lingua e immissione' per autorizzare l'app."
 )
 
@@ -137,13 +137,13 @@ val step2Titles = translations(
     sr = "Midar sin $APP_NAME",
     st = "Midar sen $APP_NAME",
     sm = "Midar sen $APP_NAME",
-    pu = "Mudar s\u00fcn $APP_NAME",
-    va = "Mudar s\u00fcn $APP_NAME",
+    pu = "Mudar sün $APP_NAME",
+    va = "Mudar sün $APP_NAME",
     it = "Passa a $APP_NAME"
 )
 
 val step2Instructions = translations(
-    de = "W\u00e4hle als n\u00e4chste \"$APP_NAME\" als deine aktive Eingabemethode aus.",
+    de = "Wähle als nächste \"$APP_NAME\" als deine aktive Eingabemethode aus.",
     sr = "Selecziunescha \"$APP_NAME\" sco opziun per scriver.",
     st = "Suenter seligias Te \"$APP_NAME\" sco metoda d'introducziun activa.",
     sm = "Suenter seligias Te \"$APP_NAME\" sco metoda d'introducziun activa.",
@@ -163,7 +163,7 @@ val step2Actions = translations(
 )
 
 val step3Titles = translations(
-    de = "Hauptsprachen f\u00fcr $APP_NAME w\u00e4hlen",
+    de = "Hauptsprachen für $APP_NAME wählen",
     sr = "Lungatgs principals per $APP_NAME",
     st = "Selaier or ils lungatgs principals par $APP_NAME",
     sm = "Seligir ils lungatgs principals per $APP_NAME",
@@ -173,11 +173,11 @@ val step3Titles = translations(
 )
 
 val step3Instructions = translations(
-    de = "Aktiviere deine Hauptsprachen f\u00fcr die Tastatur (kann sp\u00e4ter ver\u00e4ndert werden).",
+    de = "Aktiviere deine Hauptsprachen für die Tastatur (kann später verändert werden).",
     sr = "Activescha Tes lungatgs principals per la tastatura (sa vegni midaus pli tard).",
     st = "Activescha tes lungatg principal par la tastatira. La configuraziun sa vignir midadada regularmeing.",
     sm = "Activai voss lungatg principal per la tastatira. La configuraziun po vignir midadada regularmeing.",
-    pu = "Activ\u00e8 vossa lingua principala per la tastatura. La configuraziun po gnir mudada regularmaing.",
+    pu = "Activà vossa lingua principala per la tastatura. La configuraziun po gnir mudada regularmaing.",
     va = "Activai vossa lingua principala per la tastatura. La configuraziun po gnir mudada regularmaing.",
     it = "Attiva le lingue principali della tastiera (puoi modificarle in seguito)."
 )
@@ -193,7 +193,7 @@ val step3Actions = translations(
 )
 
 val step4Titles = translations(
-    de = "Gl\u00fcckwunsch, du bist fertig!",
+    de = "Glückwunsch, du bist fertig!",
     sr = "Gratulaziun, tut ei pinaus!",
     st = "Gratulaziun, Te es parats!",
     sm = "Gratulaziun, Vus esas parats!",
@@ -219,7 +219,7 @@ val step4Actions = translations(
     sm = "Configurar la tastatira",
     pu = "Configurer la tastatura",
     va = "Configurar la tastatura",
-    it = "Configurare pi\u00f9 dettagli"
+    it = "Configurare più dettagli"
 )
 
 val finishActions = translations(
