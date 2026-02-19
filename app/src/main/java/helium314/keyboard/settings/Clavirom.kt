@@ -243,7 +243,7 @@ val step4Thanks = translations(
 )
 
 val step4Texts1 = translations(
-    de = "Während des Eintippens kannst Du mittels der Sprachwahltaste (s. Bild) zwischen den Sprachen wechseln. So erhältst Du stets Wort- und Korrekturvorschläge in der gewünschten Sprache.",
+    de = "Während des Eintippens kannst Du mittels der Sprachwahltaste (s. Bild) zwischen den Sprachen wechseln. So erhältst Du stets Wort- und Korrekturvorschläge in der gewünschten Sprache. Möchtest Du mehr als drei Vorschläge, dann drücke lange auf den mittleren Vorschlag.",
     sr = "Quei project ei disponibels sin GitHub.",
     st = "Quegl project es disponibel sen GitHub.",
     sm = "Chegl project es disponibel sen GitHub.",
