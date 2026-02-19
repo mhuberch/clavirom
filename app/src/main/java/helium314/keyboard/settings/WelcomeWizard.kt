@@ -232,6 +232,7 @@ fun WelcomeWizard(
                         onLanguageClick()
                     }
                 } else if (step == 4) {
+                    val boldifiedText2 = boldifySubstrings(strings.step4Text2, CLAVIROM_BOLD_WORDS)
                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             for (i in 1..5) {
@@ -266,7 +267,7 @@ fun WelcomeWizard(
                                     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
                                         append(strings.step4Thanks)
                                     }
-                                    append(strings.step4Text2)
+                                    append(boldifiedText2)
                                 },
                                 style = MaterialTheme.typography.bodyMedium.merge(color = textColor)
                             )
@@ -390,6 +391,32 @@ fun Step0(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
+        }
+    }
+}
+
+@Composable
+private fun boldifySubstrings(
+    fullText: String,
+    keywords: List<String>,
+    boldStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.Bold)
+): AnnotatedString {
+    return buildAnnotatedString {
+        append(fullText)
+
+        keywords.forEach { keyword ->
+            if (keyword.isNotEmpty()) {
+                var startIndex = fullText.indexOf(keyword, ignoreCase = true)
+                while (startIndex >= 0) {
+                    addStyle(
+                        style = boldStyle,
+                        start = startIndex,
+                        end = startIndex + keyword.length
+                    )
+                    // Weitersuchen nach dem nächsten Vorkommen
+                    startIndex = fullText.indexOf(keyword, startIndex + keyword.length, ignoreCase = true)
+                }
+            }
         }
     }
 }

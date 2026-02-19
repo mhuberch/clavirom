@@ -23,6 +23,8 @@ val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
     "it-CH" to "Italiano (Svizzera)"
 )
 
+val CLAVIROM_BOLD_WORDS = listOf("HeliBoard", "Lia Rumantscha", "far.ch")
+
 val CLAVIROM_WIZARD_LANGUAGES_ROMANSH = listOf("rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA")
 val CLAVIROM_WIZARD_LANGUAGES_OTHER = listOf("de-CH", "it-CH")
 
