@@ -293,6 +293,7 @@ fun WelcomeWizard(
                         painterResource(R.drawable.sym_keyboard_language_switch),
                         onLanguageClick
                     )
+
                     Spacer(Modifier.height(4.dp))
                     Row(
                         Modifier.clickable { finish() }
@@ -307,6 +308,37 @@ fun WelcomeWizard(
                             tint = textColor
                         )
                         Text(strings.finishAction, Modifier.weight(1f))
+                    }
+
+                    Spacer(Modifier.height(4.dp))
+
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(color = stepBackgroundColor)
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = "Support",
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = textColor
+                            )
+                        )
+                        Spacer(Modifier.height(8.dp))
+
+                        val bulletPoints = listOf(
+                            "project page of HeliBoard",
+                            "project page of ClaviRom",
+                            "Dort, wo Du die App runtergeladen hast."
+                        )
+
+                        bulletPoints.forEach { item ->
+                            Row(Modifier.padding(vertical = 2.dp)) {
+                                Text(text = "• ", style = MaterialTheme.typography.bodyMedium.copy(color = textColor))
+                                Text(text = item, style = MaterialTheme.typography.bodyMedium.copy(color = textColor))
+                            }
+                        }
                     }
                 }
             }

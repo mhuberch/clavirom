@@ -283,7 +283,7 @@ val step5Titles = translations(
 )
 
 val step5Instructions = translations(
-    de = "Jetzt kannst du in allen Apps mit $APP_NAME tippen. Tippe auf die Sprachwahltaste um zwischen den aktivierten Sprache hin- und her zu wechseln.",
+    de = "Jetzt kannst du in allen Apps mit $APP_NAME tippen.",
     sr = "Ussa sas Ti scriver en tuts apps cun $APP_NAME.",
     st = "Ussa sas Te scriver aint par tut las teas applicaziuns preferidas cun $APP_NAME.",
     sm = "Ussa sas Te scriver ainten tut las teas applicaziuns preferidas cun $APP_NAME.",
