@@ -411,6 +411,8 @@
     <string name="subtype_rm_PU">Rumauntsch Puter</string>
     <!-- Description for Rumantsch Vallader keyboard subtype -->
     <string name="subtype_rm_VA">Rumantsch Vallader</string>
+    <!-- Description for Rumantsch Grischung keyboard subtype -->
+    <string name="subtype_rm">Rumantsch Grischun</string>
     <!-- Description for Spanish (US) keyboard subtype
          (US) should be an abbreviation of United States. -->
     <string name="subtype_es_US">Spanish (US)</string>

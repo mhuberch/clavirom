@@ -188,6 +188,15 @@
         android:isAsciiCapable="true"
         />
     <subtype android:icon="@drawable/ic_ime_switcher"
+        android:label="@string/subtype_rm"
+        android:subtypeId="0x1a000006"
+        android:imeSubtypeLocale="rm"
+        android:languageTag="rm-"
+        android:imeSubtypeMode="keyboard"
+        android:imeSubtypeExtraValue="KeyboardLayoutSet=MAIN:qwertz+,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable"
+        android:isAsciiCapable="true"
+        />
+    <subtype android:icon="@drawable/ic_ime_switcher"
         android:label="@string/subtype_generic"
         android:subtypeId="0xc9194f97"
         android:imeSubtypeLocale="en_AU"

@@ -18,6 +18,7 @@ val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
     "rm-SM" to "Rumantsch Surmiran",
     "rm-PU" to "Rumauntsch Puter",
     "rm-VA" to "Rumantsch Vallader",
+    "rm" to "Rumantsch Grischun",
     "de-CH" to "Deutsch (Schweiz)",
     "it-CH" to "Italiano (Svizzera)"
 )
