@@ -155,8 +155,7 @@ fun WelcomeWizard(
     @Composable
     fun ColumnScope.Step(step: Int, title: String, instruction: String, actionText: String, icon: Painter, action: () -> Unit) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            val totalSteps = 5
-            for (i in 1..totalSteps) {
+            for (i in 1..5) {
                 Text(i.toString(), color = if (step == i) titleColor else textColorDim)
             }
         }
@@ -235,8 +234,7 @@ fun WelcomeWizard(
                 } else if (step == 4) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            val totalSteps = 5
-                            for (i in 1..totalSteps) {
+                            for (i in 1..5) {
                                 Text(i.toString(), color = if (step == i) titleColor else textColorDim)
                             }
                         }
@@ -245,7 +243,7 @@ fun WelcomeWizard(
                             .padding(16.dp)
                             .fillMaxWidth()
                         ) {
-                            Text(strings.step4Text1, style = MaterialTheme.typography.bodyLarge.merge(color = textColor))
+                            Text(strings.step4Text1, style = MaterialTheme.typography.bodyMedium.merge(color = textColor))
                         }
                         Spacer(Modifier.height(4.dp))
                         Image(painterResource(R.drawable.setup_welcome_image), null, modifier = Modifier.size(120.dp).padding(vertical = 16.dp))
@@ -255,7 +253,7 @@ fun WelcomeWizard(
                             .padding(16.dp)
                             .fillMaxWidth()
                         ) {
-                            Text(strings.step4Text2, style = MaterialTheme.typography.bodyLarge.merge(color = textColor))
+                            Text(strings.step4Text2, style = MaterialTheme.typography.bodyMedium.merge(color = textColor))
                         }
                         Spacer(Modifier.height(4.dp))
                         Row(
@@ -380,7 +378,7 @@ fun Step0(
     }
 }
 
-private const val PREVIEW_LANGUAGE = "rm-SR"
+private const val PREVIEW_LANGUAGE = "de-CH"
 private const val PREVIEW_THEME_WIZARD_DARK = false
 
 @Preview

@@ -208,8 +208,8 @@ val step3Actions = translations(
 )
 
 val step4Titles = translations(
-    de = "Open Source Projekt",
-    sr = "Project open source",
+    de = "Infos zu $APP_NAME",
+    sr = "Dapli sur da $APP_NAME",
     st = "Project open source",
     sm = "Project open source",
     pu = "Project open source",
@@ -217,8 +217,8 @@ val step4Titles = translations(
     it = "Progetto open source"
 )
 
-val step4Text1s = translations(
-    de = "Dieses Projekt ist auf GitHub verf\u00fcgbar.",
+val step4Texts1 = translations(
+    de = "Während des Eintippens kannst Du mittels der Sprachwahltaste (s. Bild) zwischen den Sprachen wechseln. So erhältst Du stets Wort- und Korrekturvorschläge in der gewünschten Sprache.",
     sr = "Quei project ei disponibels sin GitHub.",
     st = "Quegl project es disponibel sen GitHub.",
     sm = "Chegl project es disponibel sen GitHub.",
@@ -227,8 +227,8 @@ val step4Text1s = translations(
     it = "Questo progetto \u00e8 disponibile su GitHub."
 )
 
-val step4Text2s = translations(
-    de = "Jede Hilfe ist willkommen!",
+val step4Texts2 = translations(
+    de = "Ein riesiger Dank an alle freiwilligen Helfer des Projekts HeliBoard - der freien Tastatur, die Deine Privatsphäre vollständig garantiert (für ClaviRom wurde weniger als 1% der Codes verändert...). Open-Source Projekte ermöglichen es kleinen Communities den digitalen Wandel selbst bestimmt zu gestalten. Vielen Dank der Lia Rumantscha und far.ch für die Sprachdaten, die Hilfe und vor allem für das Interesse.",
     sr = "Tuts ein beinvegnis d' gidar!",
     st = "Mincha agid es bagnvigni!",
     sm = "Mincha agid es bagnvigni!",
@@ -239,7 +239,7 @@ val step4Text2s = translations(
 
 val step4Continues = translations(
     de = "Weiter",
-    sr = "Enavant",
+    sr = "Vinavon",
     st = "Inavant",
     sm = "Inavant",
     pu = "Inavant",
@@ -304,8 +304,8 @@ val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "
         step3Instruction = step3Instructions[locale]!!,
         step3Action = step3Actions[locale]!!,
         step4Title = step4Titles[locale]!!,
-        step4Text1 = step4Text1s[locale]!!,
-        step4Text2 = step4Text2s[locale]!!,
+        step4Text1 = step4Texts1[locale]!!,
+        step4Text2 = step4Texts2[locale]!!,
         step4Continue = step4Continues[locale]!!,
         step5Title = step5Titles[locale]!!,
         step5Instruction = step5Instructions[locale]!!,
