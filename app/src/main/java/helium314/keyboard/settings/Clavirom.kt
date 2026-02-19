@@ -55,6 +55,8 @@ data class WizardStrings(
     val step3Instruction: String,
     val step3Action: String,
     val step4Title: String,
+    val step4Tip: String,
+    val step4Thanks: String,
     val step4Text1: String,
     val step4Text2: String,
     val step4Continue: String,
@@ -218,6 +220,26 @@ val step4Titles = translations(
     it = "Progetto open source"
 )
 
+val step4Tips = translations(
+    de = "Tipp: ",
+    sr = "Cussegl: ",
+    st = "Cussegl: ",
+    sm = "Cussegl: ",
+    pu = "Cussegl: ",
+    va = "Cussegl: ",
+    it = "Consiglio: "
+)
+
+val step4Thanks = translations(
+    de = "Danke: ",
+    sr = "Engraziament: ",
+    st = "Grazia fitg: ",
+    sm = "Grazia fitg: ",
+    pu = "Grazcha fich: ",
+    va = "Grazcha fich: ",
+    it = "Grazie: "
+)
+
 val step4Texts1 = translations(
     de = "Während des Eintippens kannst Du mittels der Sprachwahltaste (s. Bild) zwischen den Sprachen wechseln. So erhältst Du stets Wort- und Korrekturvorschläge in der gewünschten Sprache.",
     sr = "Quei project ei disponibels sin GitHub.",
@@ -305,6 +327,8 @@ val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "
         step3Instruction = step3Instructions[locale]!!,
         step3Action = step3Actions[locale]!!,
         step4Title = step4Titles[locale]!!,
+        step4Tip = step4Tips[locale]!!,
+        step4Thanks = step4Thanks[locale]!!,
         step4Text1 = step4Texts1[locale]!!,
         step4Text2 = step4Texts2[locale]!!,
         step4Continue = step4Continues[locale]!!,

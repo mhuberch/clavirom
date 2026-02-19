@@ -243,7 +243,15 @@ fun WelcomeWizard(
                             .padding(16.dp)
                             .fillMaxWidth()
                         ) {
-                            Text(strings.step4Text1, style = MaterialTheme.typography.bodyMedium.merge(color = textColor))
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append(strings.step4Tip)
+                                    }
+                                    append(strings.step4Text1)
+                                },
+                                style = MaterialTheme.typography.bodyMedium.merge(color = textColor)
+                            )
                         }
                         Spacer(Modifier.height(4.dp))
                         Image(painterResource(R.drawable.setup_welcome_image), null, modifier = Modifier.size(120.dp).padding(vertical = 16.dp))
@@ -253,7 +261,15 @@ fun WelcomeWizard(
                             .padding(16.dp)
                             .fillMaxWidth()
                         ) {
-                            Text(strings.step4Text2, style = MaterialTheme.typography.bodyMedium.merge(color = textColor))
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append(strings.step4Thanks)
+                                    }
+                                    append(strings.step4Text2)
+                                },
+                                style = MaterialTheme.typography.bodyMedium.merge(color = textColor)
+                            )
                         }
                         Spacer(Modifier.height(4.dp))
                         Row(
