@@ -40,6 +40,7 @@ fun getShuffledWizardLanguages(): List<Pair<String, String>> {
 
 data class WizardStrings(
     val welcomeTitle: String,
+    val welcomeSubtitle: String,
     val additionalDescription: String,
     val startAction: String,
     val stepsTitle: String,
@@ -70,6 +71,16 @@ val welcomeTitles = translations(
     pu = "Bagnvignieu tar $APP_NAME",
     va = "Bagnvignü tar $APP_NAME",
     it = "Benvenuto in $APP_NAME"
+)
+
+val welcomeSubtitles = translations(
+    de = "Die App HeliBoard für Graubünden",
+    sr = "L'app HeliBoard per la Romontschia",
+    st = "HeliBoard adattà par igl Grischun",
+    sm = "HeliBoard adattà per igl Grischun",
+    pu = "HeliBoard adattà per il Grischun",
+    va = "HeliBoard adattà per il Grischun",
+    it = "HeliBoard adattato per il Grigioni"
 )
 
 val additionalDescriptions = translations(
@@ -203,7 +214,7 @@ val step4Titles = translations(
 )
 
 val step4Instructions = translations(
-    de = "Jetzt kannst du in allen Apps mit $APP_NAME tippen.",
+    de = "Jetzt kannst du in allen Apps mit $APP_NAME tippen. Drücke auf die Sprachwahltaste um zwischen den aktivierten Sprache hin- und her zu wechseln.",
     sr = "Ussa sas Ti scriver en tuts apps cun $APP_NAME.",
     st = "Ussa sas Te scriver aint par tut las teas applicaziuns preferidas cun $APP_NAME.",
     sm = "Ussa sas Te scriver ainten tut las teas applicaziuns preferidas cun $APP_NAME.",
@@ -235,6 +246,7 @@ val finishActions = translations(
 val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA", "it-CH").associateWith { locale ->
     WizardStrings(
         welcomeTitle = welcomeTitles[locale]!!,
+        welcomeSubtitle = welcomeSubtitles[locale]!!,
         additionalDescription = additionalDescriptions[locale]!!,
         startAction = startActions[locale]!!,
         stepsTitle = stepsTitles[locale]!!,

@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -46,11 +47,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -71,6 +78,8 @@ fun WelcomeWizard(
     onLanguageClick: () -> Unit,
     close: () -> Unit,
     finish: () -> Unit,
+    initialStep: Int? = null,
+    initialLanguage: String? = null
 ) {
     val ctx = LocalContext.current
     val imm = ctx.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -82,8 +91,8 @@ fun WelcomeWizard(
 
     val languages = remember { getShuffledWizardLanguages() }
 
-    var step by rememberSaveable { mutableIntStateOf(persistedStep ?: determineStep()) }
-    var selectedLanguage by rememberSaveable { mutableStateOf(persistedLanguage ?: languages.first().first) }
+    var step by rememberSaveable { mutableIntStateOf(initialStep ?: persistedStep ?: determineStep()) }
+    var selectedLanguage by rememberSaveable { mutableStateOf(initialLanguage ?: persistedLanguage ?: languages.first().first) }
     val strings = WIZARD_TRANSLATIONS[selectedLanguage] ?: WIZARD_TRANSLATIONS[languages.first().first]!!
 
     val scope = rememberCoroutineScope()
@@ -115,7 +124,19 @@ fun WelcomeWizard(
                 style = MaterialTheme.typography.displayMedium,
                 textAlign = TextAlign.Center,
                 color = titleColor,
+                modifier = Modifier.fillMaxWidth()
             )
+            if (step == 0) {
+                Spacer(Modifier.height(8.dp))
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        strings.welcomeSubtitle,
+                        style = MaterialTheme.typography.headlineSmall,
+                        textAlign = TextAlign.Center,
+                        color = titleColor
+                    )
+                }
+            }
             if (JniUtils.sHaveGestureLib)
                 Text(
                     strings.additionalDescription,
@@ -213,7 +234,7 @@ fun WelcomeWizard(
                         strings.step4Instruction,
                         strings.step4Action,
                         painterResource(R.drawable.sym_keyboard_language_switch),
-                        close
+                        onLanguageClick
                     )
                     Spacer(Modifier.height(4.dp))
                     Row(
@@ -317,12 +338,54 @@ fun Step0(
     }
 }
 
+private const val PREVIEW_LANGUAGE = "rm-SR"
+
 @Preview
 @Composable
-private fun Preview() {
+private fun Step0Preview() {
     Theme(previewDark) {
         Surface {
-            WelcomeWizard({}, {}, {})
+            WelcomeWizard({}, {}, {}, initialStep = 0, initialLanguage = PREVIEW_LANGUAGE)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Step1Preview() {
+    Theme(previewDark) {
+        Surface {
+            WelcomeWizard({}, {}, {}, initialStep = 1, initialLanguage = PREVIEW_LANGUAGE)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Step2Preview() {
+    Theme(previewDark) {
+        Surface {
+            WelcomeWizard({}, {}, {}, initialStep = 2, initialLanguage = PREVIEW_LANGUAGE)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Step3Preview() {
+    Theme(previewDark) {
+        Surface {
+            WelcomeWizard({}, {}, {}, initialStep = 3, initialLanguage = PREVIEW_LANGUAGE)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Step4Preview() {
+    Theme(previewDark) {
+        Surface {
+            WelcomeWizard({}, {}, {}, initialStep = 4, initialLanguage = PREVIEW_LANGUAGE)
         }
     }
 }
