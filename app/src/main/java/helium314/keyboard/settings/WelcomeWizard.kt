@@ -117,7 +117,12 @@ fun WelcomeWizard(
     val titleColor = Color(ContextCompat.getColor(ctx, R.color.setup_text_title))
 
     @Composable fun bigText() {
-        val title = if (step == 0) strings.welcomeTitle else strings.stepsTitle
+        val title = when (step) {
+            0 -> strings.welcomeTitle
+            4 -> strings.step4Title
+            5 -> strings.step5Title
+            else -> strings.stepsTitle
+        }
         Column(Modifier.padding(bottom = 36.dp)) {
             Text(
                 title,
@@ -150,10 +155,10 @@ fun WelcomeWizard(
     @Composable
     fun ColumnScope.Step(step: Int, title: String, instruction: String, actionText: String, icon: Painter, action: () -> Unit) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text("1", color = if (step == 1) titleColor else textColorDim)
-            Text("2", color = if (step == 2) titleColor else textColorDim)
-            Text("3", color = if (step == 3) titleColor else textColorDim)
-            Text("4", color = if (step == 4) titleColor else textColorDim)
+            val totalSteps = 5
+            for (i in 1..totalSteps) {
+                Text(i.toString(), color = if (step == i) titleColor else textColorDim)
+            }
         }
         Column(Modifier
             .background(color = stepBackgroundColor)
@@ -227,12 +232,49 @@ fun WelcomeWizard(
                         }
                         onLanguageClick()
                     }
-                } else { // step 4
+                } else if (step == 4) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            val totalSteps = 5
+                            for (i in 1..totalSteps) {
+                                Text(i.toString(), color = if (step == i) titleColor else textColorDim)
+                            }
+                        }
+                        Column(Modifier
+                            .background(color = stepBackgroundColor)
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                        ) {
+                            Text(strings.step4Text1, style = MaterialTheme.typography.bodyLarge.merge(color = textColor))
+                        }
+                        Spacer(Modifier.height(4.dp))
+                        Image(painterResource(R.drawable.setup_welcome_image), null, modifier = Modifier.size(120.dp).padding(vertical = 16.dp))
+                        Spacer(Modifier.height(4.dp))
+                        Column(Modifier
+                            .background(color = stepBackgroundColor)
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                        ) {
+                            Text(strings.step4Text2, style = MaterialTheme.typography.bodyLarge.merge(color = textColor))
+                        }
+                        Spacer(Modifier.height(4.dp))
+                        Row(
+                            Modifier.clickable { step = 5 }
+                                .background(color = stepBackgroundColor)
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(painterResource(R.drawable.ic_setup_check), null, Modifier.padding(end = 6.dp).size(32.dp), tint = textColor)
+                            Text(strings.step4Continue, Modifier.weight(1f))
+                        }
+                    }
+                } else { // step 5
                     Step(
                         step,
-                        strings.step4Title,
-                        strings.step4Instruction,
-                        strings.step4Action,
+                        strings.step5Title,
+                        strings.step5Instruction,
+                        strings.step5Action,
                         painterResource(R.drawable.sym_keyboard_language_switch),
                         onLanguageClick
                     )
@@ -339,11 +381,12 @@ fun Step0(
 }
 
 private const val PREVIEW_LANGUAGE = "rm-SR"
+private const val PREVIEW_THEME_WIZARD_DARK = false
 
 @Preview
 @Composable
 private fun Step0Preview() {
-    Theme(previewDark) {
+    Theme(PREVIEW_THEME_WIZARD_DARK) {
         Surface {
             WelcomeWizard({}, {}, {}, initialStep = 0, initialLanguage = PREVIEW_LANGUAGE)
         }
@@ -353,7 +396,7 @@ private fun Step0Preview() {
 @Preview
 @Composable
 private fun Step1Preview() {
-    Theme(previewDark) {
+    Theme(PREVIEW_THEME_WIZARD_DARK) {
         Surface {
             WelcomeWizard({}, {}, {}, initialStep = 1, initialLanguage = PREVIEW_LANGUAGE)
         }
@@ -363,7 +406,7 @@ private fun Step1Preview() {
 @Preview
 @Composable
 private fun Step2Preview() {
-    Theme(previewDark) {
+    Theme(PREVIEW_THEME_WIZARD_DARK) {
         Surface {
             WelcomeWizard({}, {}, {}, initialStep = 2, initialLanguage = PREVIEW_LANGUAGE)
         }
@@ -373,7 +416,7 @@ private fun Step2Preview() {
 @Preview
 @Composable
 private fun Step3Preview() {
-    Theme(previewDark) {
+    Theme(PREVIEW_THEME_WIZARD_DARK) {
         Surface {
             WelcomeWizard({}, {}, {}, initialStep = 3, initialLanguage = PREVIEW_LANGUAGE)
         }
@@ -383,9 +426,19 @@ private fun Step3Preview() {
 @Preview
 @Composable
 private fun Step4Preview() {
-    Theme(previewDark) {
+    Theme(PREVIEW_THEME_WIZARD_DARK) {
         Surface {
             WelcomeWizard({}, {}, {}, initialStep = 4, initialLanguage = PREVIEW_LANGUAGE)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Step5Preview() {
+    Theme(PREVIEW_THEME_WIZARD_DARK) {
+        Surface {
+            WelcomeWizard({}, {}, {}, initialStep = 5, initialLanguage = PREVIEW_LANGUAGE)
         }
     }
 }

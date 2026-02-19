@@ -54,8 +54,12 @@ data class WizardStrings(
     val step3Instruction: String,
     val step3Action: String,
     val step4Title: String,
-    val step4Instruction: String,
-    val step4Action: String,
+    val step4Text1: String,
+    val step4Text2: String,
+    val step4Continue: String,
+    val step5Title: String,
+    val step5Instruction: String,
+    val step5Action: String,
     val finishAction: String
 )
 
@@ -204,6 +208,46 @@ val step3Actions = translations(
 )
 
 val step4Titles = translations(
+    de = "Open Source Projekt",
+    sr = "Project open source",
+    st = "Project open source",
+    sm = "Project open source",
+    pu = "Project open source",
+    va = "Project open source",
+    it = "Progetto open source"
+)
+
+val step4Text1s = translations(
+    de = "Dieses Projekt ist auf GitHub verf\u00fcgbar.",
+    sr = "Quei project ei disponibels sin GitHub.",
+    st = "Quegl project es disponibel sen GitHub.",
+    sm = "Chegl project es disponibel sen GitHub.",
+    pu = "Quai project es disponibel s\u00fcn GitHub.",
+    va = "Quai project es disponibel s\u00fcn GitHub.",
+    it = "Questo progetto \u00e8 disponibile su GitHub."
+)
+
+val step4Text2s = translations(
+    de = "Jede Hilfe ist willkommen!",
+    sr = "Tuts ein beinvegnis d' gidar!",
+    st = "Mincha agid es bagnvigni!",
+    sm = "Mincha agid es bagnvigni!",
+    pu = "Mincha agiut es bagnvignieu!",
+    va = "Mincha agid es bagnvign\u00fc!",
+    it = "Ogni aiuto \u00e8 il benvenuto!"
+)
+
+val step4Continues = translations(
+    de = "Weiter",
+    sr = "Enavant",
+    st = "Inavant",
+    sm = "Inavant",
+    pu = "Inavant",
+    va = "Inavant",
+    it = "Avanti"
+)
+
+val step5Titles = translations(
     de = "Glückwunsch, du bist fertig!",
     sr = "Gratulaziun, tut ei pinaus!",
     st = "Gratulaziun, Te es parats!",
@@ -213,8 +257,8 @@ val step4Titles = translations(
     it = "Congratulazioni, hai finito!"
 )
 
-val step4Instructions = translations(
-    de = "Jetzt kannst du in allen Apps mit $APP_NAME tippen. Drücke auf die Sprachwahltaste um zwischen den aktivierten Sprache hin- und her zu wechseln.",
+val step5Instructions = translations(
+    de = "Jetzt kannst du in allen Apps mit $APP_NAME tippen. Tippe auf die Sprachwahltaste um zwischen den aktivierten Sprache hin- und her zu wechseln.",
     sr = "Ussa sas Ti scriver en tuts apps cun $APP_NAME.",
     st = "Ussa sas Te scriver aint par tut las teas applicaziuns preferidas cun $APP_NAME.",
     sm = "Ussa sas Te scriver ainten tut las teas applicaziuns preferidas cun $APP_NAME.",
@@ -223,7 +267,7 @@ val step4Instructions = translations(
     it = "Puoi usare $APP_NAME per digitare in qualsiasi app."
 )
 
-val step4Actions = translations(
+val step5Actions = translations(
     de = "Mehr Details konfigurieren?",
     sr = "Configurar dapli detagls?",
     st = "Configurar la tastatira",
@@ -260,8 +304,12 @@ val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "
         step3Instruction = step3Instructions[locale]!!,
         step3Action = step3Actions[locale]!!,
         step4Title = step4Titles[locale]!!,
-        step4Instruction = step4Instructions[locale]!!,
-        step4Action = step4Actions[locale]!!,
+        step4Text1 = step4Text1s[locale]!!,
+        step4Text2 = step4Text2s[locale]!!,
+        step4Continue = step4Continues[locale]!!,
+        step5Title = step5Titles[locale]!!,
+        step5Instruction = step5Instructions[locale]!!,
+        step5Action = step5Actions[locale]!!,
         finishAction = finishActions[locale]!!
     )
 }
