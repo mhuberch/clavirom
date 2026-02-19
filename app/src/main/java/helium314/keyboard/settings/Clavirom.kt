@@ -211,8 +211,8 @@ val step3Actions = translations(
 )
 
 val step4Titles = translations(
-    de = "Infos zu $APP_NAME",
-    sr = "Dapli sur da $APP_NAME",
+    de = "À propos...",
+    sr = "Bien da saver...",
     st = "Project open source",
     sm = "Project open source",
     pu = "Project open source",
