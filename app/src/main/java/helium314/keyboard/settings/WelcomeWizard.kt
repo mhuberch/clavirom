@@ -83,6 +83,7 @@ fun WelcomeWizard(
 ) {
     val ctx = LocalContext.current
     val imm = ctx.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val uriHandler = LocalUriHandler.current
     fun determineStep(): Int = when {
         !UncachedInputMethodManagerUtils.isThisImeEnabled(ctx, imm) -> 0
         !UncachedInputMethodManagerUtils.isThisImeCurrent(ctx, imm) -> 2
@@ -317,15 +318,31 @@ fun WelcomeWizard(
                         Spacer(Modifier.height(8.dp))
 
                         val bulletPoints = listOf(
-                            strings.step5SupportItem1,
-                            strings.step5SupportItem2,
-                            strings.step5SupportItem3
+                            strings.step5SupportItem1 to HELIBOARD_WIKI_URL,
+                            strings.step5SupportItem2 to CLAVIROM_DISCUSSIONS_URL,
+                            strings.step5SupportItem3 to null
                         )
 
-                        bulletPoints.forEach { item ->
-                            Row(Modifier.padding(vertical = 2.dp)) {
+                        bulletPoints.forEach { (item, url) ->
+                            Row(
+                                Modifier
+                                    .padding(vertical = 2.dp)
+                                    .then(if (url != null) Modifier.clickable { uriHandler.openUri(url) } else Modifier)
+                            ) {
                                 Text(text = "• ", style = MaterialTheme.typography.bodyMedium.copy(color = textColor))
-                                Text(text = item, style = MaterialTheme.typography.bodyMedium.copy(color = textColor))
+                                Text(
+                                    text = buildAnnotatedString {
+                                        if (url != null) {
+                                            append("$item: ")
+                                            withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
+                                                append(url)
+                                            }
+                                        } else {
+                                            append(item)
+                                        }
+                                    },
+                                    style = MaterialTheme.typography.bodyMedium.copy(color = textColor)
+                                )
                             }
                         }
                     }

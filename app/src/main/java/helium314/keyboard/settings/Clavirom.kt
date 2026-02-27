@@ -12,6 +12,8 @@ const val CLAVIROM_DISCUSSIONS_TITLE = "Damondas, propostas ni commentaris?"
 const val CLAVIROM_DISCUSSIONS_DESC = "Participescha al svilup da ClaviRom"
 const val CLAVIROM_DISCUSSIONS_URL = "https://github.com/mhuberch/clavirom/discussions"
 
+const val HELIBOARD_WIKI_URL = "https://github.com/Helium314/HeliBoard/wiki"
+
 val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
     "rm-SR" to "Romontsch Sursilvan",
     "rm-ST" to "Rumàntsch Sutsilvan",
@@ -248,7 +250,7 @@ val step4Thanks = translations(
 
 val step4Texts1 = translations(
     de = "Während des Eintippens kannst Du mittels der Sprachwahltaste (s. Bild) zwischen den Sprachen wechseln. So erhältst Du stets Wort- und Korrekturvorschläge in der gewünschten Sprache. Möchtest Du mehr als drei Vorschläge, dann drücke lange auf den mittleren Vorschlag.",
-    sr = "Quei project ei disponibels sin GitHub.",
+    sr = "Smaccond silla tasta marcada sil maletg sas midar denter lungatgs duront scriver. Aschia survegnas Ti trasora propostas per correcturas ni plaids el lungatg giavischau. Vul aunc dapli che mo treis propostas: Lu smacca ditg silla proposta el center.",
     st = "Quegl project es disponibel sen GitHub.",
     sm = "Chegl project es disponibel sen GitHub.",
     pu = "Quai project es disponibel s\u00fcn GitHub.",
@@ -258,7 +260,7 @@ val step4Texts1 = translations(
 
 val step4Texts2 = translations(
     de = "Ein riesiger Dank an alle freiwilligen Helfer des Projekts HeliBoard - der freien Tastatur, die Deine Privatsphäre vollständig garantiert (für ClaviRom wurde weniger als 1% der Codes verändert...). Open-Source Projekte ermöglichen es kleinen Communities den digitalen Wandel selbst bestimmt zu gestalten. Vielen Dank der Lia Rumantscha und far.ch für die Sprachdaten, die Hilfe und vor allem für das Interesse.",
-    sr = "Tuts ein beinvegnis d' gidar!",
+    sr = "In grond engraziament a tut ils gidonters voluntars dil project HeliBoard - ina tastatura libra che schurmegia Tias datas privatas (per ClaviRom gnanc 1% dil code ein vegni midai...). Projects dad open-source rendan pusseivels a cuminonzas pintgas da participar activamen ella transformaziun digitala. Engraziel fetg era a Lia Rumantscha e far.ch per las datas Romontschas, il sustegn ed il grond interess.",
     st = "Mincha agid es bagnvigni!",
     sm = "Mincha agid es bagnvigni!",
     pu = "Mincha agiut es bagnvignieu!",
@@ -297,43 +299,43 @@ val step5Instructions = translations(
 )
 
 val step5SupportTitles = translations(
-    de = "Support",
-    sr = "Agid",
+    de = "Support findest Du im:",
+    sr = "Agid survegnas el:",
     st = "Support",
     sm = "Support",
     pu = "Support",
     va = "Support",
-    it = "Supporto"
+    it = "Supporto:"
 )
 
 val step5SupportItems1 = translations(
-    de = "Projektseite von HeliBoard",
-    sr = "Pagina dil project da HeliBoard",
+    de = "Wiki von HeliBoard",
+    sr = "Wiki dil project HeliBoard",
     st = "Pagina digl project da HeliBoard",
     sm = "Pagina digl project da HeliBoard",
     pu = "Pagina dal project da HeliBoard",
     va = "Pagina dal project da HeliBoard",
-    it = "Pagina del progetto di HeliBoard"
+    it = "Wiki del progetto HeliBoard"
 )
 
 val step5SupportItems2 = translations(
-    de = "Projektseite von ClaviRom",
-    sr = "Pagina dil project da ClaviRom",
+    de = "Forum von ClaviRom",
+    sr = "Forum dil project ClaviRom",
     st = "Pagina digl project da ClaviRom",
     sm = "Pagina digl project da ClaviRom",
     pu = "Pagina dal project da ClaviRom",
     va = "Pagina dal project da ClaviRom",
-    it = "Pagina del progetto di ClaviRom"
+    it = "Forum del progetto laviRom"
 )
 
 val step5SupportItems3 = translations(
-    de = "Dort, wo Du die App runtergeladen hast.",
-    sr = "Leu, nua che ti has cargau giu l'app.",
-    st = "Lò, nua che ti has telechargiau l'app.",
-    sm = "Lò, nua che ti has telechargiau l'app.",
-    pu = "Là, nua che ti has telechargià l'app.",
-    va = "Là, nua che ti has telechargià l'app.",
-    it = "Dove hai scaricato l'app."
+    de = "Diese Links findest Du später auch dort, wo Du die App runtergeladen hast.",
+    sr = "Quels ligioms ein era indicai per pli tard nua che ti has cargau giu l'app.",
+    st = "Quels ligioms ein era indicai par pli tard nua che ti has telechargiau l'app.",
+    sm = "Chels ligioms èn era inditgais per pli tard nua tgi has telechargiau l'app.",
+    pu = "Quels links sun eir inditghos per pü tard là, nua cha Vus avais telechargià l'app.",
+    va = "Quels links sun eir inditgàs per plü tard là, nua cha Vus avais telechargià l'app.",
+    it = "Troverai questi link anche dove hai scaricato l'app."
 )
 
 val step5Actions = translations(
