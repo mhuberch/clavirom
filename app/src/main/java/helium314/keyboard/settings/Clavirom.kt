@@ -251,21 +251,21 @@ val step4Thanks = translations(
 val step4Texts1 = translations(
     de = "Während des Eintippens kannst Du mittels der Sprachwahltaste (s. Bild) zwischen den Sprachen wechseln. So erhältst Du stets Wort- und Korrekturvorschläge in der gewünschten Sprache. Möchtest Du mehr als drei Vorschläge, dann drücke lange auf den mittleren Vorschlag.",
     sr = "Smaccond silla tasta marcada sil maletg sas midar denter lungatgs duront scriver. Aschia survegnas Ti trasora propostas per correcturas ni plaids el lungatg giavischau. Vul aunc dapli che mo treis propostas: Lu smacca ditg silla proposta el center.",
-    st = "Quegl project es disponibel sen GitHub.",
-    sm = "Chegl project es disponibel sen GitHub.",
-    pu = "Quai project es disponibel s\u00fcn GitHub.",
-    va = "Quai project es disponibel s\u00fcn GitHub.",
-    it = "Questo progetto \u00e8 disponibile su GitHub."
+    st = "Smaccand sen la tasta marcada sen igl maletg sas Ti midar denter ils lungatgs duront scriver. Aschia survegnas Ti trasora propostas par correcturas ni plaids agl lungatg giavischau. Vul Te aunc dapli tgi mo treis propostas: Lu smacca ditg sen la proposta agl center.",
+    sm = "Smaccand sen la tasta marcada sen igl maletg sas Vus midar denter ils lungatgs duront scriver. Aschia survegnas Vus trasora propostas per correcturas ni plaids agl lungatg giavischau. Vulais Vus anc dapli tgi mo treis propostas: Lu smaccai ditg sen la proposta agl center.",
+    pu = "Ch'Ella smachia sün la tasta marcada sün il purtret, po Ella müdar traunter las linguas duraunt cha scriva. Uschè survign Ella adüna propostas per correcturas u pleds aint in la lingua giavüschada. Vöglia daplü cu be trais propostas: Lu smachia lung sün la proposta d'amez.",
+    va = "Cun smachar sün la tasta marcada sün il purtret po Ella müdar traunter las linguas dunaunt cha scriva. Uschè survign Ella adüna propostas per correcturas o pleds aint in la lingua giavüschada. Vöglia daplü co be trais propostas: Lu smacha lönch sün la proposta d'amez.",
+    it = "Durante la digitazione, puoi passare da una lingua all'altra utilizzando il tasto di selezione della lingua (vedi immagine). In questo modo riceverai sempre suggerimenti di parole e correzioni nella lingua desiderata. Se desideri più di tre suggerimenti, premi a lungo sul suggerimento centrale."
 )
 
 val step4Texts2 = translations(
     de = "Ein riesiger Dank an alle freiwilligen Helfer des Projekts HeliBoard - der freien Tastatur, die Deine Privatsphäre vollständig garantiert (für ClaviRom wurde weniger als 1% der Codes verändert...). Open-Source Projekte ermöglichen es kleinen Communities den digitalen Wandel selbst bestimmt zu gestalten. Vielen Dank der Lia Rumantscha und far.ch für die Sprachdaten, die Hilfe und vor allem für das Interesse.",
     sr = "In grond engraziament a tut ils gidonters voluntars dil project HeliBoard - ina tastatura libra che schurmegia Tias datas privatas (per ClaviRom gnanc 1% dil code ein vegni midai...). Projects dad open-source rendan pusseivels a cuminonzas pintgas da participar activamen ella transformaziun digitala. Engraziel fetg era a Lia Rumantscha e far.ch per las datas Romontschas, il sustegn ed il grond interess.",
-    st = "Mincha agid es bagnvigni!",
-    sm = "Mincha agid es bagnvigni!",
-    pu = "Mincha agiut es bagnvignieu!",
-    va = "Mincha agid es bagnvign\u00fc!",
-    it = "Ogni aiuto \u00e8 il benvenuto!"
+    st = "In grond engraziament a tut ils gidonters voluntars digl project HeliBoard - ina tastatira libra tgi schurmegia teas datas privatas (par ClaviRom gnanc 1% digl code ein vignis midai...). Projects dad open-source rendan pusseivels a cuminonzas pintgas da participar activamen ella transformaziun digitala. Engraziel fitg era a la Lia Rumantscha e far.ch par las datas Rumantschas, igl sustegn ed igl grond interess.",
+    sm = "In grond engraziament a tut ils gidonters voluntars digl project HeliBoard - ina tastatira libra tgi schurmegia vossas datas privatas (per ClaviRom gnanc 1% digl code èn vignis midai...). Projects dad open-source rendan pusseivels a cuminonzas pintgas da participar activamen ella transformaziun digitala. Engraziel fitg era a la Lia Rumantscha e far.ch per las datas Rumantschas, igl sustegn ed igl grond interess.",
+    pu = "In grond engraziament a tuot ils güdenters voluntars dal proget HeliBoard - üna tastatura libra chi s'impensa a vossa sfera privata (per ClaviRom nun es gnanca 1% dal code gnieu müdà...). Progets dad open-source rendan pussibel a cuminanzas pitschnas da partecipar activamaing a la trasformaziun digitala. Engrazcha fich eir a la Lia Rumantscha e far.ch per las datas rumauntschas, il sustegn ed il grond interess.",
+    va = "In grond engraziament a tuot ils gidanters voluntaris dal proget HeliBoard - üna tastatura libra chi s'impensa a vossa sfera privata (per ClaviRom nun es gnanca 1% dal code gnü müdà...). Progets dad open-source rendan pussibel a cuminanzas pitschnas da partecipar activamaing a la trasformaziun digitala. Grazcha fich eir a la Lia Rumantscha e far.ch per las datas rumauntschas, il sustegn ed il grond interess.",
+    it = "Un enorme ringraziamento a tutti i volontari del progetto HeliBoard - la tastiera libera che garantisce completamente la tua privacy (per ClaviRom è stato modificato meno dell'1% del codice...). I progetti open source consentono alle piccole comunità di plasmare la trasformazione digitale in modo autodeterminato. Grazie mille alla Lia Rumantscha e a far.ch per i dati linguistici, l'aiuto e soprattutto per l'interesse."
 )
 
 val step4Continues = translations(
