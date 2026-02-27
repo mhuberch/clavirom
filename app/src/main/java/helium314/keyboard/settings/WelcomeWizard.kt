@@ -285,29 +285,18 @@ fun WelcomeWizard(
                         }
                     }
                 } else { // step 5
-                    Step(
-                        step,
-                        strings.step5Title,
-                        strings.step5Instruction,
-                        strings.step5Action,
-                        painterResource(R.drawable.sym_keyboard_language_switch),
-                        onLanguageClick
-                    )
-
-                    Spacer(Modifier.height(4.dp))
-                    Row(
-                        Modifier.clickable { finish() }
-                            .background(color = stepBackgroundColor)
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        for (i in 1..5) {
+                            Text(i.toString(), color = if (step == i) titleColor else textColorDim)
+                        }
+                    }
+                    Column(Modifier
+                        .background(color = stepBackgroundColor)
+                        .padding(16.dp)
+                        .fillMaxWidth()
                     ) {
-                        Icon(
-                            painterResource(R.drawable.ic_setup_check),
-                            null,
-                            Modifier.padding(end = 6.dp).size(32.dp),
-                            tint = textColor
-                        )
-                        Text(strings.finishAction, Modifier.weight(1f))
+                        Text(strings.step5Title)
+                        Text(strings.step5Instruction, style = MaterialTheme.typography.bodyLarge.merge(color = textColor))
                     }
 
                     Spacer(Modifier.height(4.dp))
@@ -319,7 +308,7 @@ fun WelcomeWizard(
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = "Support",
+                            text = strings.step5SupportTitle,
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = textColor
@@ -328,9 +317,9 @@ fun WelcomeWizard(
                         Spacer(Modifier.height(8.dp))
 
                         val bulletPoints = listOf(
-                            "project page of HeliBoard",
-                            "project page of ClaviRom",
-                            "Dort, wo Du die App runtergeladen hast."
+                            strings.step5SupportItem1,
+                            strings.step5SupportItem2,
+                            strings.step5SupportItem3
                         )
 
                         bulletPoints.forEach { item ->
@@ -339,6 +328,37 @@ fun WelcomeWizard(
                                 Text(text = item, style = MaterialTheme.typography.bodyMedium.copy(color = textColor))
                             }
                         }
+                    }
+
+                    Spacer(Modifier.height(4.dp))
+
+                    Row(
+                        Modifier.clickable { onLanguageClick() }
+                            .background(color = stepBackgroundColor)
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(painterResource(R.drawable.sym_keyboard_language_switch), null, Modifier.padding(end = 6.dp).size(32.dp), tint = textColor)
+                        Text(strings.step5Action, Modifier.weight(1f))
+                    }
+
+                    Spacer(Modifier.height(4.dp))
+
+                    Row(
+                        Modifier.clickable { finish() }
+                            .background(color = stepBackgroundColor)
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painterResource(R.drawable.ic_setup_check),
+                            null,
+                            Modifier.padding(end = 6.dp).size(32.dp),
+                            tint = textColor
+                        )
+                        Text(strings.finishAction, Modifier.weight(1f))
                     }
                 }
             }

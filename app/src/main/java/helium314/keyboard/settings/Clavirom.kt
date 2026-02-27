@@ -64,6 +64,10 @@ data class WizardStrings(
     val step4Continue: String,
     val step5Title: String,
     val step5Instruction: String,
+    val step5SupportTitle: String,
+    val step5SupportItem1: String,
+    val step5SupportItem2: String,
+    val step5SupportItem3: String,
     val step5Action: String,
     val finishAction: String
 )
@@ -292,6 +296,46 @@ val step5Instructions = translations(
     it = "Puoi usare $APP_NAME per digitare in qualsiasi app."
 )
 
+val step5SupportTitles = translations(
+    de = "Support",
+    sr = "Agid",
+    st = "Support",
+    sm = "Support",
+    pu = "Support",
+    va = "Support",
+    it = "Supporto"
+)
+
+val step5SupportItems1 = translations(
+    de = "Projektseite von HeliBoard",
+    sr = "Pagina dil project da HeliBoard",
+    st = "Pagina digl project da HeliBoard",
+    sm = "Pagina digl project da HeliBoard",
+    pu = "Pagina dal project da HeliBoard",
+    va = "Pagina dal project da HeliBoard",
+    it = "Pagina del progetto di HeliBoard"
+)
+
+val step5SupportItems2 = translations(
+    de = "Projektseite von ClaviRom",
+    sr = "Pagina dil project da ClaviRom",
+    st = "Pagina digl project da ClaviRom",
+    sm = "Pagina digl project da ClaviRom",
+    pu = "Pagina dal project da ClaviRom",
+    va = "Pagina dal project da ClaviRom",
+    it = "Pagina del progetto di ClaviRom"
+)
+
+val step5SupportItems3 = translations(
+    de = "Dort, wo Du die App runtergeladen hast.",
+    sr = "Leu, nua che ti has cargau giu l'app.",
+    st = "Lò, nua che ti has telechargiau l'app.",
+    sm = "Lò, nua che ti has telechargiau l'app.",
+    pu = "Là, nua che ti has telechargià l'app.",
+    va = "Là, nua che ti has telechargià l'app.",
+    it = "Dove hai scaricato l'app."
+)
+
 val step5Actions = translations(
     de = "Mehr Details konfigurieren?",
     sr = "Configurar dapli detagls?",
@@ -336,6 +380,10 @@ val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "
         step4Continue = step4Continues[locale]!!,
         step5Title = step5Titles[locale]!!,
         step5Instruction = step5Instructions[locale]!!,
+        step5SupportTitle = step5SupportTitles[locale]!!,
+        step5SupportItem1 = step5SupportItems1[locale]!!,
+        step5SupportItem2 = step5SupportItems2[locale]!!,
+        step5SupportItem3 = step5SupportItems3[locale]!!,
         step5Action = step5Actions[locale]!!,
         finishAction = finishActions[locale]!!
     )
