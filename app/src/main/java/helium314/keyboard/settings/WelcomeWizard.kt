@@ -21,9 +21,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -45,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
@@ -161,6 +163,7 @@ fun WelcomeWizard(
             }
         }
         Column(Modifier
+            .fillMaxWidth()
             .background(color = stepBackgroundColor)
             .padding(16.dp)
         ) {
@@ -169,7 +172,8 @@ fun WelcomeWizard(
         }
         Spacer(Modifier.height(4.dp))
         Row(
-            Modifier.clickable { action() }
+            Modifier.fillMaxWidth()
+                .clickable { action() }
                 .background(color = stepBackgroundColor)
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -188,7 +192,7 @@ fun WelcomeWizard(
                 onClick = { step = 1 }
             )
         else
-            Column {
+            Column(Modifier.fillMaxWidth()) {
                 val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                     step = determineStep()
                 }
@@ -242,7 +246,7 @@ fun WelcomeWizard(
                         }
                         Column(Modifier
                             .background(color = stepBackgroundColor)
-                            .padding(16.dp)
+                            .padding(32.dp)
                             .fillMaxWidth()
                         ) {
                             Text(
@@ -255,12 +259,15 @@ fun WelcomeWizard(
                                 style = MaterialTheme.typography.bodyMedium.merge(color = textColor)
                             )
                         }
-                        Spacer(Modifier.height(4.dp))
-                        Image(painterResource(R.drawable.setup_welcome_image), null, modifier = Modifier.size(120.dp).padding(vertical = 16.dp))
-                        Spacer(Modifier.height(4.dp))
+                        Image(
+                            painterResource(R.drawable.tasta_da_lungatgs),
+                            null,
+                            modifier = Modifier.fillMaxWidth(),
+                            contentScale = ContentScale.FillWidth
+                        )
                         Column(Modifier
                             .background(color = stepBackgroundColor)
-                            .padding(16.dp)
+                            .padding(32.dp)
                             .fillMaxWidth()
                         ) {
                             Text(
@@ -387,10 +394,16 @@ fun WelcomeWizard(
         ) {
             Box(
                 modifier = Modifier.fillMaxSize().padding(32.dp),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.TopCenter // Alignment at top to ensure scrolling starts from the top
             ) {
+                val scrollState = rememberScrollState()
+                // Reset scroll state when moving to a different step
+                LaunchedEffect(step) {
+                    scrollState.scrollTo(0)
+                }
+
                 if (useWideLayout)
-                    Row {
+                    Row(Modifier.fillMaxWidth().verticalScroll(scrollState)) {
                         Box(Modifier.weight(0.4f)) {
                             bigText()
                         }
@@ -399,7 +412,7 @@ fun WelcomeWizard(
                         }
                     }
                 else
-                    Column {
+                    Column(Modifier.fillMaxWidth().verticalScroll(scrollState)) {
                         bigText()
                         steps()
                     }
@@ -416,12 +429,12 @@ fun Step0(
     startText: String,
     onClick: () -> Unit
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
         Image(painterResource(R.drawable.setup_welcome_image), null, modifier = Modifier.size(120.dp))
 
         Spacer(Modifier.height(16.dp))
 
-        Column(Modifier.selectableGroup()) {
+        Column(Modifier.selectableGroup().fillMaxWidth()) {
             languages.forEach { (code, label) ->
                 Row(
                     Modifier
@@ -450,7 +463,7 @@ fun Step0(
 
         Spacer(Modifier.height(24.dp))
 
-        Row(Modifier.clickable { onClick() }
+        Row(Modifier.fillMaxWidth().clickable { onClick() }
             .padding(top = 4.dp, start = 4.dp, end = 4.dp)
         ) {
             Spacer(Modifier.weight(1f))

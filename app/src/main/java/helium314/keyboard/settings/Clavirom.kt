@@ -110,7 +110,7 @@ val additionalDescriptions = translations(
 
 val startActions = translations(
     de = "Starten wir...",
-    sr = "Adatg, pinau, los...",
+    sr = "Adatg, pinau, via...",
     st = "Lagn nus antscheiver...",
     sm = "Lagn antscheiver...",
     pu = "Lains accumensar...",
