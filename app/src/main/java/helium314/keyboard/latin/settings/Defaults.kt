@@ -66,7 +66,7 @@ object Defaults {
     const val PREF_BACKSPACE_REVERTS_AUTOCORRECT = true
     const val PREF_CENTER_SUGGESTION_TEXT_TO_ENTER = false
     const val PREF_SHOW_SUGGESTIONS = true
-    const val PREF_ALWAYS_SHOW_SUGGESTIONS = false
+    const val PREF_ALWAYS_SHOW_SUGGESTIONS = true
     const val PREF_ALWAYS_SHOW_SUGGESTIONS_EXCEPT_WEB_TEXT = true
     const val PREF_KEY_USE_PERSONALIZED_DICTS = true
     const val PREF_KEY_USE_DOUBLE_SPACE_PERIOD = true
