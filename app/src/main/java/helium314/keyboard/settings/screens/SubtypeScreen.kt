@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 package helium314.keyboard.settings.screens
 
 import android.content.Context
@@ -86,6 +87,7 @@ import helium314.keyboard.settings.dialogs.LayoutEditDialog
 import helium314.keyboard.settings.dialogs.ListPickerDialog
 import helium314.keyboard.settings.dialogs.MultiListPickerDialog
 import helium314.keyboard.settings.dialogs.ReorderDialog
+import helium314.keyboard.settings.getSpecialDisplayName
 import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.layoutFilePicker
 import helium314.keyboard.settings.layoutIntent
@@ -159,7 +161,7 @@ fun SubtypeScreen(
                     WithSmallTitle(stringResource(R.string.secondary_locale)) {
                         ActionRow(onClick = { showSecondaryLocaleDialog = true }) {
                             val text = getSecondaryLocales(currentSubtype.extraValues).joinToString(", ") {
-                                it.localizedDisplayName(ctx.resources)
+                                it.getSpecialDisplayName(it.localizedDisplayName(ctx.resources))
                             }.ifEmpty { stringResource(R.string.action_none) }
                             Text(text, modifier = Modifier
                                 .weight(1f)
@@ -303,7 +305,7 @@ fun SubtypeScreen(
                 items = availableLocalesForScript,
                 initialSelection = currentSubtype.getExtraValueOf(ExtraValue.SECONDARY_LOCALES)
                     ?.split(Separators.KV)?.map { it.constructLocale() }.orEmpty(),
-                getItemName = { it.localizedDisplayName(ctx.resources) }
+                getItemName = { it.getSpecialDisplayName(it.localizedDisplayName(ctx.resources)) }
             )
         if (showKeyOrderDialog) {
             val setting = currentSubtype.getExtraValueOf(ExtraValue.POPUP_ORDER)
