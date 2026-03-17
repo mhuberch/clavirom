@@ -10,6 +10,7 @@ u ü
 [extra_keys]
 1: ü è
 2: ö é
+2: -
 
 [tlds]
 ch
