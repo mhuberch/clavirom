@@ -393,7 +393,7 @@ fun WelcomeWizard(
             LocalTextStyle provides MaterialTheme.typography.titleLarge.merge(color = textColor),
         ) {
             Box(
-                modifier = Modifier.fillMaxSize().padding(32.dp),
+                modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.TopCenter // Alignment at top to ensure scrolling starts from the top
             ) {
                 val scrollState = rememberScrollState()
@@ -403,7 +403,7 @@ fun WelcomeWizard(
                 }
 
                 if (useWideLayout)
-                    Row(Modifier.fillMaxWidth().verticalScroll(scrollState)) {
+                    Row(Modifier.fillMaxWidth().verticalScroll(scrollState).padding(32.dp)) {
                         Box(Modifier.weight(0.4f)) {
                             bigText()
                         }
@@ -412,9 +412,10 @@ fun WelcomeWizard(
                         }
                     }
                 else
-                    Column(Modifier.fillMaxWidth().verticalScroll(scrollState)) {
+                    Column(Modifier.fillMaxWidth().verticalScroll(scrollState).padding(16.dp)) {
                         bigText()
                         steps()
+                        Spacer(Modifier.height(32.dp)) // Extra bottom clearance
                     }
             }
         }
@@ -464,7 +465,7 @@ fun Step0(
         Spacer(Modifier.height(24.dp))
 
         Row(Modifier.fillMaxWidth().clickable { onClick() }
-            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
+            .padding(vertical = 12.dp, horizontal = 4.dp)
         ) {
             Spacer(Modifier.weight(1f))
             Text(
