@@ -36,6 +36,17 @@ fun Locale.getSpecialDisplayName(default: String): String {
     return CLAVIROM_WIZARD_DISPLAY_NAMES[toLanguageTag()] ?: default
 }
 
+/**
+ * Checks whether the [candidate] locale is a valid dictionary match for the [requested] locale
+ * according to ClaviRom's exact-match rules for Rumantsch.
+ */
+fun isDictionaryMatch(requested: Locale, candidate: Locale): Boolean {
+    if (requested.language == "rm") {
+        return requested == candidate
+    }
+    return true // Default behavior for other languages
+}
+
 /** Returns the list of languages for the wizard, with the first 5 (Romansh dialects) shuffled. */
 fun getShuffledWizardLanguages(): List<Pair<String, String>> {
     val base = CLAVIROM_WIZARD_LANGUAGES_ROMANSH.map { it to CLAVIROM_WIZARD_DISPLAY_NAMES[it]!! }.shuffled()

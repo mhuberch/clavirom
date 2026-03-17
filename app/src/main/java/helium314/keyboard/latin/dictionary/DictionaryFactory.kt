@@ -9,6 +9,7 @@ import android.content.Context
 import helium314.keyboard.latin.common.LocaleUtils
 import helium314.keyboard.latin.utils.DictionaryInfoUtils
 import helium314.keyboard.latin.utils.Log
+import helium314.keyboard.settings.isDictionaryMatch
 import java.io.File
 import java.util.LinkedList
 import java.util.Locale
@@ -54,6 +55,8 @@ object DictionaryFactory {
                 val bestMatch = LocaleUtils.getBestMatch(locale, dicts) {
                     DictionaryInfoUtils.extractLocaleFromAssetsDictionaryFile(it)
                 } ?: return@forEach
+                val matchLocale = DictionaryInfoUtils.extractLocaleFromAssetsDictionaryFile(bestMatch)
+                if (!isDictionaryMatch(locale, matchLocale)) return@forEach
                 nonExtractedDicts.add(bestMatch)
             }
         return cachedDicts to nonExtractedDicts
