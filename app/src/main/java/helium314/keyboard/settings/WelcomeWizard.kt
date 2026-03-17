@@ -113,8 +113,7 @@ fun WelcomeWizard(
         persistedLanguage = selectedLanguage
     }
 
-    val configuration = LocalConfiguration.current
-    val useWideLayout = configuration.screenWidthDp > 600
+    val useWideLayout = LocalConfiguration.current.screenWidthDp > 600
     val stepBackgroundColor = Color(ContextCompat.getColor(ctx, R.color.setup_step_background))
     val textColor = Color(ContextCompat.getColor(ctx, R.color.setup_text_action))
     val textColorDim = textColor.copy(alpha = 0.5f)
@@ -127,10 +126,10 @@ fun WelcomeWizard(
             5 -> strings.step5Title
             else -> strings.stepsTitle
         }
-        Column(Modifier.padding(bottom = 24.dp)) {
+        Column(Modifier.padding(bottom = 36.dp)) {
             Text(
                 title,
-                style = if (configuration.screenHeightDp < 500) MaterialTheme.typography.headlineLarge else MaterialTheme.typography.displayMedium,
+                style = MaterialTheme.typography.displayMedium,
                 textAlign = TextAlign.Center,
                 color = titleColor,
                 modifier = Modifier.fillMaxWidth()
@@ -247,7 +246,7 @@ fun WelcomeWizard(
                         }
                         Column(Modifier
                             .background(color = stepBackgroundColor)
-                            .padding(16.dp)
+                            .padding(32.dp)
                             .fillMaxWidth()
                         ) {
                             Text(
@@ -268,7 +267,7 @@ fun WelcomeWizard(
                         )
                         Column(Modifier
                             .background(color = stepBackgroundColor)
-                            .padding(16.dp)
+                            .padding(32.dp)
                             .fillMaxWidth()
                         ) {
                             Text(
@@ -394,16 +393,17 @@ fun WelcomeWizard(
             LocalTextStyle provides MaterialTheme.typography.titleLarge.merge(color = textColor),
         ) {
             Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopCenter
+                modifier = Modifier.fillMaxSize().padding(32.dp),
+                contentAlignment = Alignment.TopCenter // Alignment at top to ensure scrolling starts from the top
             ) {
                 val scrollState = rememberScrollState()
+                // Reset scroll state when moving to a different step
                 LaunchedEffect(step) {
                     scrollState.scrollTo(0)
                 }
 
                 if (useWideLayout)
-                    Row(Modifier.fillMaxWidth().verticalScroll(scrollState).padding(32.dp)) {
+                    Row(Modifier.fillMaxWidth().verticalScroll(scrollState)) {
                         Box(Modifier.weight(0.4f)) {
                             bigText()
                         }
@@ -412,10 +412,9 @@ fun WelcomeWizard(
                         }
                     }
                 else
-                    Column(Modifier.fillMaxWidth().verticalScroll(scrollState).padding(16.dp)) {
+                    Column(Modifier.fillMaxWidth().verticalScroll(scrollState)) {
                         bigText()
                         steps()
-                        Spacer(Modifier.height(32.dp)) // Extra space to ensure buttons are reachable
                     }
             }
         }
@@ -465,7 +464,7 @@ fun Step0(
         Spacer(Modifier.height(24.dp))
 
         Row(Modifier.fillMaxWidth().clickable { onClick() }
-            .padding(vertical = 12.dp, horizontal = 4.dp)
+            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
         ) {
             Spacer(Modifier.weight(1f))
             Text(
