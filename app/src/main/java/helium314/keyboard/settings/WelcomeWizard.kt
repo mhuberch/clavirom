@@ -115,7 +115,8 @@ fun WelcomeWizard(
         persistedLanguage = selectedLanguage
     }
 
-    val useWideLayout = LocalConfiguration.current.screenWidthDp > 600
+    val configuration = LocalConfiguration.current
+    val useWideLayout = configuration.screenWidthDp > 600
     val stepBackgroundColor = Color(ContextCompat.getColor(ctx, R.color.setup_step_background))
     val textColor = Color(ContextCompat.getColor(ctx, R.color.setup_text_action))
     val textColorDim = textColor.copy(alpha = 0.5f)
@@ -128,7 +129,7 @@ fun WelcomeWizard(
             5 -> strings.step5Title
             else -> strings.stepsTitle
         }
-        Column(Modifier.padding(bottom = 36.dp)) {
+        Column(Modifier.padding(top = 24.dp, bottom = 36.dp)) {
             Text(
                 title,
                 style = MaterialTheme.typography.displayMedium,
@@ -248,7 +249,7 @@ fun WelcomeWizard(
                         }
                         Column(Modifier
                             .background(color = stepBackgroundColor)
-                            .padding(32.dp)
+                            .padding(16.dp)
                             .fillMaxWidth()
                         ) {
                             Text(
