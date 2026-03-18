@@ -45,11 +45,11 @@ import helium314.keyboard.latin.utils.prefs
 import helium314.keyboard.settings.SearchScreen
 import helium314.keyboard.settings.SettingsActivity
 import helium314.keyboard.settings.SettingsDestination
-import helium314.keyboard.settings.Theme
+import helium314.keyboard.latin.utils.Theme
 import helium314.keyboard.settings.getSpecialDisplayName
 import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.isClaviromPrivileged
-import helium314.keyboard.settings.previewDark
+import helium314.keyboard.latin.utils.previewDark
 import java.util.Locale
 
 @Composable

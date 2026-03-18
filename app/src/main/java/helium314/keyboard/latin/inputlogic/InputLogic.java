@@ -90,9 +90,14 @@ public final class InputLogic {
     private int mSpaceState;
     // Never null
     public SuggestedWords mSuggestedWords = SuggestedWords.getEmptyInstance();
-    public final Suggest mSuggest;
-    private final DictionaryFacilitator mDictionaryFacilitator;
+    public Suggest mSuggest; // non-final for active gesture data gathering, revert when data gathering phase is done (end of 2026 latest)
+    public DictionaryFacilitator mDictionaryFacilitator; // non-final for active gesture data gathering, revert when data gathering phase is done (end of 2026 latest)
     private SingleDictionaryFacilitator mEmojiDictionaryFacilitator;
+    public void setFacilitator(DictionaryFacilitator facilitator) { // only for active gesture data gathering, remove when data gathering phase is done (end of 2026 latest)
+        if (mDictionaryFacilitator == facilitator) return;
+        mDictionaryFacilitator = facilitator;
+        mSuggest = new Suggest(mDictionaryFacilitator);
+    }
 
     public LastComposedWord mLastComposedWord = LastComposedWord.NOT_A_COMPOSED_WORD;
     // This has package visibility so it can be accessed from InputLogicHandler.
@@ -632,11 +637,15 @@ public final class InputLogic {
             inputTransaction.setDidAffectContents();
         }
         if (mWordComposer.isComposingWord()) {
-            // Check if we need to insert automatic space before starting to compose (e.g., after suggestion pickup)
-            // Only do this for the Khipro combiner
+            // Khipro auto-space after suggestion: when user picks a suggestion and starts composing the next word,
+            // insert space automatically, but skip it if the next character is punctuation (. , ; : ! ?) or word connector.
+            final int codePoint = event.getCodePoint();
+            final SettingsValues settingsValues = inputTransaction.getSettingsValues();
             if (SpaceState.PHANTOM == inputTransaction.getSpaceState()
-                    && "bn_khipro".equals(mWordComposer.getCombiningSpec())) {
-                insertAutomaticSpaceIfOptionsAndTextAllow(inputTransaction.getSettingsValues());
+                    && "bn_khipro".equals(mWordComposer.getCombiningSpec())
+                    && !settingsValues.isWordConnector(codePoint)
+                    && !settingsValues.isUsuallyFollowedBySpace(codePoint)) {
+                insertAutomaticSpaceIfOptionsAndTextAllow(settingsValues);
                 mSpaceState = SpaceState.NONE;
             }
             setComposingTextInternal(mWordComposer.getTypedWord(), 1);
@@ -799,6 +808,10 @@ public final class InputLogic {
             case KeyCode.TIMESTAMP:
                 mLatinIME.onTextInput(TimestampKt.getTimestamp(mLatinIME));
                 break;
+            case KeyCode.EMOJI_SEARCH:
+                commitTyped(Settings.getValues(), LastComposedWord.NOT_A_SEPARATOR);
+                mLatinIME.launchEmojiSearch();
+                break;
             case KeyCode.SEND_INTENT_ONE, KeyCode.SEND_INTENT_TWO, KeyCode.SEND_INTENT_THREE:
                 IntentUtils.handleSendIntentKey(mLatinIME, event.getKeyCode());
             case KeyCode.IME_HIDE_UI:
@@ -902,6 +915,17 @@ public final class InputLogic {
         final int codePoint = event.getCodePoint();
         mSpaceState = SpaceState.NONE;
         final SettingsValues sv = inputTransaction.getSettingsValues();
+
+        // wrap / unwrap selected text in codepoint pairs
+        if (!mWordComposer.isComposingWord() && mConnection.hasSelection()) { // we should never be composing when something is selected
+            final int pairedCodepoint = sv.mSpacingAndPunctuations.getSecondInSymbolPair(codePoint);
+            if (pairedCodepoint != Constants.NOT_A_CODE) {
+                wrapSelection(codePoint, pairedCodepoint);
+                inputTransaction.requireShiftUpdate(InputTransaction.SHIFT_UPDATE_NOW);
+                return;
+            }
+        }
+
         // don't treat separators as for handling URLs and similar
         //  otherwise it would work too, but whenever a separator is entered, the word is not selected
         //  until the next character is entered, and the word is added to history
@@ -1099,15 +1123,6 @@ public final class InputLogic {
                 && !settingsValues.mSpacingAndPunctuations.mCurrentLanguageHasSpaces
                 && wasComposingWord;
 
-        // wrap / unwrap selected text in codepoint pairs
-        if (!wasComposingWord && mConnection.hasSelection()) { // we should never be composing when something is selected
-            final int pairedCodepoint = settingsValues.mSpacingAndPunctuations.getSecondInSymbolPair(codePoint);
-            if (pairedCodepoint != Constants.NOT_A_CODE) {
-                wrapSelection(codePoint, pairedCodepoint);
-                inputTransaction.requireShiftUpdate(InputTransaction.SHIFT_UPDATE_NOW);
-                return;
-            }
-        }
         if (mWordComposer.isCursorFrontOrMiddleOfComposingWord()) {
             // If we are in the middle of a recorrection, we need to commit the recorrection
             // first so that we can insert the separator at the current cursor position.
@@ -2672,7 +2687,7 @@ public final class InputLogic {
         for (var suggestion: suggestions) {
             if (suggestion.isEmoji()) {
                 Suggest.addDebugInfo(suggestion, input);
-                suggestedWordInfos.add(suggestion);
+                suggestedWordInfos.add(Suggest.useDefaultEmojiSkinTone(suggestion));
             }
         }
         callback.onGetSuggestedWords(new SuggestedWords(suggestedWordInfos, suggestions.mRawSuggestions, typedWordInfo,
@@ -2745,8 +2760,7 @@ public final class InputLogic {
     }
 
     public void updateEmojiDictionary(Locale locale) {
-        //todo: disable if in full emoji search mode
-        if (Settings.getValues().mInlineEmojiSearch && Settings.getValues().needsToLookupSuggestions()) {
+        if (Settings.getValues().mInlineEmojiSearch && Settings.getValues().needsToLookupSuggestions() && ! mLatinIME.isEmojiSearch()) {
             if (mEmojiDictionaryFacilitator == null || ! mEmojiDictionaryFacilitator.isForLocale(locale)) {
                 closeEmojiDictionary();
                 var dictFile = DictionaryInfoUtils.getCachedDictForLocaleAndType(locale, "emoji", mLatinIME);
