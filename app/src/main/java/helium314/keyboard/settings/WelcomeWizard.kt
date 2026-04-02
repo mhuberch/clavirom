@@ -240,49 +240,13 @@ fun WelcomeWizard(
                         onLanguageClick()
                     }
                 } else if (step == 4) {
-                    val boldifiedText2 = boldifySubstrings(strings.step4Text2, CLAVIROM_BOLD_WORDS)
                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             for (i in 1..5) {
                                 Text(i.toString(), color = if (step == i) titleColor else textColorDim)
                             }
                         }
-                        Column(Modifier
-                            .background(color = stepBackgroundColor)
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                        ) {
-                            Text(
-                                buildAnnotatedString {
-                                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                                        append(strings.step4Tip)
-                                    }
-                                    append(strings.step4Text1)
-                                },
-                                style = MaterialTheme.typography.bodyMedium.merge(color = textColor)
-                            )
-                        }
-                        Image(
-                            painterResource(R.drawable.tasta_da_lungatgs),
-                            null,
-                            modifier = Modifier.fillMaxWidth(),
-                            contentScale = ContentScale.FillWidth
-                        )
-                        Column(Modifier
-                            .background(color = stepBackgroundColor)
-                            .padding(32.dp)
-                            .fillMaxWidth()
-                        ) {
-                            Text(
-                                buildAnnotatedString {
-                                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                                        append(strings.step4Thanks)
-                                    }
-                                    append(boldifiedText2)
-                                },
-                                style = MaterialTheme.typography.bodyMedium.merge(color = textColor)
-                            )
-                        }
+                        Step4Content(strings, textColor, stepBackgroundColor)
                         Spacer(Modifier.height(4.dp))
                         Row(
                             Modifier.clickable { step = 5 }
@@ -312,50 +276,7 @@ fun WelcomeWizard(
 
                     Spacer(Modifier.height(4.dp))
 
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .background(color = stepBackgroundColor)
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = strings.step5SupportTitle,
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = textColor
-                            )
-                        )
-                        Spacer(Modifier.height(8.dp))
-
-                        val bulletPoints = listOf(
-                            strings.step5SupportItem1 to HELIBOARD_WIKI_URL,
-                            strings.step5SupportItem2 to CLAVIROM_DISCUSSIONS_URL,
-                            strings.step5SupportItem3 to null
-                        )
-
-                        bulletPoints.forEach { (item, url) ->
-                            Row(
-                                Modifier
-                                    .padding(vertical = 2.dp)
-                                    .then(if (url != null) Modifier.clickable { uriHandler.openUri(url) } else Modifier)
-                            ) {
-                                Text(text = "• ", style = MaterialTheme.typography.bodyMedium.copy(color = textColor))
-                                Text(
-                                    text = buildAnnotatedString {
-                                        if (url != null) {
-                                            append("$item: ")
-                                            withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
-                                                append(url)
-                                            }
-                                        } else {
-                                            append(item)
-                                        }
-                                    },
-                                    style = MaterialTheme.typography.bodyMedium.copy(color = textColor)
-                                )
-                            }
-                        }
-                    }
+                    Step5SupportContent(strings, textColor, stepBackgroundColor)
 
                     Spacer(Modifier.height(4.dp))
 
@@ -482,7 +403,108 @@ fun Step0(
 }
 
 @Composable
-private fun boldifySubstrings(
+fun Step4Content(
+    strings: WizardStrings,
+    textColor: Color,
+    stepBackgroundColor: Color,
+    modifier: Modifier = Modifier
+) {
+    val boldifiedText2 = boldifySubstrings(strings.step4Text2, CLAVIROM_BOLD_WORDS)
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.fillMaxWidth()) {
+        Column(Modifier
+            .background(color = stepBackgroundColor)
+            .padding(16.dp)
+            .fillMaxWidth()
+        ) {
+            Text(
+                buildAnnotatedString {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(strings.step4Tip)
+                    }
+                    append(strings.step4Text1)
+                },
+                style = MaterialTheme.typography.bodyMedium.merge(color = textColor)
+            )
+        }
+        Image(
+            painterResource(R.drawable.tasta_da_lungatgs),
+            null,
+            modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.FillWidth
+        )
+        Column(Modifier
+            .background(color = stepBackgroundColor)
+            .padding(32.dp)
+            .fillMaxWidth()
+        ) {
+            Text(
+                buildAnnotatedString {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(strings.step4Thanks)
+                    }
+                    append(boldifiedText2)
+                },
+                style = MaterialTheme.typography.bodyMedium.merge(color = textColor)
+            )
+        }
+    }
+}
+
+@Composable
+fun Step5SupportContent(
+    strings: WizardStrings,
+    textColor: Color,
+    stepBackgroundColor: Color,
+    modifier: Modifier = Modifier
+) {
+    val uriHandler = LocalUriHandler.current
+    Column(
+        modifier
+            .fillMaxWidth()
+            .background(color = stepBackgroundColor)
+            .padding(16.dp)
+    ) {
+        Text(
+            text = strings.step5SupportTitle,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Bold,
+                color = textColor
+            )
+        )
+        Spacer(Modifier.height(8.dp))
+
+        val bulletPoints = listOf(
+            strings.step5SupportItem1 to HELIBOARD_WIKI_URL,
+            strings.step5SupportItem2 to CLAVIROM_DISCUSSIONS_URL,
+            strings.step5SupportItem3 to null
+        )
+
+        bulletPoints.forEach { (item, url) ->
+            Row(
+                Modifier
+                    .padding(vertical = 2.dp)
+                    .then(if (url != null) Modifier.clickable { uriHandler.openUri(url) } else Modifier)
+            ) {
+                Text(text = "• ", style = MaterialTheme.typography.bodyMedium.copy(color = textColor))
+                Text(
+                    text = buildAnnotatedString {
+                        if (url != null) {
+                            append("$item: ")
+                            withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
+                                append(url)
+                            }
+                        } else {
+                            append(item)
+                        }
+                    },
+                    style = MaterialTheme.typography.bodyMedium.copy(color = textColor)
+                )
+            }
+        }
+    }
+}
+
+fun boldifySubstrings(
     fullText: String,
     keywords: List<String>,
     boldStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.Bold)

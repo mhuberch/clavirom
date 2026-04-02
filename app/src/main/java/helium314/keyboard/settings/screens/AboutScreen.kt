@@ -11,16 +11,26 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import helium314.keyboard.latin.BuildConfig
 import helium314.keyboard.latin.R
@@ -50,6 +60,10 @@ import helium314.keyboard.settings.CLAVIROM_DISCUSSIONS_TITLE
 import helium314.keyboard.settings.CLAVIROM_DISCUSSIONS_URL
 import helium314.keyboard.settings.CLAVIROM_GITHUB_URL
 import helium314.keyboard.settings.APP_NAME
+import helium314.keyboard.settings.Step4Content
+import helium314.keyboard.settings.Step5SupportContent
+import helium314.keyboard.settings.WIZARD_TRANSLATIONS
+import helium314.keyboard.settings.dialogs.ThreeButtonAlertDialog
 import java.util.Locale
 
 @Composable
@@ -59,7 +73,6 @@ fun AboutScreen(
     val items = listOf(
         SettingsWithoutKey.APP_CLAVIROM,
         SettingsWithoutKey.APP_CLAVIROM_DISCUSSIONS,
-        SettingsWithoutKey.APP,
         SettingsWithoutKey.VERSION,
         SettingsWithoutKey.LICENSE,
         SettingsWithoutKey.HIDDEN_FEATURES,
@@ -77,15 +90,39 @@ fun AboutScreen(
 fun createAboutSettings(context: Context) = listOf(
     Setting(context, SettingsWithoutKey.APP_CLAVIROM, R.string.english_ime_name) {
         val ctx = LocalContext.current
+        val wizardStrings = WIZARD_TRANSLATIONS["rm-SR"]!!
+
+        var showDialog by remember { mutableStateOf(false) }
+
+        if (showDialog) {
+            val stepBackgroundColor = Color(ContextCompat.getColor(ctx, R.color.setup_step_background))
+            val textColor = Color(ContextCompat.getColor(ctx, R.color.setup_text_action))
+            ThreeButtonAlertDialog(
+                onDismissRequest = { showDialog = false },
+                onConfirmed = {
+                    val intent = Intent()
+                    intent.data = CLAVIROM_GITHUB_URL.toUri()
+                    intent.action = Intent.ACTION_VIEW
+                    ctx.startActivity(intent)
+                },
+                confirmButtonText = stringResource(R.string.about_github_link),
+                cancelButtonText = stringResource(android.R.string.ok),
+                title = { Text(wizardStrings.step4Title) },
+                content = {
+                    Column {
+                        Step4Content(wizardStrings, textColor, stepBackgroundColor)
+                        Spacer(Modifier.height(16.dp))
+                        Step5SupportContent(wizardStrings, textColor, stepBackgroundColor)
+                    }
+                },
+                scrollContent = true
+            )
+        }
+
         Preference(
             name = APP_NAME,
-            description = CLAVIROM_DESC,
-            onClick = {
-                val intent = Intent()
-                intent.data = CLAVIROM_GITHUB_URL.toUri()
-                intent.action = Intent.ACTION_VIEW
-                ctx.startActivity(intent)
-            },
+            description = wizardStrings.welcomeSubtitle + " " + stringResource(R.string.app_slogan),
+            onClick = { showDialog = true },
             icon = R.mipmap.ic_launcher_round
         )
     },
@@ -101,14 +138,6 @@ fun createAboutSettings(context: Context) = listOf(
                 ctx.startActivity(intent)
             },
             icon = R.drawable.sym_keyboard_return_holo
-        )
-    },
-    Setting(context, SettingsWithoutKey.APP, R.string.english_ime_name, R.string.app_slogan) {
-        Preference(
-            name = it.title,
-            description = it.description,
-            onClick = { },
-            icon = R.mipmap.ic_launcher_round
         )
     },
     Setting(context, SettingsWithoutKey.VERSION, R.string.version) {
@@ -149,8 +178,6 @@ fun createAboutSettings(context: Context) = listOf(
             name = it.title,
             description = it.description,
             onClick = {
-                // Compose dialogs are in a rather sad state. They don't understand HTML, and don't scroll without customization.
-                // this should be re-done in compose, but... bah
                 val link = ("<a href=\"https://developer.android.com/reference/android/content/Context#createDeviceProtectedStorageContext()\">"
                         + ctx.getString(R.string.hidden_features_text) + "</a>")
                 val message = ctx.getString(R.string.hidden_features_message, link)
