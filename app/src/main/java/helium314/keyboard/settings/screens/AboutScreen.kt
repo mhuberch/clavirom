@@ -64,6 +64,9 @@ import helium314.keyboard.settings.Step4Content
 import helium314.keyboard.settings.Step5SupportContent
 import helium314.keyboard.settings.WIZARD_TRANSLATIONS
 import helium314.keyboard.settings.dialogs.ThreeButtonAlertDialog
+import helium314.keyboard.settings.isClaviromPrivileged
+import helium314.keyboard.latin.utils.SubtypeSettings
+import helium314.keyboard.latin.utils.locale
 import java.util.Locale
 
 @Composable
@@ -90,7 +93,18 @@ fun AboutScreen(
 fun createAboutSettings(context: Context) = listOf(
     Setting(context, SettingsWithoutKey.APP_CLAVIROM, R.string.english_ime_name) {
         val ctx = LocalContext.current
-        val wizardStrings = WIZARD_TRANSLATIONS["rm-SR"]!!
+        val currentSubtype = SubtypeSettings.getSelectedSubtype(ctx.prefs())
+        val locale = currentSubtype.locale()
+
+        val tag = if (locale.isClaviromPrivileged()) {
+            val fullTag = locale.toLanguageTag()
+            WIZARD_TRANSLATIONS.keys.firstOrNull { it == fullTag }
+                ?: WIZARD_TRANSLATIONS.keys.firstOrNull { it.startsWith(locale.language) }
+                ?: "rm-SR"
+        } else {
+            "rm-SR"
+        }
+        val wizardStrings = WIZARD_TRANSLATIONS[tag] ?: WIZARD_TRANSLATIONS["rm-SR"]!!
 
         var showDialog by remember { mutableStateOf(false) }
 
