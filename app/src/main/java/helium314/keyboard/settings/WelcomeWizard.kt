@@ -504,31 +504,6 @@ fun Step5SupportContent(
     }
 }
 
-fun boldifySubstrings(
-    fullText: String,
-    keywords: List<String>,
-    boldStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.Bold)
-): AnnotatedString {
-    return buildAnnotatedString {
-        append(fullText)
-
-        keywords.forEach { keyword ->
-            if (keyword.isNotEmpty()) {
-                var startIndex = fullText.indexOf(keyword, ignoreCase = true)
-                while (startIndex >= 0) {
-                    addStyle(
-                        style = boldStyle,
-                        start = startIndex,
-                        end = startIndex + keyword.length
-                    )
-                    // Weitersuchen nach dem nächsten Vorkommen
-                    startIndex = fullText.indexOf(keyword, startIndex + keyword.length, ignoreCase = true)
-                }
-            }
-        }
-    }
-}
-
 private const val PREVIEW_LANGUAGE = "de-CH"
 private const val PREVIEW_THEME_WIZARD_DARK = false
 

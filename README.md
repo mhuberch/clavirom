@@ -52,7 +52,7 @@ Since the HeliBoard is based on Apache 2.0 licensed AOSP Keyboard, an [Apache 2.
 The icon is licensed under [Creative Commons BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). A [license file](LICENSE-CC-BY-SA-4.0) is also included.
 
 # Credits
-- Tremendous thanks to the project [HeliBoard](https://github.com/HeliBorg/HeliBoard)! Without them ClaviRom wouldn't exist. Thanks for this beautiful open-source project enabling minoritary languages to participate in digitalization.
+- Tremendous thanks to the project [HeliBoard](https://github.com/HeliBorg/HeliBoard)! Without them ClaviRom wouldn't exist. Thanks for this beautiful open-source project enabling minority languages to participate in digitalization.
 - Icon by [Fabian OvrWrt](https://github.com/FabianOvrWrt) with contributions from [The Eclectic Dyslexic](https://github.com/the-eclectic-dyslexic)
 - [OpenBoard](https://github.com/openboard-team/openboard)
 - [AOSP Keyboard](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/)

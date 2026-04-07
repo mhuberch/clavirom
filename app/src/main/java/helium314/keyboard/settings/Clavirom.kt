@@ -1,6 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package helium314.keyboard.settings
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
+import helium314.keyboard.latin.utils.SubtypeSettings
+import helium314.keyboard.latin.utils.locale
+import helium314.keyboard.latin.utils.prefs
 import java.util.Locale
 
 const val APP_NAME = "ClaviRom"
@@ -8,8 +17,6 @@ const val APP_NAME = "ClaviRom"
 const val CLAVIROM_DESC = "Ina claviatura romontscha. Clicca cheu per ir silla pagina dil project."
 const val CLAVIROM_GITHUB_URL = "https://github.com/mhuberch/clavirom"
 
-const val CLAVIROM_DISCUSSIONS_TITLE = "Damondas, propostas ni commentaris?"
-const val CLAVIROM_DISCUSSIONS_DESC = "Participescha al svilup da ClaviRom"
 const val CLAVIROM_DISCUSSIONS_URL = "https://github.com/mhuberch/clavirom/discussions"
 
 const val HELIBOARD_WIKI_URL = "https://github.com/Helium314/HeliBoard/wiki"
@@ -82,7 +89,9 @@ data class WizardStrings(
     val step5SupportItem2: String,
     val step5SupportItem3: String,
     val step5Action: String,
-    val finishAction: String
+    val finishAction: String,
+    val discussionsTitle: String,
+    val discussionsDesc: String
 )
 
 private fun translations(de: String, sr: String, st: String, sm: String, pu: String, va: String, it: String) = mapOf(
@@ -369,6 +378,26 @@ val finishActions = translations(
     it = "Tutto pronto!"
 )
 
+val discussionsTitles = translations(
+    de = "Fragen, Vorschläge oder Kommentare?",
+    sr = "Damondas, propostas ni commentaris?",
+    st = "Dumondas, propostas ni commentaris?",
+    sm = "Dumondas, propostas ni commentaris?",
+    pu = "Dumondas, propostas u commentaris?",
+    va = "Dumondas, propostas u commentaris?",
+    it = "Domande, proposte o commenti?"
+)
+
+val discussionsDescs = translations(
+    de = "Beteilige dich an der Entwicklung von ClaviRom",
+    sr = "Participescha al svilup da ClaviRom",
+    st = "Participescha al svilup da ClaviRom",
+    sm = "Participescha al svilup da ClaviRom",
+    pu = "Partecipescha al svilup da ClaviRom",
+    va = "Partecipescha al svilup da ClaviRom",
+    it = "Partecipa allo sviluppo di ClaviRom"
+)
+
 val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA", "it-CH").associateWith { locale ->
     WizardStrings(
         welcomeTitle = welcomeTitles[locale]!!,
@@ -398,6 +427,47 @@ val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "
         step5SupportItem2 = step5SupportItems2[locale]!!,
         step5SupportItem3 = step5SupportItems3[locale]!!,
         step5Action = step5Actions[locale]!!,
-        finishAction = finishActions[locale]!!
+        finishAction = finishActions[locale]!!,
+        discussionsTitle = discussionsTitles[locale]!!,
+        discussionsDesc = discussionsDescs[locale]!!
     )
+}
+
+@Composable
+fun getWizardStrings(): WizardStrings {
+    val ctx = LocalContext.current
+    val locale = SubtypeSettings.getSelectedSubtype(ctx.prefs()).locale()
+    val fallbackTag = "rm-SR"
+    val tag = if (locale.isClaviromPrivileged()) {
+        val fullTag = locale.toLanguageTag()
+        WIZARD_TRANSLATIONS.keys.firstOrNull { it == fullTag }
+            ?: WIZARD_TRANSLATIONS.keys.firstOrNull { it.startsWith(locale.language) }
+            ?: fallbackTag
+    } else fallbackTag
+    return WIZARD_TRANSLATIONS[tag] ?: WIZARD_TRANSLATIONS[fallbackTag]!!
+}
+
+fun boldifySubstrings(
+    fullText: String,
+    keywords: List<String>,
+    boldStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.Bold)
+): AnnotatedString {
+    return buildAnnotatedString {
+        append(fullText)
+
+        keywords.forEach { keyword ->
+            if (keyword.isNotEmpty()) {
+                var startIndex = fullText.indexOf(keyword, ignoreCase = true)
+                while (startIndex >= 0) {
+                    addStyle(
+                        style = boldStyle,
+                        start = startIndex,
+                        end = startIndex + keyword.length
+                    )
+                    // Weitersuchen nach dem nächsten Vorkommen
+                    startIndex = fullText.indexOf(keyword, startIndex + keyword.length, ignoreCase = true)
+                }
+            }
+        }
+    }
 }

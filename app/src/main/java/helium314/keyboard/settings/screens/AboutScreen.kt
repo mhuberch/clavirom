@@ -54,19 +54,13 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import androidx.core.content.edit
-import helium314.keyboard.settings.CLAVIROM_DESC
-import helium314.keyboard.settings.CLAVIROM_DISCUSSIONS_DESC
-import helium314.keyboard.settings.CLAVIROM_DISCUSSIONS_TITLE
 import helium314.keyboard.settings.CLAVIROM_DISCUSSIONS_URL
 import helium314.keyboard.settings.CLAVIROM_GITHUB_URL
 import helium314.keyboard.settings.APP_NAME
 import helium314.keyboard.settings.Step4Content
 import helium314.keyboard.settings.Step5SupportContent
-import helium314.keyboard.settings.WIZARD_TRANSLATIONS
 import helium314.keyboard.settings.dialogs.ThreeButtonAlertDialog
-import helium314.keyboard.settings.isClaviromPrivileged
-import helium314.keyboard.latin.utils.SubtypeSettings
-import helium314.keyboard.latin.utils.locale
+import helium314.keyboard.settings.getWizardStrings
 import java.util.Locale
 
 @Composable
@@ -93,18 +87,7 @@ fun AboutScreen(
 fun createAboutSettings(context: Context) = listOf(
     Setting(context, SettingsWithoutKey.APP_CLAVIROM, R.string.english_ime_name) {
         val ctx = LocalContext.current
-        val currentSubtype = SubtypeSettings.getSelectedSubtype(ctx.prefs())
-        val locale = currentSubtype.locale()
-
-        val tag = if (locale.isClaviromPrivileged()) {
-            val fullTag = locale.toLanguageTag()
-            WIZARD_TRANSLATIONS.keys.firstOrNull { it == fullTag }
-                ?: WIZARD_TRANSLATIONS.keys.firstOrNull { it.startsWith(locale.language) }
-                ?: "rm-SR"
-        } else {
-            "rm-SR"
-        }
-        val wizardStrings = WIZARD_TRANSLATIONS[tag] ?: WIZARD_TRANSLATIONS["rm-SR"]!!
+        val wizardStrings = getWizardStrings()
 
         var showDialog by remember { mutableStateOf(false) }
 
@@ -142,9 +125,11 @@ fun createAboutSettings(context: Context) = listOf(
     },
     Setting(context, SettingsWithoutKey.APP_CLAVIROM_DISCUSSIONS, R.string.english_ime_name) {
         val ctx = LocalContext.current
+        val wizardStrings = getWizardStrings()
+
         Preference(
-            name = CLAVIROM_DISCUSSIONS_TITLE,
-            description = CLAVIROM_DISCUSSIONS_DESC,
+            name = wizardStrings.discussionsTitle,
+            description = wizardStrings.discussionsDesc,
             onClick = {
                 val intent = Intent()
                 intent.data = CLAVIROM_DISCUSSIONS_URL.toUri()
