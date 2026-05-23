@@ -1,0 +1,11 @@
+## HeliBoard
+* use default emoji tone in suggestions and in inline emoji search
+* enable predictive back gesture
+* fix small parentheses weren't reverted for RTL scripts
+* add setting to change height of bottom row
+* improve internal handling of cursor position, mostly relevant for combiners as used by Korean
+* add links to gesture data gathering screen
+
+## ClaviRom
+* added dictionaries for the five idioms of Romansh and the written language Rumantsch Grischun
+* localized and extended the Welcome wizard
