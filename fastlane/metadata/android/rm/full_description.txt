@@ -1,0 +1,20 @@
+ClaviRom ei ina adaptaziun pils lungatgs dal Grischun da HeliBoard - la tastatura libra che garantescha cumpleinamein tia sfera privata. Atras il project ClaviRom ein vegni aschuntai:
+
+<ul>
+  <li>Correctura d'ortografia per Puter, Surmiran, Sursilvan, Sutsilvan, Vallader e Rumantsch Grischun</li>
+  <li>Propostas pil proxim plaid per tut ils idioms</li>
+  <li>In gidonter en Romontsch per drizzar en la tastatura</li>
+</ul>
+
+HeliBoard sez porscha schon tut ils uaffens per Tudestg e Talian e tut ch'ei drova per ina buna tastatura da telefonin:
+
+<ul>
+  <li>dicziunaris per propostas da plaid e correctura d'ortografia</li>
+  <li>biaras pusseivladads per configurar il layout</li>
+  <li>scriver en differents lungatgs</li>
+  <li>archiv per copiar ed inserir</li>
+  <li>modus ad in maun</li>
+  <li>cumparter la tastatura</li>
+  <li>tastatura mo cun cefras</li>
+  <li>emprender ed arcunar novs plaids che ti has duvrau en tes texts</li>
+</ul>

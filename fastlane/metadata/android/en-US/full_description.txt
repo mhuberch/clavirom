@@ -1,7 +1,13 @@
-HeliBoard is a privacy-conscious open-source keyboard, based on AOSP / OpenBoard.
+ClaviRom is an adaptation of HeliBoard - a privacy-conscious open-source keyboard, based on AOSP / OpenBoard - to Swiss minority languages
 Does not use internet permission, and thus is 100% offline.
 
-Features:
+New features of ClaviRom:
+<ul>
+  <li>Spell check and next word proposals for Swiss Romansh languages Puter, Surmiran, Sursilvan, Sutsilvan, Vallader and Rumantsch Grischun</li>
+  <li>A welcome wizard in Romansh languages to setup the keyboard</li>
+</ul>
+
+Features of HeliBoard:
 <ul>
   <li>Add dictionaries for suggestions and spell check</li>
   <ul>

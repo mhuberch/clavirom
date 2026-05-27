@@ -1,7 +1,13 @@
-HeliBoard ist eine datenschutzbewusste quelloffene Tastatur, die auf AOSP / OpenBoard basiert.
+ClaviRom ist eine Anpassung für die Sprachen Graubündens von HeliBoard - die datenschutzbewusste quelloffene Tastatur, die auf AOSP / OpenBoard basiert.
 Verwendet keine Internetberechtigung und ist daher zu 100 % offline.
 
-Features:
+Neue Features von ClaviRom
+<ul>
+  <li>Rechtschreibprüfung und Vorschlag für nächstes Wort für die rätoromanischen Sprachen Puter, Surmiran, Sursilvan, Sutsilvan, Vallader und Rumantsch Grischun</li>
+  <li>Ein Einrichtungsassistent auf Rätoromanisch</li>
+</ul>
+
+Features von HeliBoard:
 <ul>
    <li>Wörterbücher für Vorschläge und Rechtschreibprüfung hinzufügen</li>
    <ul>
