@@ -29,13 +29,14 @@ val CLAVIROM_WIZARD_DISPLAY_NAMES = mapOf(
     "rm-VA" to "Rumantsch Vallader",
     "rm" to "Rumantsch Grischun",
     "de-CH" to "Deutsch (Schweiz)",
-    "it-CH" to "Italiano (Svizzera)"
+    "it-CH" to "Italiano (Svizzera)",
+    "en" to "English"
 )
 
 val CLAVIROM_BOLD_WORDS = listOf("HeliBoard", "Lia Rumantscha", "far.ch")
 
 val CLAVIROM_WIZARD_LANGUAGES_ROMANSH = listOf("rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA")
-val CLAVIROM_WIZARD_LANGUAGES_OTHER = listOf("de-CH", "it-CH")
+val CLAVIROM_WIZARD_LANGUAGES_OTHER = listOf("de-CH", "it-CH", "en")
 
 fun Locale.isClaviromPrivileged(): Boolean = CLAVIROM_WIZARD_DISPLAY_NAMES.containsKey(toLanguageTag())
 
@@ -94,8 +95,8 @@ data class WizardStrings(
     val discussionsDesc: String
 )
 
-private fun translations(de: String, sr: String, st: String, sm: String, pu: String, va: String, it: String) = mapOf(
-    "de-CH" to de, "rm-SR" to sr, "rm-ST" to st, "rm-SM" to sm, "rm-PU" to pu, "rm-VA" to va, "it-CH" to it
+private fun translations(de: String, sr: String, st: String, sm: String, pu: String, va: String, it: String, en: String) = mapOf(
+    "de-CH" to de, "rm-SR" to sr, "rm-ST" to st, "rm-SM" to sm, "rm-PU" to pu, "rm-VA" to va, "it-CH" to it, "en" to en,
 )
 
 val welcomeTitles = translations(
@@ -105,7 +106,8 @@ val welcomeTitles = translations(
     sm = "Bavegna tar $APP_NAME",
     pu = "Bagnvignieu tar $APP_NAME",
     va = "Bagnvignü tar $APP_NAME",
-    it = "Benvenuto in $APP_NAME"
+    it = "Benvenuto in $APP_NAME",
+    en = "Welcome to $APP_NAME"
 )
 
 val welcomeSubtitles = translations(
@@ -115,7 +117,8 @@ val welcomeSubtitles = translations(
     sm = "L'app HeliBoard per il rumantsch",
     pu = "L'app HeliBoard per il rumauntsch",
     va = "L'app HeliBoard per il rumantsch",
-    it = "HeliBoard adattato per il Grigioni"
+    it = "HeliBoard adattato per il Grigioni",
+    en = "HeliBoard for Romansh"
 )
 
 val additionalDescriptions = translations(
@@ -125,7 +128,8 @@ val additionalDescriptions = translations(
     sm = "Ena tastatura per lungatgs grischuns",
     pu = "Üna tastatura per linguas grischunas",
     va = "Üna tastatura per linguas grischunas",
-    it = "Una tastiera per le lingue grigionesi"
+    it = "Una tastiera per le lingue grigionesi",
+    en = "A keyboard for languages of Graubünden"
 )
 
 val startActions = translations(
@@ -135,7 +139,8 @@ val startActions = translations(
     sm = "Lainsa antschever...",
     pu = "Laschains cumanzer...",
     va = "Lain cumanzar...",
-    it = "Inizia..."
+    it = "Inizia...",
+    en = "Let's start"
 )
 
 val stepsTitles = translations(
@@ -145,7 +150,8 @@ val stepsTitles = translations(
     sm = "Andrizzar $APP_NAME",
     pu = "Drizzer aint $APP_NAME",
     va = "Drizzar aint $APP_NAME",
-    it = "Configura $APP_NAME"
+    it = "Configura $APP_NAME",
+    en = "Configure $APP_NAME"
 )
 
 val step1Titles = translations(
@@ -155,7 +161,8 @@ val step1Titles = translations(
     sm = "Activar $APP_NAME",
     pu = "Activar $APP_NAME",
     va = "Activar $APP_NAME",
-    it = "Attiva $APP_NAME"
+    it = "Attiva $APP_NAME",
+    en = "Enable $APP_NAME"
 )
 
 val step1Instructions = translations(
@@ -165,7 +172,8 @@ val step1Instructions = translations(
     sm = "Activescha \"$APP_NAME\" ainten la configuraziun digls lungatgs per lubeir l'utilisaziun sen igl ties telefonign.",
     pu = "Activescha \"$APP_NAME\" illas configüraziuns da linguas per permetter l'adöver sün tieu telefonin.",
     va = "Activescha \"$APP_NAME\" illa configüraziun da las linguas per permetter l'adöver sün teis telefonin.",
-    it = "Scegli \"$APP_NAME\" nelle impostazioni 'Lingua e immissione' per autorizzare l'app."
+    it = "Scegli \"$APP_NAME\" nelle impostazioni 'Lingua e immissione' per autorizzare l'app.",
+    en = "Please check \"$APP_NAME\" in your Languages / input settings. This will authorize it to run on your device."
 )
 
 val step1Actions = translations(
@@ -175,7 +183,8 @@ val step1Actions = translations(
     sm = "Activar ainten las preferenzas",
     pu = "Activer illa configüraziun",
     va = "Activar illa configüraziun",
-    it = "Attiva nelle impostazioni"
+    it = "Attiva nelle impostazioni",
+    en = "Enable in Settings"
 )
 
 val step2Titles = translations(
@@ -185,7 +194,8 @@ val step2Titles = translations(
     sm = "Midar sen $APP_NAME",
     pu = "Mudar sün $APP_NAME",
     va = "Mudar sün $APP_NAME",
-    it = "Passa a $APP_NAME"
+    it = "Passa a $APP_NAME",
+    en = "Switch to $APP_NAME"
 )
 
 val step2Instructions = translations(
@@ -195,7 +205,8 @@ val step2Instructions = translations(
     sm = "Tscherna scu proxim \"$APP_NAME\" scu metoda d'endataziun activa.",
     pu = "Tscherna scu prossem \"$APP_NAME\" scu tia metoda d'endataziun activa.",
     va = "Tscherna sco prossem \"$APP_NAME\" sco tia metoda d'endataziun activa.",
-    it = "Attiva \"$APP_NAME\" come metodo di immissione di testo."
+    it = "Attiva \"$APP_NAME\" come metodo di immissione di testo.",
+    en  = "Next, select \"$APP_NAME\" as your active text-input method."
 )
 
 val step2Actions = translations(
@@ -205,7 +216,8 @@ val step2Actions = translations(
     sm = "Midar las metodas d'endataziùn",
     pu = "Müder las metodas d'endataziun",
     va = "Müdar las metodas d'endataziun",
-    it = "Cambia metodo di immissione"
+    it = "Cambia metodo di immissione",
+    en = "Switch input methods"
 )
 
 val step3Titles = translations(
@@ -215,7 +227,8 @@ val step3Titles = translations(
     sm = "Tscherner las linguas principalas per $APP_NAME",
     pu = "Tscherner linguas principelas per $APP_NAME",
     va = "Tscherner linguas principalas per $APP_NAME",
-    it = "Scegli le lingue principali per $APP_NAME"
+    it = "Scegli le lingue principali per $APP_NAME",
+    en = "Choose activated languages for $APP_NAME"
 )
 
 val step3Instructions = translations(
@@ -225,7 +238,8 @@ val step3Instructions = translations(
     sm = "Activescha igls ties lungatgs principals per la tastatura (pon neir midos pi tard).",
     pu = "Activescha tias linguas principelas per la tastatura (po gnir müda pü tard).",
     va = "Activescha tias linguas principalas per la tastatura (po gnir müdà plü tard).",
-    it = "Attiva le lingue principali della tastiera (puoi modificarle in seguito)."
+    it = "Attiva le lingue principali della tastiera (puoi modificarle in seguito).",
+    en = "Enable your main languages for the keyboard (can be modified later)."
 )
 
 val step3Actions = translations(
@@ -235,7 +249,8 @@ val step3Actions = translations(
     sm = "Activar mes lungatgs",
     pu = "Activer mias linguas",
     va = "Activar mias linguas",
-    it = "Attiva le mie lingue"
+    it = "Attiva le mie lingue",
+    en = "Enable my languages"
 )
 
 val step4Titles = translations(
@@ -245,7 +260,8 @@ val step4Titles = translations(
     sm = "Bung da saveir...",
     pu = "Bun da savair...",
     va = "Bun da savair...",
-    it = "Progetto open source"
+    it = "Buono a sapersi...",
+    en = "Good to know..."
 )
 
 val step4Tips = translations(
@@ -255,7 +271,8 @@ val step4Tips = translations(
     sm = "Cunsegl: ",
     pu = "Cussagl: ",
     va = "cussagl: ",
-    it = "Consiglio: "
+    it = "Consiglio: ",
+    en = "Hint: "
 )
 
 val step4Thanks = translations(
@@ -265,7 +282,8 @@ val step4Thanks = translations(
     sm = "Graztga fitg: ",
     pu = "Grazcha fich: ",
     va = "Grazcha fich: ",
-    it = "Grazie: "
+    it = "Grazie: ",
+    en = "Thanks a lot: "
 )
 
 val step4Texts1 = translations(
@@ -275,7 +293,8 @@ val step4Texts1 = translations(
     sm = "Durant tippar en pos te midar tranter igls lungatgs cun ageid da la tasta d'elecziun da lungatg (vurdar maletg). Uscheia survignst te adegna propostas da pleds e correcturas aint igl lungatg giavischia. Vot daple tgi treis propostas, alloura strocla dei sen la proposta damez.",
     pu = "Düraunt il tippar aint poust Tü müder traunter las linguas cun agüd da la tasta da tscherna da la lingua (guarda purtret). Uschè survainst Tü adüna propostas da pleds e da correcturas illa lingua giavüscheda. Vessast gugent dapü cu trais propostas, schi schmacha lönch sülla proposta immez.",
     va = "Dürant il tippar aint poust tü müdar tanter las linguas cun agüd da la tasta da tscherna da la lingua (guarda purtret). Uschè survainst Tü adüna propostas da pleds e da correctura illa lingua giavüschada. voust daplü co trais propostas lura schmacha lönch sülla proposta immez.",
-    it = "Durante la digitazione, puoi passare da una lingua all'altra utilizzando il tasto di selezione della lingua (vedi immagine). In questo modo riceverai sempre suggerimenti di parole e correzioni nella lingua desiderata. Se desideri più di tre suggerimenti, premi a lungo sul suggerimento centrale."
+    it = "Durante la digitazione, puoi passare da una lingua all'altra utilizzando il tasto di selezione della lingua (vedi immagine). In questo modo riceverai sempre suggerimenti di parole e correzioni nella lingua desiderata. Se desideri più di tre suggerimenti, premi a lungo sul suggerimento centrale.",
+    en = "While typing, you can switch between languages using the language selection button (see image). This ensures that you always receive word and correction suggestions in the language of your choice. If you want more than three suggestions, press and hold the middle suggestion."
 )
 
 val step4Texts2 = translations(
@@ -285,7 +304,8 @@ val step4Texts2 = translations(
     sm = "En grond angraztg a tot igls gidanters voluntaris digl project HeliBoard - la tastatura libra tgi garantescha cumplettamaintg la tia sfera privata (per ClaviRom è nia mido pi pac tgi 1% digls codes...). Projects open source pussibiliteschan a pitschnas cuminanzas da furmar sezzas la midada digitala a moda defineida. Grazia fitg a la Lia Rumantscha e far.ch per las datas linguisticas, l'agid e surtut per l'interess.",
     pu = "Ün grazcha fich a tuot ils agüdaunts voluntaris dal proget HeliBoard - la tastatura libra chi garantescha cumplettamaing tia sfera privata (per ClaviRom es gnieu müdo damain cu 1% dals codes...). Progets d'open source pussibilteschan a pitschnas cumünaunzas da concepir svess la müdeda digitela da maniera definida. Grazcha fich a la Lia Rumantscha ed a far.ch per las datas linguisticas, l'agüd ed impustüt per l'interess",
     va = "Ün grazcha fich a tuot ils agüdants voluntaris dal proget HeliBoard - la tastatura libra chi garantischa cumplettamaing Tia sfera privata (per ClaviRom es gnü müdà damain co 1% dals codes...). Progets open source pussibilteschan a cumünanzas pitschnas da fuormar svess la müdada digitala in möd decis. Grazcha fich a la Lia Rumantscha ed a far.ch per las datas da lingua, l'agüd ed impustüt per l'interess.",
-    it = "Un enorme ringraziamento a tutti i volontari del progetto HeliBoard - la tastiera libera che garantisce completamente la tua privacy (per ClaviRom è stato modificato meno dell'1% del codice...). I progetti open source consentono alle piccole comunità di plasmare la trasformazione digitale in modo autodeterminato. Grazie mille alla Lia Rumantscha e a far.ch per i dati linguistici, l'aiuto e soprattutto per l'interesse."
+    it = "Un enorme ringraziamento a tutti i volontari del progetto HeliBoard - la tastiera libera che garantisce completamente la tua privacy (per ClaviRom è stato modificato meno dell'1% del codice...). I progetti open source consentono alle piccole comunità di plasmare la trasformazione digitale in modo autodeterminato. Grazie mille alla Lia Rumantscha e a far.ch per i dati linguistici, l'aiuto e soprattutto per l'interesse.",
+    en = "A huge thank you to all the volunteers working on the HeliBoard project—the open-source keyboard that fully guarantees your privacy (less than 1% of the code was modified for ClaviRom...). Open-source projects enable small communities to shape the digital transformation on their own. Many thanks to Lia Rumantscha and far.ch for the language data, the help and for their interest."
 )
 
 val step4Continues = translations(
@@ -295,7 +315,8 @@ val step4Continues = translations(
     sm = "Anavant",
     pu = "Inavaunt",
     va = "Inavant",
-    it = "Avanti"
+    it = "Avanti",
+    en = "Next"
 )
 
 val step5Titles = translations(
@@ -305,7 +326,8 @@ val step5Titles = translations(
     sm = "Gratulaziun, ast fitto!",
     pu = "Gratulaziun, hest glivro!",
     va = "Gratulaziun, hast fini!",
-    it = "Congratulazioni, hai finito!"
+    it = "Congratulazioni, hai finito!",
+    en = "Congrats, you're ready!"
 )
 
 val step5Instructions = translations(
@@ -315,7 +337,8 @@ val step5Instructions = translations(
     sm = "Ossa post ti tippar en tut las apps cun $APP_NAME.",
     pu = "Uossa poust tü tipper in tuot las apps cun $APP_NAME.",
     va = "Uossa poust tü tippar in tuot las apps cun $APP_NAME.",
-    it = "Puoi usare $APP_NAME per digitare in qualsiasi app."
+    it = "Puoi usare $APP_NAME per digitare in qualsiasi app.",
+    en = "Now, you can write in all Apps using $APP_NAME "
 )
 
 val step5SupportTitles = translations(
@@ -325,7 +348,8 @@ val step5SupportTitles = translations(
     sm = "Ageid cattas te cò:",
     pu = "Agüd chattast tü cò:",
     va = "Agüd chattast tü quia:",
-    it = "Supporto:"
+    it = "Supporto:",
+    en = "Support:"
 )
 
 val step5SupportItems1 = translations(
@@ -335,7 +359,8 @@ val step5SupportItems1 = translations(
     sm = "Wiki da HeliBoard",
     pu = "Wiki da HeliBoard",
     va = "Wiki da HeliBoard",
-    it = "Wiki del progetto HeliBoard"
+    it = "Wiki del progetto HeliBoard",
+    en = "HeliBoard's wiki"
 )
 
 val step5SupportItems2 = translations(
@@ -345,7 +370,8 @@ val step5SupportItems2 = translations(
     sm = "Forum da ClaviRom",
     pu = "Forum da ClaviRom",
     va = "Forum da ClaviRom",
-    it = "Forum del progetto laviRom"
+    it = "Forum del progetto ClaviRom",
+    en = "ClaviRom's forum"
 )
 
 val step5SupportItems3 = translations(
@@ -355,7 +381,8 @@ val step5SupportItems3 = translations(
     sm = "Chels links cattas te pi tard er lò, noua tgi te ast cargea giu l'app.",
     pu = "Quists links chattast tü pü tard eir lo, inua cha Tü hest telechargio l'app.",
     va = "Quels links chattast tü plü tard eir là, ingio cha Tü hast telechargià l'app.",
-    it = "Troverai questi link anche dove hai scaricato l'app."
+    it = "Troverai questi link anche dove hai scaricato l'app.",
+    en = "All links are listed as well, where you've downloaded the app."
 )
 
 val step5Actions = translations(
@@ -365,7 +392,8 @@ val step5Actions = translations(
     sm = "Andrizzar dapli detagls?",
     pu = "Drizzer aint dapü detagls?",
     va = "Drizzar aint dapü detagls?",
-    it = "Configurare più dettagli"
+    it = "Configurare più dettagli?",
+    en = "Configure even more?"
 )
 
 val finishActions = translations(
@@ -375,7 +403,8 @@ val finishActions = translations(
     sm = "U duvrar ossa simplamaintg?",
     pu = "U druver uossa simplamaing?",
     va = "O dovrar uossa simplamaing?",
-    it = "Tutto pronto!"
+    it = "Tutto pronto!",
+    en = "Or just use it now?"
 )
 
 val discussionsTitles = translations(
@@ -385,7 +414,8 @@ val discussionsTitles = translations(
     sm = "Dumondas, propostas u commentars?",
     pu = "Dumandas, propostas u commentars?",
     va = "Dumondas, propostas o commentars?",
-    it = "Domande, proposte o commenti?"
+    it = "Domande, proposte o commenti?",
+    en = "Questions, proposals or comments?"
 )
 
 val discussionsDescs = translations(
@@ -395,10 +425,11 @@ val discussionsDescs = translations(
     sm = "Ta participescha agl svilup da ClaviRom",
     pu = "Participescha't al svilup da ClaviRom",
     va = "At partecipescha al svilup da ClaviRom",
-    it = "Partecipa allo sviluppo di ClaviRom"
+    it = "Partecipa allo sviluppo di ClaviRom",
+    en = "Contribute to ClaviRom"
 )
 
-val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA", "it-CH").associateWith { locale ->
+val WIZARD_TRANSLATIONS: Map<String, WizardStrings> = listOf("de-CH", "rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA", "it-CH", "en").associateWith { locale ->
     WizardStrings(
         welcomeTitle = welcomeTitles[locale]!!,
         welcomeSubtitle = welcomeSubtitles[locale]!!,
