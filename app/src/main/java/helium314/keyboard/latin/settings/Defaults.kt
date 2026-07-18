@@ -23,7 +23,7 @@ object Defaults {
         val px600 = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 600f, dm)
         PREF_POPUP_ON = dm.widthPixels >= px600 || dm.heightPixels >= px600
     }
-F
+
     // must correspond to a file name
     val LayoutType.default get() = when (this) {
         LayoutType.MAIN -> "qwerty"
