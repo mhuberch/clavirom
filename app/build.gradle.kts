@@ -14,7 +14,7 @@ android {
         applicationId = "clavirom.keyboard"
         minSdk = 21
         targetSdk = 35
-        versionCode = 3802
+        versionCode = 3803
         versionName = "3.8"
         ndk {
             abiFilters.clear()

@@ -1,0 +1,3 @@
+## ClaviRom
+* improved layout of Puter and Vallader
+* added English to Welcome Wizard
