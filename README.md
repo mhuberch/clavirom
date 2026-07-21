@@ -2,7 +2,7 @@
 
 A fork of [HeliBoard](https://github.com/HeliBorg/HeliBoard). (Customizable and privacy-conscious open-source keyboard) with a flavor of Swiss minoritary languages
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">]([TBD](https://f-droid.org/packages/clavirom.keyboard/))
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/de/packages/clavirom.keyboard/)
 [<img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" alt="Get APK from GitHub" height="80">](https://github.com/mhuberch/clavirom/releases/latest)
 
 Heliboard offers a fully featured keyboard with 
