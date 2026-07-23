@@ -212,9 +212,9 @@
     <string name="subtype_generic_sebeolsik_390">%s (Sebeolsik 390)</string>
     <string name="subtype_generic_extended">%s（扩展）</string>
     <string name="dictionary_settings_category">字典</string>
-    <string name="replace_dictionary_message">是否确定要替换用户添加的字典“%1$s”？\n\n当前字典：\n%2$s\n\n新字典：\n%3$s</string>
+    <string name="replace_dictionary_message">确定要替换用户添加的字典“%1$s”？\n\n当前字典：\n%2$s\n\n新字典：\n%3$s</string>
     <string name="replace_dictionary">替换字典</string>
-    <string name="remove_dictionary_message">是否确定要移除用户添加的字典“%s”？</string>
+    <string name="remove_dictionary_message">确定要移除用户添加的字典“%s”？</string>
     <string name="add_dictionary">选择要添加的字典。可以下载 .dict 格式的字典 %s。</string>
     <string name="theme_name_holo_white" tools:keep="@string/theme_name_holo_white">全息白</string>
     <string name="theme_name_dark" tools:keep="@string/theme_name_dark">深色</string>
@@ -265,7 +265,7 @@
     <string name="toolbar_keys">选择工具栏键</string>
     <string name="clipboard" tools:keep="@string/clipboard">剪贴板</string>
     <string name="clear_clipboard" tools:keep="@string/clear_clipboard">清除剪贴板</string>
-    <string name="prefs_narrow_key_gaps">缩小键间隔</string>
+    <string name="prefs_narrow_key_gaps">缩小按键间距</string>
     <string name="load">加载</string>
     <string name="button_load_custom">加载文件</string>
     <string name="setup_step3_action">配置键盘</string>
@@ -323,7 +323,7 @@
     <string name="layout_numpad_landscape" tools:keep="@string/layout_numpad_landscape">数字键盘（横屏）</string>
     <string name="gesture_floating_preview_dynamic_summary">在滑行输入过程中移动预览</string>
     <string name="gesture_fast_typing_cooldown">快速输入冷却</string>
-    <string name="checksum_mismatch_message">未知库文件。是否确定是从可信来源获得并且是“%s”的？</string>
+    <string name="checksum_mismatch_message">未知库文件。您确定是从可信来源获得并且是“%s”的？</string>
     <string name="text_tap_languages">点按语言以打开设置</string>
     <string name="hidden_features_title">隐藏功能的描述</string>
     <string name="auto_show_toolbar">自动显示工具栏</string>
@@ -357,8 +357,8 @@
     <string name="label_language_switch_key" tools:keep="@string/label_language_switch_key">语言切换</string>
     <string name="label_zwj_key" tools:keep="@string/label_zwj_key">零宽连字</string>
     <string name="label_zwnj_key" tools:keep="@string/label_zwnj_key">零宽不连字</string>
-    <string name="customize_toolbar_key_codes">自定义工具栏按键代码</string>
-    <string name="key_code">按键代码</string>
+    <string name="customize_toolbar_key_codes">自定义工具栏键码</string>
+    <string name="key_code">键码</string>
     <string name="long_press_code">长按代码</string>
     <string name="customize_icons">自定义图标</string>
     <string name="label_shift_key" tools:keep="@string/label_shift_key">Shift</string>
@@ -366,7 +366,7 @@
     <string name="label_tab_key" tools:keep="@string/label_tab_key">Tab</string>
     <string name="label_space_key_for_number_layout" tools:keep="@string/label_space_key_for_number_layout">Space（数字布局）</string>
     <string name="label_bin" tools:keep="@string/label_bin">删除</string>
-    <string name="customize_icons_reset_message">确定重置所有自定义图标？</string>
+    <string name="customize_icons_reset_message">确定要重置所有自定义图标？</string>
     <string name="vibrate_in_dnd_mode">在勿扰模式时振动</string>
     <string name="subtype_generic_phonetic">%s（注音）</string>
     <string name="prefs_key_emoji_max_sdk">覆盖表情符号版本</string>
@@ -374,7 +374,7 @@
     <string name="auto_correct_shortcuts">自动更正快捷方式</string>
     <string name="custom_font">从文件设置自定义字体</string>
     <string name="summary_customize_background_image_landscape">如果未设置，将使用纵向图片</string>
-    <string name="customize_toolbar_key_code_reset_message">确定清除所有自定义按键代码？</string>
+    <string name="customize_toolbar_key_code_reset_message">确定要清除所有自定义键码？</string>
     <string name="auto_correct_shortcuts_summary">启用后，快捷方式可能会通过自动更正扩展</string>
     <string name="customize_background_image_landscape">设置背景图片（横屏）</string>
     <string name="prefs_font_scale">键盘字体比例</string>
@@ -383,8 +383,7 @@
     <string name="number_row_hints">在数字行显示提示</string>
     <string name="prefs_language_swipe_distance">切换语言滑动距离</string>
     <string name="split" tools:keep="@string/split">分离式键盘</string>
-    <string name="enable_split_keyboard_landscape">启用分离式键盘（横屏）</string>
-    <string name="delete_confirmation">确定删除 %s？</string>
+    <string name="delete_confirmation">确定要删除 %s？</string>
     <string name="settings_screen_secondary_layouts">次要布局</string>
     <string name="layout_functional_keys_tablet" tools:keep="@string/layout_functional_keys_tablet">功能键（大屏幕）</string>
     <string name="name_invalid">无效的名称</string>
@@ -478,13 +477,66 @@
     <string name="gesture_data_many_not_shared_words">您有超过 %s 个字词等待提交</string>
     <string name="ask_later">稍后询问</string>
     <string name="gesture_data_take_me_there">前往查看</string>
-    <string name="gesture_data_description">欢迎来到滑行输入数据收集界面！&lt;br/&gt;&lt;br/&gt; 这是由 &lt;a href=https://nlnet.nl/project/GestureTyping&gt;NLnet 基金会资助的一个项目&lt;/a&gt;，旨在开发一个完全开源的滑行输入库，以替代闭源的 Google 库。&lt;br/&gt; 最终目标是使其成为基于 AOSP 的键盘的简单替代品，同时也适用于其他键盘，例如 FlorisBoard。&lt;br/&gt;&lt;br/&gt; 为了更好地开发该库，我们需要收集不同语言、不同用户的详细滑行输入数据。&lt;br/&gt; 通过收集和提交滑行输入数据，您可以为用于库开发的开放滑行输入数据集做出贡献。该数据集将于 %s 在数据收集阶段结束后，以 CC BY-SA 4.0 许可协议发布。收集完数据后，您可以使用此屏幕底部的分享图标提交数据。</string>
-    <string name="gesture_data_description_modes">目前仅提供主动收集模式，会显示一个特定字词，您需要使用滑行输入该字词。\n后续会添加被动收集模式，您可从其他应用中提取日常滑行输入的样本数据。由于此模式涉及敏感信息，因此需要用户选择是否启用，并且可以进行配置，在提交数据前提供审阅界面。</string>
+    <string name="gesture_data_description">&lt;b&gt;欢迎来到滑行输入数据收集界面！&lt;/b&gt;&lt;br/&gt;&lt;br/&gt; 这是由 &lt;a href=https://nlnet.nl/project/GestureTyping&gt;NLnet 基金会资助的一个项目&lt;/a&gt;，旨在开发一个完全开源的滑行输入库，以替代闭源的 Google 库。&lt;br/&gt; 最终目标是使其成为基于 AOSP 的键盘的简单替代品，同时也适用于其他键盘，例如 FlorisBoard。&lt;br/&gt;&lt;br/&gt; 为了更好地开发该库，我们需要收集不同语言、不同用户的详细滑行输入数据。&lt;br/&gt; 通过收集和提交滑行输入数据，您可以为用于库开发的开放滑行输入数据集做出贡献。该数据集将于 %s 在数据收集阶段结束后，以 CC BY-SA 4.0 许可协议发布。收集完数据后，您可以使用此屏幕底部的分享图标提交数据。</string>
+    <string name="gesture_data_description_modes">参与贡献的“安全”方式是使用&lt;i&gt;主动收集&lt;/i&gt;模式，在该模式下会显示一个特定字词，您需要使用滑行输入该字词。&lt;br&gt; 您也可以使用&lt;i&gt;后台收集&lt;/i&gt;模式，在该模式下您可以提供在其他应用中进行常规滑行输入的样本数据。由于此模式涉及敏感信息，因此需要用户选择是否启用，并且可以进行配置，在提交数据前提供审阅界面。</string>
     <string name="gesture_data_description_privacy">隐私\n\n您提交的数据包括目标字词、键盘布局和尺寸、滑行输入（次数和坐标）、当前库的建议、所用字典的哈希值、应用版本、数据收集模式、滑行输入库是否为默认的 Google 库，以及每个滑行输入对应的 ID。\n提交的数据将被下载并从 ProtonMail 邮箱中尽快删除。滑行输入数据收集阶段结束后，所有用户汇总的数据集将根据知识共享署名-相同方式共享 4.0 国际许可协议发布。\n\n为了保护您的隐私，您不会被明确列为作者。您的贡献将统一记作“HeliBoard 滑行输入数据项目贡献者”。您在此界面生成的数据原则上无法与您的身份关联。但是，我们或许可以确定哪些滑行输入是由同一人完成的。例如，可以通过自定义键盘布局、键盘尺寸、语言或个人滑行输入风格来判断。</string>
-    <string name="gesture_data_active_description">点按“开始主动收集”，可选择切换字典，然后开始滑行输入显示的字词。&lt;br/&gt; 如果您的滑行输入与字词匹配，数据将被保存并显示下一个字词。否则，您可以重试、跳过该字词或确认您的滑行输入正确。&lt;br/&gt; 您只能使用应用内置或&lt;a href=%s&gt;字典仓库&lt;/a&gt;中的字典，不会使用其他字词。</string>
+    <string name="gesture_data_active_description">点按&lt;i&gt;开始主动收集&lt;/i&gt;，可选择切换字典，然后开始滑行输入显示的字词。&lt;br/&gt; 如果您的滑行输入与字词匹配，数据将被保存并显示下一个字词。否则，您可以重试、跳过该字词或确认您的滑行输入正确。&lt;br/&gt; 您只能使用应用内置或&lt;a href=%s&gt;字典仓库&lt;/a&gt;中的字典，不会使用其他字词。</string>
     <string name="gesture_data_email_body">重要提示：\n\n 您好！\n 温馨提醒，您的数据将根据 CC BY-SA 4.0 许可协议公开分享，为保护您的隐私，您不会被列为作者。\n\n 感谢您与我们共享数据使用权，我们会妥善利用这些数据！\n\n 请注意，更改此提示的措辞不会改变我们对您数据的处理方式。本提示并非可修改的合同，仅为友好提醒！\n 如果您想随提交的数据一并给我们留言，请在下方横线处填写。\n ---------------------------------------------</string>
     <string name="gesture_data_promotion_message">您好！\n 既然您已经安装了滑行输入库，您或许会对 HeliBoard 的完全开源滑行输入库项目感兴趣。您可以贡献滑行输入数据来提供帮助。如需了解详情，请访问滑行输入数据收集界面。</string>
-    <string name="gesture_data_reminder_message">您好！\n 您之前使用过滑行输入数据收集功能，但已经很久没有添加数据了。是否要再次贡献数据？</string>
+    <string name="gesture_data_reminder_message">您好！\n 您之前使用过滑行输入数据收集功能，但已经很久没有添加数据了。要再次贡献数据吗？</string>
     <string name="timestamp_description">您可以使用自定义布局添加时间戳键，使用“timestamp”键或键码 -10043</string>
     <string name="prefs_bottom_row_scale">底行比例</string>
+    <string name="gesture_data_links">关于主动收集的信息：</string>
+    <string name="toolbar_swipe_down_to_hide">滑动隐藏键盘</string>
+    <string name="toolbar_swipe_down_to_hide_summary">在工具栏上向下滑动即可关闭键盘</string>
+    <string name="gesture_data_please_switch_keyboard">请切换到 %s</string>
+    <string name="gesture_data_share_limit">为避免超出大小限制，仅导出前 %s 个字词</string>
+    <string name="folded">折叠</string>
+    <string name="custom_punctuation_suggestions">设置标点建议</string>
+    <string name="space_swipe_touchpad_mode_entry">触控板模式</string>
+    <string name="touchpad_sensitivity">触控板灵敏度</string>
+    <string name="touchpad_edge_scroll">触控板边缘滚动</string>
+    <string name="touchpad_edge_scroll_description">滑动到键盘边缘时自动滚动</string>
+    <string name="spell_check_suggestions">显示拼写检查建议</string>
+    <string name="spell_check_suggestions_summary">选择带红色下划线的字词时显示建议。需要将应用设置为默认拼写检查器。</string>
+    <string name="prefs_key_gap_scale">按键间距比例</string>
+    <string name="toolbar_only_with_hw_keyboard">使用实体键盘时仅显示工具栏</string>
+    <string name="toolbar_only_with_hw_keyboard_summary">您仍然需要在系统设置中启用显示虚拟键盘</string>
+    <string name="floating" tools:keep="@string/floating">浮动键盘</string>
+    <string name="clipboard_history_files">将图片和其他文件添加到剪贴板历史记录</string>
+    <string name="clipboard_history_max_file_size">剪贴板大小限制</string>
+    <string name="item_description">描述：%s</string>
+    <string name="item_type">类型：%s</string>
+    <string name="abbreviation_unit_mb">%s MB</string>
+    <string name="subtype_generic_4row">%s（4 行）</string>
+    <string name="gesture_data_share_duplicate">如果您不确定数据是否已正确接收，可以再次分享已提交的数据。我们在处理数据时会检测并移除重复项。</string>
+    <string name="gesture_data_active">主动收集</string>
+    <string name="background_gesture_data_links">关于后台收集的信息：</string>
+    <string name="gesture_data_background_gathering_switch">使用后台数据收集</string>
+    <string name="gesture_data_background_gathering_allowed_apps">允许的应用：%s</string>
+    <string name="gesture_data_background_gathering_manual_save">默认舍弃</string>
+    <string name="gesture_data_background_gathering_manual_save_summary">数据通过工具栏键手动保存</string>
+    <string name="gesture_data_background_gathering_info">更多信息</string>
+    <string name="gesture_data_background_gathering_indicator">数据收集指示器</string>
+    <string name="gesture_data_background_gathering_control">如何控制保存的内容</string>
+    <string name="gesture_data_background_apps_button">管理允许的应用</string>
+    <string name="gesture_data_background_apps">选择要包含在后台数据收集中的应用</string>
+    <string name="gesture_data_background_apps_include_default">默认包含应用</string>
+    <string name="gesture_data_background_excluded_words_button">管理排除字词</string>
+    <string name="gesture_data_background_dictionary">字典：%s</string>
+    <string name="gesture_data_background_position">位置：%s</string>
+    <string name="gesture_data_background_exclude_words">从后台数据收集中排除字词</string>
+    <string name="gesture_data_long_press_select_hint">长按即可选择</string>
+    <string name="background_gathering" tools:keep="@string/background_gathering">后台数据收集</string>
+    <string name="gesture_data_show_active">显示主动收集的数据</string>
+    <string name="gesture_data_show_background">显示后台数据</string>
+    <string name="gesture_data_include_shared">包含已提交的数据</string>
+    <string name="gesture_data_shared">已提交</string>
+    <string name="gesture_data_saving">正在保存… %s%%</string>
+    <string name="gesture_data_add_key">添加工具栏键</string>
+    <string name="auto_correct_capitalized_suggestions">自动更正大写建议</string>
+    <string name="auto_correct_capitalized_suggestions_description">按 Shift 键启用大写建议后，自动更正将触发</string>
+    <string name="prefs_hint_font_scale">按键提示字体比例</string>
+    <string name="about_community_links">社区链接</string>
+    <string name="about_community_links_description">主题、布局编辑器、讨论…</string>
 </resources>

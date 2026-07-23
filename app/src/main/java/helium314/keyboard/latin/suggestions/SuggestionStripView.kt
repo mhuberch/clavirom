@@ -27,8 +27,8 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
-import helium314.keyboard.compat.isDeviceLocked
 import helium314.keyboard.event.HapticEvent
 import helium314.keyboard.keyboard.KeyboardSwitcher
 import helium314.keyboard.keyboard.internal.KeyboardIconsSet
@@ -60,8 +60,14 @@ import helium314.keyboard.latin.utils.removeFirst
 import helium314.keyboard.latin.utils.removePinnedKey
 import helium314.keyboard.latin.utils.setToolbarButtonsActivatedStateOnPrefChange
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.math.abs
 import kotlin.math.min
 import androidx.core.view.isGone
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @SuppressLint("InflateParams")
 class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int) :
@@ -75,6 +81,7 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         fun onCodeInput(primaryCode: Int, x: Int, y: Int, isKeyRepeat: Boolean)
         fun removeSuggestion(word: String?)
         fun removeExternalSuggestions()
+        fun onSwipeDownOnToolbar()
     }
 
     private val moreSuggestionsContainer: View
@@ -89,14 +96,11 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
 
         val colors = Settings.getValues().mColors
         colors.setBackground(this, ColorType.STRIP_BACKGROUND)
-        val customTypeface = Settings.getInstance().customTypeface
         repeat(SuggestedWords.MAX_SUGGESTIONS) {
             val word = TextView(context, null, R.attr.suggestionWordStyle)
             word.contentDescription = resources.getString(R.string.spoken_empty_suggestion)
             word.setOnClickListener(this)
             word.setOnLongClickListener(this)
-            if (customTypeface != null)
-                word.typeface = customTypeface
             colors.setBackground(word, ColorType.STRIP_BACKGROUND)
             wordViews.add(word)
             val divider = inflater.inflate(R.layout.suggestion_divider, null)
@@ -151,25 +155,26 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
             setToolbarVisibility(true)
         }
 
-        // toolbar keys setup
-        if (mToolbarMode == ToolbarMode.TOOLBAR_KEYS || mToolbarMode == ToolbarMode.EXPANDABLE) {
-            for (key in getEnabledToolbarKeys(context.prefs())) {
-                val button = createToolbarKey(context, key)
-                button.layoutParams = toolbarKeyLayoutParams
-                setupKey(button, colors)
-                toolbar.addView(button)
-            }
+        // toolbar keys setup (no need to hide them any more when locked, because then suggestion strip is gone anyway
+        for (key in getEnabledToolbarKeys(context.prefs())) {
+            val button = createToolbarKey(context, key)
+            button.layoutParams = toolbarKeyLayoutParams
+            setupKey(button, colors)
+            toolbar.addView(button)
         }
-        if (!isGone && !Settings.getValues().mSuggestionStripHiddenPerUserSettings) {
-            for (pinnedKey in getPinnedToolbarKeys(context.prefs())) {
-                val button = createToolbarKey(context, pinnedKey)
-                button.layoutParams = toolbarKeyLayoutParams
-                setupKey(button, colors)
-                pinnedKeys.addView(button)
-                val pinnedKeyInToolbar = toolbar.findViewWithTag<View>(pinnedKey)
-                if (pinnedKeyInToolbar != null && Settings.getValues().mQuickPinToolbarKeys)
-                    pinnedKeyInToolbar.background = enabledToolKeyBackground
-            }
+        for (pinnedKey in getPinnedToolbarKeys(context.prefs())) {
+            val button = createToolbarKey(context, pinnedKey)
+            button.layoutParams = toolbarKeyLayoutParams
+            setupKey(button, colors)
+            pinnedKeys.addView(button)
+            val pinnedKeyInToolbar = toolbar.findViewWithTag<View>(pinnedKey)
+            if (pinnedKeyInToolbar != null && Settings.getValues().mQuickPinToolbarKeys)
+                pinnedKeyInToolbar.background = enabledToolKeyBackground
+        }
+        toolbarContainer.doOnNextLayout {
+            // set min with of the toolbar so the weight of the toolbar keys actually does something
+            // todo: results in requestLayout() improperly called by android.widget.LinearLayout during layout: running second layout pass
+            toolbar.minimumWidth = toolbarContainer.width
         }
 
         updateKeys()
@@ -185,7 +190,14 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
             override fun onScroll(down: MotionEvent?, me: MotionEvent, deltaX: Float, deltaY: Float): Boolean {
                 if (down == null) return false
                 val dy = me.y - down.y
-                return if (toolbarContainer.visibility != VISIBLE && deltaY > 0 && dy < (-10).dpToPx(resources)) showMoreSuggestions()
+                val dx = me.x - down.x
+
+                if (Settings.getValues().mToolbarSwipeDownToHide && dy > 50.dpToPx(resources) && abs(dy) > abs(dx)) {
+                    listener.onSwipeDownOnToolbar()
+                    return true
+                }
+
+                return if (!isExternalSuggestionVisible && toolbarContainer.visibility != VISIBLE && deltaY > 0 && dy < (-10).dpToPx(resources)) showMoreSuggestions()
                 else false
             }
         }
@@ -217,11 +229,9 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
     }
 
     fun setToolbarVisibility(toolbarVisible: Boolean) {
-        // avoid showing toolbar keys when locked
-        val locked = isDeviceLocked(context)
-        pinnedKeys.isVisible = !locked && !toolbarVisible
-        suggestionsStrip.isVisible = locked || !toolbarVisible
-        toolbarContainer.isVisible = !locked && toolbarVisible
+        pinnedKeys.isVisible = !toolbarVisible
+        suggestionsStrip.isVisible = !toolbarVisible
+        toolbarContainer.isVisible = toolbarVisible
 
         if (DEBUG_SUGGESTIONS) {
             for (view in debugInfoViews) {
@@ -229,7 +239,7 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
             }
         }
 
-        toolbarExpandKey.scaleX = (if (toolbarVisible && !locked) -1f else 1f) * direction
+        toolbarExpandKey.scaleX = (if (toolbarVisible) -1f else 1f) * direction
     }
 
     fun setSuggestions(suggestions: SuggestedWords, isRtlLanguage: Boolean) {
@@ -249,7 +259,9 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
 
         if (addCloseButton) {
             val wrapper = LinearLayout(context)
-            wrapper.layoutParams = LinearLayout.LayoutParams(suggestionsStrip.width - 30.dpToPx(resources), LayoutParams.MATCH_PARENT)
+            suggestionsStrip.doOnNextLayout {
+                wrapper.layoutParams = LinearLayout.LayoutParams(suggestionsStrip.width - 30.dpToPx(resources), LayoutParams.MATCH_PARENT)
+            }
             wrapper.addView(view)
             suggestionsStrip.addView(wrapper)
 
@@ -280,11 +292,13 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
         setToolbarButtonsActivatedStateOnPrefChange(pinnedKeys, key)
         setToolbarButtonsActivatedStateOnPrefChange(toolbar, key)
+        if (key == Settings.PREF_ALWAYS_INCOGNITO_MODE)
+            GlobalScope.launch { delay(10); withContext(Dispatchers.Main) { updateKeys() } }
     }
 
     override fun onVisibilityChanged(view: View, visibility: Int) {
         super.onVisibilityChanged(view, visibility)
-        // workaround for a bug with inline suggestions views that just keep showing up otherwise, https://github.com/Helium314/HeliBoard/pull/386
+        // workaround for a bug with inline suggestions views that just keep showing up otherwise, https://github.com/HeliBorg/HeliBoard/pull/386
         if (view === this)
             suggestionsStrip.visibility = visibility
     }
@@ -305,10 +319,6 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
     }
 
     override fun onInterceptTouchEvent(motionEvent: MotionEvent): Boolean {
-        // Disable More Suggestions if external suggestions are visible
-        if (isExternalSuggestionVisible) {
-            return false
-        }
         // Detecting sliding up finger to show MoreSuggestionsView.
         return moreSuggestionsView.shouldInterceptTouchEvent(motionEvent)
     }
@@ -327,7 +337,6 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
             if (code != KeyCode.UNSPECIFIED) {
                 Log.d(TAG, "click toolbar key $tag")
                 listener.onCodeInput(code, Constants.SUGGESTION_STRIP_COORDINATE, Constants.SUGGESTION_STRIP_COORDINATE, false)
-                if (tag === ToolbarKey.INCOGNITO) updateKeys() // update expand key icon
                 return
             }
         }
@@ -386,7 +395,8 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         var showIcon = true
         if (wordView.tag is Int) {
             val index = wordView.tag as Int
-            if (index < suggestedWords.size() && suggestedWords.getInfo(index).mSourceDict == Dictionary.DICTIONARY_USER_TYPED)
+            val type = suggestedWords.getInfo(index).mSourceDict
+            if (type == Dictionary.DICTIONARY_USER_TYPED || type == Dictionary.DICTIONARY_HARDCODED)
                 showIcon = false
         }
         if (showIcon) {
@@ -516,10 +526,8 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
             toolbarExpandKey.isVisible = toolbarIsExpandable
         }
 
-        // hide pinned keys if device is locked, and avoid expanding toolbar
-        val hideToolbarKeys = isDeviceLocked(context)
-        toolbarExpandKey.setOnClickListener(if (hideToolbarKeys || !toolbarIsExpandable) null else this)
-        pinnedKeys.visibility = if (hideToolbarKeys) GONE else suggestionsStrip.visibility
+        toolbarExpandKey.setOnClickListener(if (!toolbarIsExpandable) null else this)
+        pinnedKeys.visibility = suggestionsStrip.visibility
         isExternalSuggestionVisible = false
     }
 
@@ -542,6 +550,7 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
     private fun setupKey(view: ImageButton, colors: Colors) {
         view.setOnClickListener(this)
         view.setOnLongClickListener(this)
+        (view.layoutParams as LinearLayout.LayoutParams).weight = 1f
         colors.setColor(view, ColorType.TOOL_BAR_KEY)
         colors.setBackground(view, ColorType.STRIP_BACKGROUND)
     }

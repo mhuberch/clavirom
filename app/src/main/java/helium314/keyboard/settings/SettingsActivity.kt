@@ -30,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import helium314.keyboard.compat.locale
 import helium314.keyboard.keyboard.KeyboardSwitcher
+import helium314.keyboard.keyboard.internal.KeyboardIconsSet
 import helium314.keyboard.latin.BuildConfig
 import helium314.keyboard.latin.InputAttributes
 import helium314.keyboard.latin.R
@@ -39,8 +40,8 @@ import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.latin.utils.BackButton
 import helium314.keyboard.latin.utils.DeviceProtectedUtils
 import helium314.keyboard.latin.utils.ExecutorUtils
+import helium314.keyboard.latin.utils.GestureDataGatheringSettings
 import helium314.keyboard.latin.utils.JniUtils
-import helium314.keyboard.latin.utils.GestureDataPromotionReminderDialog
 import helium314.keyboard.latin.utils.Theme
 import helium314.keyboard.latin.utils.UncachedInputMethodManagerUtils
 import helium314.keyboard.latin.utils.cleanUnusedMainDicts
@@ -81,6 +82,8 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
         ExecutorUtils.getBackgroundExecutor(ExecutorUtils.KEYBOARD).execute { cleanUnusedMainDicts(this) }
         crashReportFiles.value = findCrashReports(!BuildConfig.DEBUG && !DebugFlags.DEBUG_ENABLED)
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        if (!UncachedInputMethodManagerUtils.isThisImeCurrent(this, imm))
+            KeyboardIconsSet.instance.loadIcons(this) // otherwise we may crash when displaying toolbar keys
 
         settingsContainer = SettingsContainer(this)
 
@@ -111,6 +114,7 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
                                 settingsContainer[Settings.PREF_USE_CONTACTS]!!.Preference()
                                 settingsContainer[Settings.PREF_USE_APPS]!!.Preference()
                                 settingsContainer[Settings.PREF_BLOCK_POTENTIALLY_OFFENSIVE]!!.Preference()
+                                settingsContainer[Settings.PREF_SPELLCHECK_SUGGEST]!!.Preference()
                             }
                         }
                     else {
@@ -141,7 +145,7 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
                                 content = { Text("Crash report files found") },
                             )
                         } else if (JniUtils.sHaveGestureLib && System.currentTimeMillis() < END_DATE_EPOCH_MILLIS + TWO_WEEKS_IN_MILLIS) {
-                            GestureDataPromotionReminderDialog()
+                            GestureDataGatheringSettings.GestureDataPromotionReminderDialog()
                         }
                     }
                     if (dictUri != null) {

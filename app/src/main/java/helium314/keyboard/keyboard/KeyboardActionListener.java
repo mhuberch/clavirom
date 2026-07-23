@@ -8,6 +8,8 @@ package helium314.keyboard.keyboard;
 
 import android.view.KeyEvent;
 
+import androidx.core.view.inputmethod.InputContentInfoCompat;
+
 import helium314.keyboard.event.HapticEvent;
 import helium314.keyboard.latin.common.Constants;
 import helium314.keyboard.latin.common.InputPointers;
@@ -67,6 +69,9 @@ public interface KeyboardActionListener {
      */
     void onTextInput(String text);
 
+    /** sends content (URI and description) */
+    void onContent(InputContentInfoCompat content);
+
     /**
      * Called when user started batch input.
      */
@@ -101,7 +106,7 @@ public interface KeyboardActionListener {
      * Send a non-"code input" custom request to the listener.
      * @return true if the request has been consumed, false otherwise.
      */
-    boolean onCustomRequest(int requestCode);
+    boolean onCustomRequest(CustomAction request);
 
     /**
      * Called when the user performs a horizontal or vertical swipe gesture
@@ -118,11 +123,8 @@ public interface KeyboardActionListener {
 
     KeyboardActionListener EMPTY_LISTENER = new Adapter();
 
-    int SWIPE_NO_ACTION = 0;
-    int SWIPE_MOVE_CURSOR = 1;
-    int SWIPE_SWITCH_LANGUAGE = 2;
-    int SWIPE_TOGGLE_NUMPAD = 3;
-    int SWIPE_HIDE_KEYBOARD = 4;
+    enum SwipeAction { NONE, MOVE_CURSOR, SWITCH_LANGUAGE, TOGGLE_NUMPAD, HIDE_KEYBOARD, TOUCHPAD_MODE }
+    enum CustomAction { SHOW_INPUT_METHOD_PICKER, TOUCHPAD_ON, TOUCHPAD_OFF, PERFORM_HAPTIC }
 
     class Adapter implements KeyboardActionListener {
         @Override
@@ -140,6 +142,8 @@ public interface KeyboardActionListener {
         @Override
         public void onTextInput(String text) {}
         @Override
+        public void onContent(InputContentInfoCompat content) {}
+        @Override
         public void onStartBatchInput() {}
         @Override
         public void onUpdateBatchInput(InputPointers batchPointers) {}
@@ -152,7 +156,7 @@ public interface KeyboardActionListener {
         @Override
         public void onFinishSlidingInput() {}
         @Override
-        public boolean onCustomRequest(int requestCode) {
+        public boolean onCustomRequest(CustomAction request) {
             return false;
         }
         @Override

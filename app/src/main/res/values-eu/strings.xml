@@ -374,7 +374,6 @@
     <string name="prefs_always_show_suggestions_except_web_text">Ez erakutsi beti iradokizunik web edizioko eremuetarako</string>
     <string name="settings_category_space">Zuriunea</string>
     <string name="use_apps_dict_summary">Erabili instalatutako aplikazioen izenak iradokizunak eta zuzenketak egiteko</string>
-    <string name="enable_split_keyboard_landscape">Gaitu teklatu banatua (horizontala)</string>
     <string name="vibrate_in_dnd_mode">Egin dar-dar ez molestatzeko moduan</string>
     <string name="prefs_always_show_suggestions_except_web_text_summary">Web ediziorako eremuak (batez ere nabigatzaileetan aurkitzen direnak) oso ohiko arrazoia dira iradokizunen konfigurazioa beti erakusten duten arazoetarako</string>
     <string name="auto_correct_shortcuts">Zuzenketa automatikorako lasterbideak</string>
@@ -451,4 +450,8 @@
     <string name="subtype_khipro_bn">%s (Khipro)</string>
     <string name="layout_emoji_bottom_row_with_action" tools:keep="@string/layout_emoji_bottom_row_with_action">Emojien beheko errenkada ekintza-teklarekin</string>
     <string name="layout_clip_bottom_row_with_action" tools:keep="@string/layout_clip_bottom_row_with_action">Arbelaren beheko errenkada ekintza-teklarekin</string>
+    <string name="prefs_bottom_row_scale">Beheko lerroaren eskala</string>
+    <string name="toolbar_swipe_down_to_hide">Ezkutatu teklatua irristatuz</string>
+    <string name="toolbar_swipe_down_to_hide_summary">Irristatu tresna barran behera teklatua ixteko</string>
+    <string name="auto_correct_capitalized_suggestions">Zuzendu automatikoki larriz idatzitako iradokizunak</string>
 </resources>

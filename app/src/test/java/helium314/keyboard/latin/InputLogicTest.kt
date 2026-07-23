@@ -52,7 +52,7 @@ import kotlin.test.assertEquals
     ShadowFacilitator2::class,
 ])
 class InputLogicTest {
-    private lateinit var latinIME: LatinIME
+    private val latinIME = Robolectric.setupService(LatinIME::class.java)
     private val settingsValues get() = Settings.getValues()
     private val inputLogic get() = latinIME.mInputLogic
     private val connection: RichInputConnection get() = inputLogic.mConnection
@@ -65,16 +65,12 @@ class InputLogicTest {
     private val composingReader = RichInputConnection::class.java.getDeclaredField("mComposingText").apply { isAccessible = true }
     private val connectionComposingText get() = (composingReader.get(connection) as CharSequence).toString()
 
-    @BeforeTest
-    fun setUp() {
-        latinIME = Robolectric.setupService(LatinIME::class.java)
-        // start logging only after latinIME is created, avoids showing the stack traces if library is not found
+    init {
         ShadowLog.setupLogging()
         ShadowLog.stream = System.out
     }
 
     @Test fun inputCode() {
-        reset()
         input('c')
         assertEquals("c", textBeforeCursor)
         assertEquals("c", getText())
@@ -85,15 +81,29 @@ class InputLogicTest {
     }
 
     @Test fun delete() {
-        reset()
         setText("hello there ")
         functionalKeyPress(KeyCode.DELETE)
         assertEquals("hello there", text)
         assertEquals("there", composingText)
     }
 
+    @Test fun deleteMultiCodepointText() {
+        setText("hello there \uD83E\uDF00")
+        functionalKeyPress(KeyCode.DELETE)
+        assertEquals("hello there ", text)
+    }
+
+    @Test fun deleteCombinedText() {
+        setText("hello there э́")
+        functionalKeyPress(KeyCode.DELETE)
+        assertEquals("hello there ", text)
+
+        setText("hello there H̵̛͕̞̦̰̜͍̰̥̟͆̏͂̌͑́ͅ")
+        functionalKeyPress(KeyCode.DELETE)
+        assertEquals("hello there ", text)
+    }
+
     @Test fun deleteInsideWord() {
-        reset()
         setText("hello you there")
         setCursorPosition(8) // after o in you
         functionalKeyPress(KeyCode.DELETE)
@@ -102,7 +112,6 @@ class InputLogicTest {
     }
 
     @Test fun insertLetterIntoWord() {
-        reset()
         setText("hello")
         setCursorPosition(3) // after first l
         input('i')
@@ -114,7 +123,6 @@ class InputLogicTest {
     }
 
     @Test fun insertLetterIntoWordWithWeirdEditor() {
-        reset()
         currentInputType = 180225 // should not change much, but just to be sure
         setText("hello")
         setCursorPosition(3, weirdTextField = true) // after first l
@@ -126,7 +134,6 @@ class InputLogicTest {
     }
 
     @Test fun insertLetterIntoOneOfSeveralWords() {
-        reset()
         setText("hello my friend")
         setCursorPosition(7) // between m and y
         input('a')
@@ -137,18 +144,23 @@ class InputLogicTest {
     }
 
     @Test fun combineHangul() {
-        reset()
         val ko = SubtypeSettings.getResourceSubtypesForLocale("ko".constructLocale()).first()
         latinIME.switchToSubtype(ko)
         chainInput("ㅂㄱㅑ")
         assertEquals("ㅂ갸", text)
     }
 
+    @Test fun emojiHangul() {
+        val ko = SubtypeSettings.getResourceSubtypesForLocale("ko".constructLocale()).first()
+        latinIME.switchToSubtype(ko)
+        input(0x1F970)
+        assertEquals("\uD83E\uDD70", text)
+    }
+
     // todo: make it work, but it might not be that simple because adding is done in combiner
-    //  https://github.com/Helium314/HeliBoard/issues/214
+    //  https://github.com/HeliBorg/HeliBoard/issues/214
     @Test fun insertLetterIntoWordHangulFails() {
         if (BuildConfig.BUILD_TYPE == "runTests") return
-        reset()
         latinIME.switchToSubtype(SubtypeSettings.getResourceSubtypesForLocale("ko".constructLocale()).first())
         chainInput("ㅛㅎㄹㅎㅕㅛ")
         setCursorPosition(3)
@@ -162,14 +174,12 @@ class InputLogicTest {
 
     // see issue 1447
     @Test fun separatorAfterHangul() {
-        reset()
         latinIME.switchToSubtype(SubtypeSettings.getResourceSubtypesForLocale("ko".constructLocale()).first())
         chainInput("ㅛ.")
         assertEquals("ㅛ.", text)
     }
 
     @Test fun deleteHangulInDebugMode() { // issue 1551, later only happened on phone
-        reset()
         latinIME.switchToSubtype(SubtypeSettings.getResourceSubtypesForLocale("ko".constructLocale()).first())
         setText("ㅛㅛ ")
         functionalKeyPress(KeyCode.DELETE)
@@ -178,7 +188,6 @@ class InputLogicTest {
     }
 
     @Test fun separatorUnselectsWord() {
-        reset()
         setText("hello")
         assertEquals("hello", composingText)
         input('.')
@@ -186,7 +195,6 @@ class InputLogicTest {
     }
 
     @Test fun autospace() {
-        reset()
         setText("hello")
         input('.')
         input('a')
@@ -199,7 +207,6 @@ class InputLogicTest {
     }
 
     @Test fun autospaceButWithTextAfter() {
-        reset()
         setText("hello there")
         setCursorPosition(5) // after hello
         input('.')
@@ -216,7 +223,6 @@ class InputLogicTest {
     }
 
     @Test fun noAutospaceInUrlField() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION, true) }
         chainInput("example.net")
         assertEquals("example. net", text)
@@ -230,7 +236,6 @@ class InputLogicTest {
     }
 
     @Test fun noAutospaceInUrlFieldWhenPickingSuggestion() {
-        reset()
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         chainInput("exam")
         pickSuggestion("example")
@@ -240,7 +245,6 @@ class InputLogicTest {
     }
 
     @Test fun noAutospaceForDetectedUrl() { // "light" version, should work without url detection
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION, true) }
         chainInput("http://example.net")
         assertEquals("http://example.net", text)
@@ -249,7 +253,6 @@ class InputLogicTest {
     }
 
     @Test fun noAutospaceForDetectedEmail() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION, true) }
         chainInput("mail@example.com")
         assertEquals("mail@example.com", text)
@@ -264,7 +267,6 @@ class InputLogicTest {
     }
 
     @Test fun urlDetectionThings() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         chainInput("...h")
         assertEquals("...h", text)
@@ -292,7 +294,6 @@ class InputLogicTest {
     }
 
     @Test fun stripSeparatorsBeforeAddingToHistoryWithURLDetection() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         chainInput("example.com.")
         assertEquals("example.com.", composingText)
@@ -301,7 +302,6 @@ class InputLogicTest {
     }
 
     @Test fun dontSelectConsecutiveSeparatorsWithURLDetection() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         chainInput("bla..")
         assertEquals("", composingText)
@@ -309,14 +309,12 @@ class InputLogicTest {
     }
 
     @Test fun selectDoesSelect() {
-        reset()
         setText("this is some text")
         setCursorPosition(3, 8)
         assertEquals("s is ", text.substring(3, 8))
     }
 
     @Test fun noComposingForPasswordFields() {
-        reset()
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
         input('a')
         input('b')
@@ -328,14 +326,12 @@ class InputLogicTest {
     }
 
     @Test fun `don't select whole thing as composing word if URL detection disabled`() {
-        reset()
         setText("http://example.com")
         setCursorPosition(13) // between l and e
         assertEquals("example", composingText)
     }
 
     @Test fun `select whole thing except http(s) as composing word if URL detection enabled and selecting`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setText("http://example.com")
         setCursorPosition(13) // between l and e
@@ -346,14 +342,12 @@ class InputLogicTest {
     }
 
     @Test fun `select whole thing except http(s) as composing word if URL detection enabled and typing`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         chainInput("http://example.com")
         assertEquals("example.com", composingText)
     }
 
     @Test fun `don't add partial URL to history`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setText("http:/") // just so lastAddedWord isn't set to http
         chainInput("/bla.com")
@@ -361,7 +355,6 @@ class InputLogicTest {
     }
 
     @Test fun urlProperlySelected() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         setText("http://example.com/here")
@@ -377,7 +370,6 @@ class InputLogicTest {
     }
 
     @Test fun urlProperlySelectedWhenNotDeletingFullTld() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setText("http://example.com/here")
         setCursorPosition(18) // after .com
@@ -392,7 +384,6 @@ class InputLogicTest {
     }
 
     @Test fun dontCommitPartialUrlBeforeFirstPeriod() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         // type http://bla. -> bla not selected, but clearly url, also means http://bla is committed which we probably don't want
         chainInput("http://bla.")
@@ -400,7 +391,6 @@ class InputLogicTest {
     }
 
     @Test fun `intermediate commits in text field without protocol`() {
-        reset()
         chainInput("bla.")
         assertEquals("bla", lastAddedWord)
         chainInput("com/")
@@ -411,7 +401,6 @@ class InputLogicTest {
     }
 
     @Test fun `intermediate commit in text field without protocol and with URL detection`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         chainInput("bla.com/img.jpg")
         assertEquals("bla", lastAddedWord)
@@ -419,7 +408,6 @@ class InputLogicTest {
     }
 
     @Test fun `only protocol commit in text field with protocol and URL detection`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         chainInput("http://bla.com/img.jpg")
         assertEquals("http", lastAddedWord)
@@ -427,7 +415,6 @@ class InputLogicTest {
     }
 
     @Test fun `no intermediate commit in URL field with protocol`() {
-        reset()
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         chainInput("http://bla.com/img.jpg")
         assertEquals("http", lastAddedWord) // todo: somehow avoid?
@@ -436,7 +423,6 @@ class InputLogicTest {
     }
 
     @Test fun `no intermediate commit in URL field with protocol and URL detection`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         chainInput("http://bla.com/img.jpg")
@@ -446,7 +432,6 @@ class InputLogicTest {
     }
 
     @Test fun `no intermediate commit in URL field without protocol`() {
-        reset()
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         chainInput("bla.com/img.jpg")
         assertEquals("", lastAddedWord)
@@ -455,7 +440,6 @@ class InputLogicTest {
     }
 
     @Test fun `no intermediate commit in URL field without protocol and with URL detection`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         chainInput("bla.com/img.jpg")
@@ -466,7 +450,6 @@ class InputLogicTest {
 
     @Test fun `don't accidentally detect some other text fields as URI`() {
         // see comment in InputLogic.textBeforeCursorMayBeUrlOrSimilar
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION, true) }
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE)
         chainInput("Hey,why")
@@ -475,7 +458,6 @@ class InputLogicTest {
 
     @Test fun `URL detection does not trigger on non-words`() {
         // first make sure it works without URL detection
-        reset()
         chainInput("15:50-17")
         assertEquals("15:50-17", text)
         assertEquals("", composingText)
@@ -488,7 +470,6 @@ class InputLogicTest {
     }
 
     @Test fun `autospace after selecting a suggestion`() {
-        reset()
         pickSuggestion("this")
         input('b')
         assertEquals("this b", text)
@@ -496,7 +477,6 @@ class InputLogicTest {
     }
 
     @Test fun `autospace works in URL field when input isn't URL`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         pickSuggestion("this")
@@ -505,10 +485,9 @@ class InputLogicTest {
         assertEquals("b", composingText)
     }
 
-    // https://github.com/Helium314/HeliBoard/issues/215
-    // https://github.com/Helium314/HeliBoard/issues/229
+    // https://github.com/HeliBorg/HeliBoard/issues/215
+    // https://github.com/HeliBorg/HeliBoard/issues/229
     @Test fun `autospace works in URL field when input isn't URL, also for multiple suggestions`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         pickSuggestion("this")
@@ -523,7 +502,6 @@ class InputLogicTest {
 
     @Test fun `emoji is added to dictionary`() {
         // check both text and codepoint input
-        reset()
         chainInput("hello ")
         input(0x1F36D)
         assertEquals(StringUtils.newSingleCodePointString(0x1F36D), lastAddedWord)
@@ -540,7 +518,6 @@ class InputLogicTest {
 
     @Test fun `emoji uses phantom space`() {
         // check both text and codepoint input
-        reset()
         pickSuggestion("hi")
         input("🤗")
         assertEquals("\uD83E\uDD17", lastAddedWord)
@@ -552,9 +529,8 @@ class InputLogicTest {
         assertEquals("hi ${StringUtils.newSingleCodePointString(0x1F36D)}", text)
     }
 
-    // https://github.com/Helium314/HeliBoard/issues/230
+    // https://github.com/HeliBorg/HeliBoard/issues/230
     @Test fun `no autospace after opening quotes`() {
-        reset()
         chainInput("\"Hi\" \"h")
         assertEquals("\"Hi\" \"h", text)
         assertEquals("h", composingText)
@@ -565,7 +541,6 @@ class InputLogicTest {
     }
 
     @Test fun `autospace works in URL field when starting with quotes`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_URL_DETECTION, true) }
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI)
         input("\"")
@@ -575,7 +550,6 @@ class InputLogicTest {
     }
 
     @Test fun `double space results in period and space, and delete removes the period`() {
-        reset()
         chainInput("hello")
         input(' ')
         input(' ')
@@ -585,7 +559,6 @@ class InputLogicTest {
     }
 
     @Test fun `no weird space inside multi-"`() {
-        reset()
         chainInput("\"\"\"")
         assertEquals("\"\"\"", text)
 
@@ -596,21 +569,18 @@ class InputLogicTest {
     }
 
     @Test fun `autospace still happens after "`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION, true) }
         chainInput("\"hello\"you")
         assertEquals("\"hello\" you", text)
     }
 
     @Test fun `autospace still happens after " if next word is in quotes`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION, true) }
         chainInput("\"hello\"\"you\"")
         assertEquals("\"hello\" \"you\"", text)
     }
 
     @Test fun `autospace propagates over "`() {
-        reset()
         input('"')
         pickSuggestion("hello")
         assertEquals(spaceState, SpaceState.PHANTOM) // picking a suggestion sets phantom space state
@@ -619,14 +589,12 @@ class InputLogicTest {
     }
 
     @Test fun `autospace still happens after " if nex word is in " and after comma`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION, true) }
         chainInput("\"hello\",\"you\"")
         assertEquals("\"hello\", \"you\"", text)
     }
 
     @Test fun `autospace in json editor`() {
-        reset()
         latinIME.prefs().edit { putBoolean(Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION, true) }
         chainInput("{\"label\":\"")
         assertEquals("{\"label\": \"", text)
@@ -635,7 +603,6 @@ class InputLogicTest {
     }
 
     @Test fun `text input and delete`() {
-        reset()
         input("hello")
         assertEquals("hello", text)
         functionalKeyPress(KeyCode.DELETE)
@@ -649,7 +616,6 @@ class InputLogicTest {
     }
 
     @Test fun `emoji text input and delete`() {
-        reset()
         input("🕵🏼")
         functionalKeyPress(KeyCode.DELETE)
         assertEquals("", text)
@@ -663,16 +629,14 @@ class InputLogicTest {
         assertEquals("", text)
     }
 
-    // emoRegex update to unicode 16.0 was required, https://github.com/Helium314/HeliBoard/issues/1760
+    // emoRegex update to unicode 16.0 was required, https://github.com/HeliBorg/HeliBoard/issues/1760
     @Test fun `emojis deleted one by one`() {
-        reset()
         chainInput("\uD83E\uDEC6\uD83E\uDEC6\uD83E\uDEC6")
         functionalKeyPress(KeyCode.DELETE)
         assertEquals("\uD83E\uDEC6\uD83E\uDEC6", text)
     }
 
     @Test fun `revert autocorrect on delete`() {
-        reset()
         setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT)
         chainInput("hullo")
         getAutocorrectedWithSpaceAfter("hello", "hullo")
@@ -690,7 +654,6 @@ class InputLogicTest {
     }
 
     @Test fun `remove glide typing word on delete`() {
-        reset()
         glideTypingInput("hello")
         assertEquals("hello", text)
         functionalKeyPress(KeyCode.DELETE)
@@ -701,7 +664,6 @@ class InputLogicTest {
     }
 
     @Test fun timestamp() {
-        reset()
         chainInput("hello")
         functionalKeyPress(KeyCode.TIMESTAMP)
         assertEquals(Calendar.getInstance().time.time.toDouble(),
@@ -729,10 +691,28 @@ class InputLogicTest {
         assertEquals("/48", InputLogic.getInlineEmojiSearchString("2606:127.0.0.1::/48")) // do we want this?
     }
 
+    @Test fun moveCursorHorizontally() {
+        chainInput("hello")
+        assertEquals(5, cursor)
+        latinIME.mKeyboardActionListener.onHorizontalSpaceSwipe(-2)
+        assertEquals(3, cursor)
+        latinIME.mKeyboardActionListener.onHorizontalSpaceSwipe(-5)
+        assertEquals(0, cursor)
+        latinIME.mKeyboardActionListener.onHorizontalSpaceSwipe(-1)
+        assertEquals(0, cursor)
+        latinIME.mKeyboardActionListener.onHorizontalSpaceSwipe(3)
+        assertEquals(3, cursor)
+        latinIME.mKeyboardActionListener.onHorizontalSpaceSwipe(3)
+        assertEquals(5, cursor)
+        latinIME.mKeyboardActionListener.onHorizontalSpaceSwipe(1)
+        assertEquals(5, cursor)
+    }
+
     // ------- helper functions ---------
 
     // should be called before every test, so the same state is guaranteed
-    private fun reset() {
+    @BeforeTest
+    fun reset() {
         // reset input connection & facilitator
         currentScript = ScriptUtils.SCRIPT_LATIN
         text = ""
@@ -1088,7 +1068,7 @@ private val ic = object : InputConnection {
             KeyEvent.KEYCODE_UNKNOWN -> p0.characters
             else -> StringUtils.newSingleCodePointString(p0.unicodeChar)
         }
-        if (textToAdd != null) {
+        if (textToAdd != null && textToAdd.singleOrNull()?.code != 0) {
             text = text.substring(0, selectionStart) + textToAdd + text.substring(selectionEnd)
             selectionStart += textToAdd.length
             selectionEnd = selectionStart
