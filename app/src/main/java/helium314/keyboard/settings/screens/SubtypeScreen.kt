@@ -39,12 +39,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import helium314.keyboard.keyboard.internal.KeyboardIconsSet
-import helium314.keyboard.keyboard.internal.keyboard_parser.POPUP_KEYS_ALL
-import helium314.keyboard.keyboard.internal.keyboard_parser.POPUP_KEYS_MAIN
-import helium314.keyboard.keyboard.internal.keyboard_parser.POPUP_KEYS_MORE
-import helium314.keyboard.keyboard.internal.keyboard_parser.POPUP_KEYS_NORMAL
-import helium314.keyboard.keyboard.internal.keyboard_parser.hasLocalizedNumberRow
-import helium314.keyboard.keyboard.internal.keyboard_parser.morePopupKeysResId
+import helium314.keyboard.keyboard.internal.keyboard_parser.LocaleKeyboardInfos
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.common.Constants.Separators
 import helium314.keyboard.latin.common.Constants.Subtype.ExtraValue
@@ -81,6 +76,7 @@ import helium314.keyboard.settings.DropDownField
 import helium314.keyboard.settings.SearchScreen
 import helium314.keyboard.settings.SettingsActivity
 import helium314.keyboard.latin.utils.Theme
+import helium314.keyboard.latin.utils.previewDark
 import helium314.keyboard.settings.WithSmallTitle
 import helium314.keyboard.settings.dialogs.ConfirmationDialog
 import helium314.keyboard.settings.dialogs.LayoutEditDialog
@@ -91,7 +87,7 @@ import helium314.keyboard.settings.getSpecialDisplayName
 import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.layoutFilePicker
 import helium314.keyboard.settings.layoutIntent
-import helium314.keyboard.latin.utils.previewDark
+import helium314.keyboard.settings.GetIconOrEmpty
 import java.util.Locale
 
 @Composable
@@ -200,7 +196,7 @@ fun SubtypeScreen(
                             Defaults.PREF_MORE_POPUP_KEYS
                         )!!
                         ActionRow(onClick = { showMorePopupsDialog = true }) {
-                            Text(stringResource(morePopupKeysResId(value)),
+                            Text(stringResource(LocaleKeyboardInfos.morePopupKeysResId(value)),
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(start = 10.dp)
@@ -211,7 +207,7 @@ fun SubtypeScreen(
                         }
                     }
                 }
-                if (hasLocalizedNumberRow(currentSubtype.locale, ctx)) {
+                if (LocaleKeyboardInfos.hasLocalizedNumberRow(currentSubtype.locale, ctx)) {
                     val checked = currentSubtype.getExtraValueOf(ExtraValue.LOCALIZED_NUMBER_ROW)?.toBoolean()
                     WithSmallTitle(stringResource(R.string.number_row)) {
                         ActionRow {
@@ -330,8 +326,8 @@ fun SubtypeScreen(
             PopupOrderDialog(
                 onDismissRequest = { showHintOrderDialog = false },
                 initialValue = setting ?: prefs.getString(
-                    Settings.PREF_POPUP_KEYS_LABELS_ORDER,
-                    Defaults.PREF_POPUP_KEYS_LABELS_ORDER
+                    Settings.PREF_POPUP_KEYS_HINT_ORDER,
+                    Defaults.PREF_POPUP_KEYS_HINT_ORDER
                 )!!,
                 title = stringResource(R.string.hint_source),
                 showDefault = setting != null,
@@ -344,13 +340,14 @@ fun SubtypeScreen(
             )
         }
         if (showMorePopupsDialog) {
-            val items = listOf(POPUP_KEYS_NORMAL, POPUP_KEYS_MAIN, POPUP_KEYS_MORE, POPUP_KEYS_ALL)
+            val items = listOf(LocaleKeyboardInfos.POPUP_KEYS_NORMAL, LocaleKeyboardInfos.POPUP_KEYS_MAIN,
+                LocaleKeyboardInfos.POPUP_KEYS_MORE, LocaleKeyboardInfos.POPUP_KEYS_ALL)
             val explicitValue = currentSubtype.getExtraValueOf(ExtraValue.MORE_POPUPS)
             val value = explicitValue ?: prefs.getString(Settings.PREF_MORE_POPUP_KEYS, Defaults.PREF_MORE_POPUP_KEYS)
             ListPickerDialog(
                 onDismissRequest = { showMorePopupsDialog = false },
                 items = items,
-                getItemName = { stringResource(morePopupKeysResId(it)) },
+                getItemName = { stringResource(LocaleKeyboardInfos.morePopupKeysResId(it)) },
                 selectedItem = value,
                 onItemSelected = { setCurrentSubtype(currentSubtype.with(ExtraValue.MORE_POPUPS, it)) }
             )
@@ -386,7 +383,7 @@ private fun PopupOrderDialog(
         displayItem = { item ->
             var checked by rememberSaveable { mutableStateOf(item.state) }
             Row(verticalAlignment = Alignment.CenterVertically) {
-                KeyboardIconsSet.instance.GetIcon(item.name)
+                KeyboardIconsSet.instance.GetIconOrEmpty(item.name)
                 val text = item.name.lowercase().getStringResourceOrName("popup_keys_", ctx)
                 Text(text, Modifier.weight(1f))
                 Switch(
