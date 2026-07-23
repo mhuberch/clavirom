@@ -68,9 +68,8 @@ fun DictionaryScreen(
         filteredItems = { term ->
             if (term.isBlank()) dictionaryLocales
             else dictionaryLocales.filter { loc ->
-                val displayName = loc.getSpecialDisplayName(loc.localizedDisplayName(ctx.resources))
-                loc != null
-                && displayName.replace("(", "")
+                loc != null && loc.getSpecialDisplayName(loc.localizedDisplayName(ctx.resources))
+                    .replace("(", "")
                     .splitOnWhitespace().any { it.startsWith(term, true) }
             }
         },
