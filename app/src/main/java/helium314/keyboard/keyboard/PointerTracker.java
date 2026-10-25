@@ -95,7 +95,9 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
         sTypingTimeRecorder = (TypingTimeRecorder) thatArray[3];
         sTimerProxy = (TimerProxy) thatArray[4];
         //noinspection unchecked
-        sTrackers = (ArrayList<PointerTracker>) thatArray[5];
+        @SuppressWarnings("unchecked")
+        final ArrayList<PointerTracker> trackers = (ArrayList<PointerTracker>) thatArray[5];
+        sTrackers = trackers;
     }
 
     private static final GestureEnabler sGestureEnabler = new GestureEnabler();

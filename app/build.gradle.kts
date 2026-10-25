@@ -67,7 +67,7 @@ android {
             }
             variant.outputs.forEach { output ->
                 if (output is com.android.build.api.variant.impl.VariantOutputImpl) {
-                    output.outputFileName = "HeliBoard_${defaultConfig.versionName}-${variant.buildType}.apk"
+                    output.outputFileName = "ClaviRom_${defaultConfig.versionName}-${variant.buildType}.apk"
                 }
             }
         }
@@ -154,4 +154,8 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.16.1")
     testImplementation("androidx.test:runner:1.7.0")
     testImplementation("androidx.test:core:1.7.0")
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
 }

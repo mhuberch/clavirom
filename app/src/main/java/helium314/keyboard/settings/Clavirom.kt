@@ -38,10 +38,10 @@ val CLAVIROM_BOLD_WORDS = listOf("HeliBoard", "Lia Rumantscha", "far.ch")
 val CLAVIROM_WIZARD_LANGUAGES_ROMANSH = listOf("rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA")
 val CLAVIROM_WIZARD_LANGUAGES_OTHER = listOf("de-CH", "it-CH", "en")
 
-fun Locale.isClaviromPrivileged(): Boolean = CLAVIROM_WIZARD_DISPLAY_NAMES.containsKey(toLanguageTag())
+fun Locale.isClaviromPrivileged(): Boolean = CLAVIROM_WIZARD_DISPLAY_NAMES.containsKey(toLanguageTag()) || CLAVIROM_WIZARD_DISPLAY_NAMES.containsKey(language)
 
 fun Locale.getSpecialDisplayName(default: String): String {
-    return CLAVIROM_WIZARD_DISPLAY_NAMES[toLanguageTag()] ?: default
+    return CLAVIROM_WIZARD_DISPLAY_NAMES[toLanguageTag()] ?: CLAVIROM_WIZARD_DISPLAY_NAMES[language] ?: default
 }
 
 /**
@@ -118,7 +118,7 @@ val welcomeSubtitles = translations(
     pu = "L'app HeliBoard per il rumauntsch",
     va = "L'app HeliBoard per il rumantsch",
     it = "HeliBoard adattato per il Grigioni",
-    en = "HeliBoard for Romansh"
+    en = "The HeliBoard app for Romansh"
 )
 
 val additionalDescriptions = translations(
