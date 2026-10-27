@@ -69,6 +69,7 @@ import helium314.keyboard.latin.utils.Theme
 import helium314.keyboard.latin.utils.SubtypeSettings
 import helium314.keyboard.latin.utils.UncachedInputMethodManagerUtils
 import helium314.keyboard.latin.utils.previewDark
+import kotlinx.coroutines.Dispatchers
 import helium314.keyboard.latin.utils.locale
 import helium314.keyboard.latin.utils.prefs
 import kotlinx.coroutines.delay
@@ -100,7 +101,7 @@ fun WelcomeWizard(
     var selectedLanguage by rememberSaveable { mutableStateOf(initialLanguage ?: persistedLanguage ?: languages.first().first) }
     val strings = WIZARD_TRANSLATIONS[selectedLanguage] ?: WIZARD_TRANSLATIONS[languages.first().first]!!
 
-    val scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope { Dispatchers.IO }
     LaunchedEffect(step) {
         persistedStep = step
         if (step == 2)

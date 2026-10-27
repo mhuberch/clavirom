@@ -21,7 +21,7 @@ class KeyboardIconsSet private constructor() {
 
     fun loadIcons(context: Context) {
         val prefs = context.prefs()
-        val iconStyle = prefs.getString(Settings.PREF_ICON_STYLE, Defaults.PREF_ICON_STYLE)
+        val iconStyle = prefs.getString(Settings.PREF_ICON_STYLE, Defaults.PREF_ICON_STYLE(prefs))
         val defaultIds = when (iconStyle) {
             KeyboardTheme.STYLE_HOLO -> keyboardIconsHolo
             KeyboardTheme.STYLE_ROUNDED -> keyboardIconsRounded
@@ -127,6 +127,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_holo
                     ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_holo
                     ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_holo
+                    ToolbarKey.DPAD -> R.drawable.ic_dpad
                     ToolbarKey.UNDO -> R.drawable.ic_undo
                     ToolbarKey.REDO -> R.drawable.ic_redo
                     ToolbarKey.SETTINGS -> R.drawable.sym_keyboard_settings_holo
@@ -136,6 +137,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.CUT -> R.drawable.sym_keyboard_cut
                     ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste
                     ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_holo
+                    ToolbarKey.FLOATING -> R.drawable.ic_drag_indicator
                     ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_holo
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_holo
@@ -154,13 +156,14 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.PAGE_START -> R.drawable.ic_page_start
                     ToolbarKey.PAGE_END -> R.drawable.ic_page_end
                     ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
+                    ToolbarKey.BACKGROUND_GATHERING -> R.drawable.ic_settings_gesture
                 })
             }
         } }
 
         private val keyboardIconsMaterial by lazy { hashMapOf(
             NAME_SHIFT_KEY to                   R.drawable.sym_keyboard_shift_lxx,
-            NAME_SHIFT_KEY_SHIFTED to           R.drawable.sym_keyboard_shift_lxx,
+            NAME_SHIFT_KEY_SHIFTED to           R.drawable.sym_keyboard_shifted_lxx,
             NAME_SHIFT_KEY_LOCKED to            R.drawable.sym_keyboard_shift_lock_lxx,
             NAME_DELETE_KEY to                  R.drawable.sym_keyboard_delete_lxx,
 //            NAME_SPACE_KEY to                   null,
@@ -188,6 +191,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_lxx
                     ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_lxx
                     ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_lxx
+                    ToolbarKey.DPAD -> R.drawable.ic_dpad
                     ToolbarKey.UNDO -> R.drawable.ic_undo
                     ToolbarKey.REDO -> R.drawable.ic_redo
                     ToolbarKey.SETTINGS -> R.drawable.sym_keyboard_settings_lxx
@@ -197,6 +201,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.CUT -> R.drawable.sym_keyboard_cut
                     ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste
                     ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_lxx
+                    ToolbarKey.FLOATING -> R.drawable.ic_drag_indicator
                     ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_lxx
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_lxx
@@ -215,13 +220,14 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.PAGE_START -> R.drawable.ic_page_start
                     ToolbarKey.PAGE_END -> R.drawable.ic_page_end
                     ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
+                    ToolbarKey.BACKGROUND_GATHERING -> R.drawable.ic_settings_gesture
                 })
             }
         } }
 
         private val keyboardIconsRounded by lazy { hashMapOf(
             NAME_SHIFT_KEY to                   R.drawable.sym_keyboard_shift_rounded,
-            NAME_SHIFT_KEY_SHIFTED to           R.drawable.sym_keyboard_shift_rounded,
+            NAME_SHIFT_KEY_SHIFTED to           R.drawable.sym_keyboard_shifted_rounded,
             NAME_SHIFT_KEY_LOCKED to            R.drawable.sym_keyboard_shift_lock_rounded,
             NAME_DELETE_KEY to                  R.drawable.sym_keyboard_delete_rounded,
 //            NAME_SPACE_KEY to                   null,
@@ -249,6 +255,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_rounded
                     ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_rounded
                     ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_lxx
+                    ToolbarKey.DPAD -> R.drawable.ic_dpad_rounded
                     ToolbarKey.UNDO -> R.drawable.ic_undo_rounded
                     ToolbarKey.REDO -> R.drawable.ic_redo_rounded
                     ToolbarKey.SETTINGS -> R.drawable.sym_keyboard_settings_rounded
@@ -258,6 +265,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.CUT -> R.drawable.sym_keyboard_cut_rounded
                     ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste_rounded
                     ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_rounded
+                    ToolbarKey.FLOATING -> R.drawable.ic_drag_indicator
                     ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_lxx
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect_rounded
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_rounded
@@ -276,20 +284,27 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.PAGE_START -> R.drawable.ic_page_start_rounded
                     ToolbarKey.PAGE_END -> R.drawable.ic_page_end_rounded
                     ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
+                    ToolbarKey.BACKGROUND_GATHERING -> R.drawable.ic_settings_gesture
                 })
             }
         } }
 
         fun getAllIcons(context: Context): Map<String, List<Int>> {
             // currently active style first
-            val iconStyle = context.prefs().getString(Settings.PREF_ICON_STYLE, Defaults.PREF_ICON_STYLE)
-            return keyboardIconsMaterial.entries.associate { (name, id) ->
+            val iconStyle = context.prefs().getString(Settings.PREF_ICON_STYLE, Defaults.PREF_ICON_STYLE(context.prefs()))
+            val iconsMap = keyboardIconsMaterial.entries.associateTo(HashMap()) { (name, id) ->
                 name to when (iconStyle) {
                     KeyboardTheme.STYLE_HOLO -> listOfNotNull(keyboardIconsHolo[name], keyboardIconsRounded[name], id)
                     KeyboardTheme.STYLE_ROUNDED -> listOfNotNull(keyboardIconsRounded[name], id, keyboardIconsHolo[name])
                     else -> listOfNotNull(id, keyboardIconsRounded[name], keyboardIconsHolo[name])
                 }
             }
+
+            // add legacy shift icons
+            iconsMap[NAME_SHIFT_KEY] = iconsMap[NAME_SHIFT_KEY]!! + R.drawable.sym_keyboard_shift_legacy + R.drawable.sym_keyboard_shift_legacy_rounded
+            iconsMap[NAME_SHIFT_KEY_SHIFTED] = iconsMap[NAME_SHIFT_KEY_SHIFTED]!! + R.drawable.sym_keyboard_shift_legacy + R.drawable.sym_keyboard_shift_legacy_rounded
+            iconsMap[NAME_SHIFT_KEY_LOCKED] = iconsMap[NAME_SHIFT_KEY_LOCKED]!! + R.drawable.sym_keyboard_shift_lock_legacy + R.drawable.sym_keyboard_shift_lock_legacy_rounded
+            return iconsMap
         }
 
         val instance = KeyboardIconsSet()

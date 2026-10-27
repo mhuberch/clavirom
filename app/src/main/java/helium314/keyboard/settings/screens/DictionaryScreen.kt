@@ -33,7 +33,7 @@ import helium314.keyboard.latin.common.LocaleUtils
 import helium314.keyboard.latin.common.LocaleUtils.localizedDisplayName
 import helium314.keyboard.latin.common.splitOnWhitespace
 import helium314.keyboard.latin.utils.DictionaryInfoUtils
-import helium314.keyboard.latin.utils.SubtypeLocaleUtils
+import helium314.keyboard.latin.utils.IntentUtils
 import helium314.keyboard.latin.utils.SubtypeSettings
 import helium314.keyboard.latin.utils.getDictionaryLocales
 import helium314.keyboard.latin.utils.htmlToAnnotated
@@ -58,7 +58,7 @@ fun DictionaryScreen(
     val enabledLanguages = SubtypeSettings.getEnabledSubtypes(true).map { it.locale().language }
     val cachedDictFolders = DictionaryInfoUtils.getCacheDirectories(ctx).map { it.name }
     val comparer = compareBy<Locale>({ it.language !in enabledLanguages }, { it.toLanguageTag() !in cachedDictFolders }, { it.displayName })
-    val dictionaryLocales = listOf(Locale(SubtypeLocaleUtils.NO_LANGUAGE)) + getDictionaryLocales(ctx).sortedWith(comparer)
+    val dictionaryLocales = listOf<Locale?>(null) + getDictionaryLocales(ctx).sortedWith(comparer)
     var selectedLocale: Locale? by remember { mutableStateOf(null) }
     var showAddDictDialog by remember { mutableStateOf(false) }
     val dictPicker = dictionaryFilePicker(selectedLocale)
@@ -69,17 +69,18 @@ fun DictionaryScreen(
             if (term.isBlank()) dictionaryLocales
             else dictionaryLocales.filter { loc ->
                 val displayName = loc.getSpecialDisplayName(loc.localizedDisplayName(ctx.resources))
-                loc.language != SubtypeLocaleUtils.NO_LANGUAGE
-                        && displayName.replace("(", "")
-                            .splitOnWhitespace().any { it.startsWith(term, true) }
+                loc != null
+                && displayName.replace("(", "")
+                    .splitOnWhitespace().any { it.startsWith(term, true) }
             }
         },
         itemContent = { locale ->
-            if (locale.language == SubtypeLocaleUtils.NO_LANGUAGE) {
+            if (locale == null) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
+                        .clickable { showAddDictDialog = true }
                         .padding(vertical = 4.dp, horizontal = 16.dp)
                         .fillMaxWidth()
                         .clickable { showAddDictDialog = true }
@@ -115,9 +116,8 @@ fun DictionaryScreen(
         ConfirmationDialog(
             onDismissRequest = { showAddDictDialog = false },
             onConfirmed = {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                    .addCategory(Intent.CATEGORY_OPENABLE)
-                    .setType("application/octet-stream")
+                val intent = IntentUtils.getResolvableTypeIntent(ctx, "*/*")
+                    .setAction(Intent.ACTION_OPEN_DOCUMENT)
                 dictPicker.launch(intent)
             },
             title = { Text(stringResource(R.string.add_new_dictionary_title)) },

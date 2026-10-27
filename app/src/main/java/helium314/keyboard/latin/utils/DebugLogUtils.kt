@@ -1,39 +1,45 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- * modified
- * SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
- */
+package helium314.keyboard.latin.utils
 
-package helium314.keyboard.latin.utils;
+object DebugLogUtils {
+    @JvmStatic
+    fun getStackTrace(limit: Int) = getStackTrace(limit, 1)
 
-/**
- * A class for logging and debugging utility methods.
- */
-public final class DebugLogUtils {
-    /**
-     * Get the string representation of the current stack trace, for debugging purposes.
-     * @return a readable, carriage-return-separated string for the current stack trace.
-     */
-    public static String getStackTrace() {
-        return getStackTrace(Integer.MAX_VALUE - 1);
-    }
+    @JvmStatic
+    fun getSimpleStackTrace(limit: Int) = getStackTrace(limit, 1, true, ", ")
 
     /**
      * Get the string representation of the current stack trace, for debugging purposes.
      * @param limit the maximum number of stack frames to be returned.
      * @return a readable, carriage-return-separated string for the current stack trace.
      */
-    public static String getStackTrace(final int limit) {
-        final StringBuilder sb = new StringBuilder();
+    fun getStackTrace(limit: Int = Int.MAX_VALUE / 2, dropFirst: Int = 0, simplify: Boolean = false, join: String = "\n"): String {
+        val sb = StringBuilder()
         try {
-            throw new RuntimeException();
-        } catch (final RuntimeException e) {
-            final StackTraceElement[] frames = e.getStackTrace();
-            // Start at 1 because the first frame is here and we don't care about it
-            for (int j = 1; j < frames.length && j < limit + 1; ++j) {
-                sb.append(frames[j].toString()).append("\n");
+            throw RuntimeException()
+        } catch (e: RuntimeException) {
+            val frames = e.stackTrace
+            var j = dropFirst + 1 // +1 because the first frame is here
+            while (j < frames.size && j < limit + 1 + dropFirst) {
+                var text = frames[j].toString()
+                if (simplify && text.startsWith("helium314.keyboard")) {
+                    var p = false
+                    for (i in text.indices.reversed()) {
+                        if (!p) {
+                            if (text[i] == '(')
+                                p = true
+                            continue
+                        }
+                        if (text[i] == '.') {
+                            text = text.substring(i + 1)
+                            break
+                        }
+                    }
+                }
+                sb.append(text).append(join)
+                ++j
             }
         }
-        return sb.toString();
+        sb.setLength(sb.length - join.length)
+        return sb.toString()
     }
 }

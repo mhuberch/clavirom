@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.common.Constants.Separators
 import helium314.keyboard.latin.common.Constants.Subtype.ExtraValue
+import helium314.keyboard.latin.common.LocaleUtils
 import helium314.keyboard.latin.common.LocaleUtils.constructLocale
 import helium314.keyboard.latin.common.LocaleUtils.localizedDisplayName
 import helium314.keyboard.latin.common.splitOnWhitespace
@@ -126,13 +127,18 @@ private fun SubtypeRow(subtype: InputMethodSubtype, isEnabled: Boolean) {
 }
 
 private fun dictsAvailable(locale: Locale, context: Context): Boolean {
+    if (locale.language == SubtypeLocaleUtils.NO_LANGUAGE) return true // incorrect, but we don't want to show the dialog for "no language"
     val (dicts, hasInternal) = getUserAndInternalDictionaries(context, locale)
     return hasInternal || dicts.isNotEmpty()
 }
 
 // sorting by display name is still slow, even with the cache... but probably good enough
 private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
-    val systemLocales = SubtypeSettings.getSystemLocales()
+    val availableSubtypes = SubtypeSettings.getAllAvailableSubtypes()
+    val availableLocales = availableSubtypes.mapTo(HashSet()) { it.locale() }
+    val systemLocales = SubtypeSettings.getSystemLocales().map {
+        LocaleUtils.getBestMatch(it, availableLocales) { st -> st }
+    }
     val enabledSubtypes = SubtypeSettings.getEnabledSubtypes(true)
     val localesWithDictionary = DictionaryInfoUtils.getCacheDirectories(context).mapNotNull { dir ->
         if (dir.list()?.any { it.endsWith(DictionaryInfoUtils.USER_DICTIONARY_SUFFIX) } == true)
@@ -150,7 +156,7 @@ private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
         { !it.locale().isClaviromPrivileged() },
         { it !in enabledSubtypes },
         { it.locale() !in localesWithDictionary },
-        { it.locale() !in systemLocales},
+        { it.locale() !in systemLocales },
         { !(SubtypeSettings.isAdditionalSubtype(it) && !isDefaultSubtype(it) ) },
         {
             @Suppress("DEPRECATION")
@@ -159,7 +165,7 @@ private fun getSortedSubtypes(context: Context): List<InputMethodSubtype> {
         },
         { it.locale().getSpecialDisplayName(it.displayName()) }
     )
-    return SubtypeSettings.getAllAvailableSubtypes().sortedWith(subtypeSortComparator)
+    return availableSubtypes.sortedWith(subtypeSortComparator)
 }
 
 @Preview

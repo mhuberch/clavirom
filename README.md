@@ -60,7 +60,7 @@ The icon is licensed under [Creative Commons BY-SA 4.0](https://creativecommons.
 - [Simple Keyboard](https://github.com/rkkr/simple-keyboard)
 - [Indic Keyboard](https://gitlab.com/indicproject/indic-keyboard)
 - [FlorisBoard](https://github.com/florisboard/florisboard/)
-- Our [contributors](https://github.com/Helium314/HeliBoard/graphs/contributors)
+- Our [contributors](https://github.com/HeliBorg/HeliBoard/graphs/contributors)
 
 ## Funding
 

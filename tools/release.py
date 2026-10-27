@@ -16,7 +16,6 @@ def check_git():
         if cont != "y":
             sys.exit()
 
-
 # download and update translations
 def update_translations():
     zip_file_name = "translations.zip"
@@ -32,6 +31,9 @@ def update_translations():
                 continue
             file.filename = file.filename.replace("heliboard/heliboard/", "")
             f.extract(file)
+    result = subprocess.run(["git", "status", "--short"], capture_output=True)
+    if b"?? app/src/main/res/values" in result.stdout:
+        print("new translation(s) found, add it to locales_config.xml")
     os.remove(zip_file_name)
 
 
@@ -39,7 +41,7 @@ def update_translations():
 def check_default_values_diff():
     result = subprocess.run(["git", "diff", "--name-only", "app/src/main/res/values"], capture_output=True)
     if result.returncode != 0 or len(result.stdout) != 0:
-        raise ValueError("default strings changed after translation import, something is wrong")
+        print("default strings changed after translation import, something is wrong")
 
 
 def read_dicts_readme() -> list[str]:
@@ -76,19 +78,12 @@ def update_dict_list():
         split = line.split("|")
         dict_name = split[2].split("]")[1].split("(")[1].split(")")[0].split("/")[-1].split(".dict")[0]
         (dict_type, locale) = dict_name.split("_", 1)
-        if "_" in locale:
-            sp = locale.split("_")
-            locale = sp[0]
-            for s in sp[1:]:
-                locale = locale + "_" + s.upper()
-        if split[3].strip() == "yes":
-            extra = "exp"
-        elif "UNICODE LICENSE V3 (CLDR)" in split[7]:
-            extra = "cldr"
+        if "UNICODE LICENSE V3 (CLDR)" in split[7]:
+            dicts.append(f"cldr,{locale}\n")
         else:
-            extra = ""
-        dicts.append(f"{dict_type},{locale},{extra}\n")
-    target_file = "app/src/main/assets/dictionaries_in_dict_repo.csv"
+            dicts.append(dict_name + "\n")
+    target_file = "app/src/main/assets/dictionaries_in_dict_repo.txt"
+    dicts.sort()
     with open(target_file, 'w') as f:
         f.writelines(dicts)
 
@@ -128,12 +123,6 @@ def update_dict_hashes():
             continue
         with open(normal_dicts_dir + file, "rb") as f:
             hashes.append(hashlib.sha256(f.read()).hexdigest())
-    experimental_dicts_dir = dicts_dir + "/dictionaries_experimental/"
-    for file in os.listdir(experimental_dicts_dir):
-        if not file.startswith("main_"):
-            continue
-        with open(experimental_dicts_dir + file, "rb") as f:
-            hashes.append(hashlib.sha256(f.read()).hexdigest())
     hashes_file = "app/src/main/assets/known_dict_hashes.txt"
     with open(hashes_file) as f:
         for line in f:
@@ -144,11 +133,36 @@ def update_dict_hashes():
             f.write(line + "\n")
 
 
-# update khipro mapping json, see discussion at the bottom of https://github.com/Helium314/HeliBoard/pull/2134
+# update khipro mapping json, see discussion at the bottom of https://github.com/HeliBorg/HeliBoard/pull/2134
 def update_khipro_mappings():
-    source = "https://raw.githubusercontent.com/KhiproTeam/Khipro-Mappings/refs/heads/main/output/touchscreen.json"
-    target = "app/src/main/assets/khipro-mappings.json"
-    urlretrieve(source, target)
+    source = "https://raw.githubusercontent.com/KhiproTeam/khipro-MIM-touchscreen/main/bn-khipro.mim"
+    target = "app/src/main/assets/bn-khipro.mim"
+    try:
+        urlretrieve(source, target)
+    except:
+        print("could not download khipro mappings")
+
+
+# update localesWithLocalizedNumberRow
+def update_localized_number_row():
+    locales = []
+    folder = "app/src/main/assets/locale_key_texts/"
+    for file in os.listdir(folder):
+        with open(folder + file, "r") as f:
+            if "[number_row]" in f.read():
+                locales.append(file.split(".")[0].split("-")[0])
+    locales = list(dict.fromkeys(locales)) # for bn-BD and bn-IN
+    prefs = "app/src/main/java/helium314/keyboard/settings/screens/PreferencesScreen.kt"
+    with open(prefs, "r") as f:
+        lines = f.readlines()
+    for i, line in enumerate(lines):
+        if not line.startswith("private val localesWithLocalizedNumberRow"):
+            continue
+        locales.sort()
+        localetext = "\", \"".join(locales)
+        lines[i] = "private val localesWithLocalizedNumberRow = listOf(\"" + localetext + "\")\n"
+    with open(prefs, "w") as f:
+        f.writelines(lines)
 
 
 def main():
@@ -161,6 +175,7 @@ def main():
     update_khipro_mappings()
     check_changelog()
     update_dict_hashes()
+    update_localized_number_row()
 
 
 if __name__ == "__main__":

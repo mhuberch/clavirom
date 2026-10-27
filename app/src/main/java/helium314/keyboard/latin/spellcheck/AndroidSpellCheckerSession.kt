@@ -3,121 +3,105 @@
  * modified
  * SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
  */
+package helium314.keyboard.latin.spellcheck
 
-package helium314.keyboard.latin.spellcheck;
+import android.os.Binder
+import android.text.TextUtils
+import android.view.textservice.SentenceSuggestionsInfo
+import android.view.textservice.SuggestionsInfo
+import android.view.textservice.TextInfo
+import helium314.keyboard.latin.NgramContext
+import helium314.keyboard.latin.NgramContext.WordInfo
+import helium314.keyboard.latin.common.LocaleUtils.constructLocale
+import helium314.keyboard.latin.utils.Log
+import helium314.keyboard.latin.utils.SpannableStringUtils
 
-import android.content.res.Resources;
-import android.os.Binder;
-import android.text.TextUtils;
-import android.view.textservice.SentenceSuggestionsInfo;
-import android.view.textservice.SuggestionsInfo;
-import android.view.textservice.TextInfo;
+class AndroidSpellCheckerSession(service: AndroidSpellCheckerService) : AndroidWordLevelSpellCheckerSession(service) {
+    private val mResources = service.resources
+    private var mSentenceLevelAdapter: SentenceLevelAdapter? = null
 
-import helium314.keyboard.latin.NgramContext;
-import helium314.keyboard.latin.common.LocaleUtils;
-import helium314.keyboard.latin.utils.Log;
-import helium314.keyboard.latin.utils.SpannableStringUtils;
-
-import java.util.ArrayList;
-
-public final class AndroidSpellCheckerSession extends AndroidWordLevelSpellCheckerSession {
-    private static final String TAG = AndroidSpellCheckerSession.class.getSimpleName();
-    private static final boolean DBG = false;
-    private final Resources mResources;
-    private SentenceLevelAdapter mSentenceLevelAdapter;
-
-    public AndroidSpellCheckerSession(AndroidSpellCheckerService service) {
-        super(service);
-        mResources = service.getResources();
-    }
-
-    private SentenceSuggestionsInfo fixWronglyInvalidatedWordWithSingleQuote(TextInfo ti,
-            SentenceSuggestionsInfo ssi) {
-        final CharSequence typedText = ti.getCharSequence();
+    private fun fixWronglyInvalidatedWordWithSingleQuote(textInfo: TextInfo, sentenceSuggestionsInfo: SentenceSuggestionsInfo): SentenceSuggestionsInfo? {
+        val typedText = textInfo.charSequence
         if (!typedText.toString().contains(AndroidSpellCheckerService.SINGLE_QUOTE)) {
-            return null;
+            return null
         }
-        final int N = ssi.getSuggestionsCount();
-        final ArrayList<Integer> additionalOffsets = new ArrayList<>();
-        final ArrayList<Integer> additionalLengths = new ArrayList<>();
-        final ArrayList<SuggestionsInfo> additionalSuggestionsInfos = new ArrayList<>();
-        for (int i = 0; i < N; ++i) {
-            final SuggestionsInfo si = ssi.getSuggestionsInfoAt(i);
-            final int flags = si.getSuggestionsAttributes();
-            if ((flags & SuggestionsInfo.RESULT_ATTR_IN_THE_DICTIONARY) == 0) {
-                continue;
+        val count = sentenceSuggestionsInfo.suggestionsCount
+        val additionalOffsets = ArrayList<Int>()
+        val additionalLengths = ArrayList<Int>()
+        val additionalSuggestionsInfos = ArrayList<SuggestionsInfo?>()
+        for (i in 0..<count) {
+            val suggestionsInfo = sentenceSuggestionsInfo.getSuggestionsInfoAt(i)
+            val flags = suggestionsInfo.suggestionsAttributes
+            if ((flags and SuggestionsInfo.RESULT_ATTR_IN_THE_DICTIONARY) == 0) {
+                continue
             }
-            final int offset = ssi.getOffsetAt(i);
-            final int length = ssi.getLengthAt(i);
-            final CharSequence subText = typedText.subSequence(offset, offset + length);
+            val offset = sentenceSuggestionsInfo.getOffsetAt(i)
+            val length = sentenceSuggestionsInfo.getLengthAt(i)
+            val subText = typedText.subSequence(offset, offset + length)
             if (!subText.toString().contains(AndroidSpellCheckerService.SINGLE_QUOTE)) {
-                continue;
+                continue
             }
             // Split preserving spans.
-            final CharSequence[] splitTexts = SpannableStringUtils.split(subText,
-                    AndroidSpellCheckerService.SINGLE_QUOTE,
-                    true /* preserveTrailingEmptySegments */);
-            if (splitTexts == null || splitTexts.length <= 1) {
-                continue;
+            val splitTexts = SpannableStringUtils.split(subText,
+                AndroidSpellCheckerService.SINGLE_QUOTE, true)
+            if (splitTexts == null || splitTexts.size <= 1) {
+                continue
             }
-            for (final CharSequence splitText : splitTexts) {
+            for (splitText in splitTexts) {
                 if (TextUtils.isEmpty(splitText)) {
-                    continue;
+                    continue
                 }
-                if (mSuggestionsCache.getSuggestionsFromCache(splitText.toString()) == null) {
-                    continue;
+                if (suggestionsCache.getSuggestionsFromCache(splitText.toString()) == null) {
+                    continue
                 }
-                final int newLength = splitText.length();
+                val newLength = splitText!!.length
                 // Neither RESULT_ATTR_IN_THE_DICTIONARY nor RESULT_ATTR_LOOKS_LIKE_TYPO
-                final int newFlags = 0;
-                final SuggestionsInfo newSi = new SuggestionsInfo(newFlags, EMPTY_STRING_ARRAY);
-                newSi.setCookieAndSequence(si.getCookie(), si.getSequence());
-                if (DBG) {
-                    Log.d(TAG, "Override and remove old span over: " + splitText + ", "
-                            + offset + "," + newLength);
-                }
-                additionalOffsets.add(offset);
-                additionalLengths.add(newLength);
-                additionalSuggestionsInfos.add(newSi);
+                val newFlags = 0
+                val newSuggestionsInfo = SuggestionsInfo(newFlags, EMPTY_STRING_ARRAY)
+                newSuggestionsInfo.setCookieAndSequence(suggestionsInfo.cookie, suggestionsInfo.sequence)
+                if (DBG)
+                    Log.d(TAG, ("Override and remove old span over: $splitText, $offset,$newLength"))
+                additionalOffsets.add(offset)
+                additionalLengths.add(newLength)
+                additionalSuggestionsInfos.add(newSuggestionsInfo)
             }
         }
-        final int additionalSize = additionalOffsets.size();
+        val additionalSize = additionalOffsets.size
         if (additionalSize == 0) {
-            return null;
+            return null
         }
-        final int suggestionsSize = N + additionalSize;
-        final int[] newOffsets = new int[suggestionsSize];
-        final int[] newLengths = new int[suggestionsSize];
-        final SuggestionsInfo[] newSuggestionsInfos = new SuggestionsInfo[suggestionsSize];
-        int i;
-        for (i = 0; i < N; ++i) {
-            newOffsets[i] = ssi.getOffsetAt(i);
-            newLengths[i] = ssi.getLengthAt(i);
-            newSuggestionsInfos[i] = ssi.getSuggestionsInfoAt(i);
+        val suggestionsSize = count + additionalSize
+        val newOffsets = IntArray(suggestionsSize)
+        val newLengths = IntArray(suggestionsSize)
+        val newSuggestionsInfos = arrayOfNulls<SuggestionsInfo>(suggestionsSize)
+        var i = 0
+        while (i < count) {
+            newOffsets[i] = sentenceSuggestionsInfo.getOffsetAt(i)
+            newLengths[i] = sentenceSuggestionsInfo.getLengthAt(i)
+            newSuggestionsInfos[i] = sentenceSuggestionsInfo.getSuggestionsInfoAt(i)
+            ++i
         }
-        for (; i < suggestionsSize; ++i) {
-            newOffsets[i] = additionalOffsets.get(i - N);
-            newLengths[i] = additionalLengths.get(i - N);
-            newSuggestionsInfos[i] = additionalSuggestionsInfos.get(i - N);
+        while (i < suggestionsSize) {
+            newOffsets[i] = additionalOffsets[i - count]
+            newLengths[i] = additionalLengths[i - count]
+            newSuggestionsInfos[i] = additionalSuggestionsInfos[i - count]
+            ++i
         }
-        return new SentenceSuggestionsInfo(newSuggestionsInfos, newOffsets, newLengths);
+        return SentenceSuggestionsInfo(newSuggestionsInfos, newOffsets, newLengths)
     }
 
-    @Override
-    public SentenceSuggestionsInfo[] onGetSentenceSuggestionsMultiple(TextInfo[] textInfos,
-            int suggestionsLimit) {
-        final SentenceSuggestionsInfo[] retval = splitAndSuggest(textInfos, suggestionsLimit);
-        if (retval == null || retval.length != textInfos.length) {
-            return retval;
+    override fun onGetSentenceSuggestionsMultiple(textInfos: Array<TextInfo?>, suggestionsLimit: Int): Array<SentenceSuggestionsInfo?>? {
+        val retval = splitAndSuggest(textInfos, suggestionsLimit)
+        if (retval == null || retval.size != textInfos.size) {
+            return retval
         }
-        for (int i = 0; i < retval.length; ++i) {
-            final SentenceSuggestionsInfo tempSsi =
-                    fixWronglyInvalidatedWordWithSingleQuote(textInfos[i], retval[i]);
+        for (i in retval.indices) {
+            val tempSsi = fixWronglyInvalidatedWordWithSingleQuote(textInfos[i]!!, retval[i]!!)
             if (tempSsi != null) {
-                retval[i] = tempSsi;
+                retval[i] = tempSsi
             }
         }
-        return retval;
+        return retval
     }
 
     /**
@@ -125,79 +109,76 @@ public final class AndroidSpellCheckerSession extends AndroidWordLevelSpellCheck
      * SpellCheckerService#onGetSentenceSuggestionsMultiple that we can't use because it's
      * using private variables.
      * The default implementation splits the input text to words and returns
-     * {@link SentenceSuggestionsInfo} which contains suggestions for each word.
+     * [SentenceSuggestionsInfo] which contains suggestions for each word.
      * This function will run on the incoming IPC thread.
      * So, this is not called on the main thread,
      * but will be called in series on another thread.
      * @param textInfos an array of the text metadata
      * @param suggestionsLimit the maximum number of suggestions to be returned
-     * @return an array of {@link SentenceSuggestionsInfo} returned by
-     * {@link android.service.textservice.SpellCheckerService.Session#onGetSuggestions(TextInfo, int)}
+     * @return an array of [SentenceSuggestionsInfo] returned by
+     * [android.service.textservice.SpellCheckerService.Session.onGetSuggestions]
      */
-    private SentenceSuggestionsInfo[] splitAndSuggest(TextInfo[] textInfos, int suggestionsLimit) {
-        if (textInfos == null || textInfos.length == 0) {
-            return SentenceLevelAdapter.getEmptySentenceSuggestionsInfo();
+    private fun splitAndSuggest(textInfos: Array<TextInfo?>?, suggestionsLimit: Int): Array<SentenceSuggestionsInfo?>? {
+        if (textInfos.isNullOrEmpty()) {
+            return SentenceLevelAdapter.getEmptySentenceSuggestionsInfo()
         }
-        SentenceLevelAdapter sentenceLevelAdapter;
+        var sentenceLevelAdapter: SentenceLevelAdapter?
         synchronized(this) {
-            sentenceLevelAdapter = mSentenceLevelAdapter;
+            sentenceLevelAdapter = mSentenceLevelAdapter
             if (sentenceLevelAdapter == null) {
-                final String localeString = getLocale();
+                val localeString = getLocale()
                 if (!TextUtils.isEmpty(localeString)) {
-                    sentenceLevelAdapter = new SentenceLevelAdapter(mResources, LocaleUtils.constructLocale(localeString));
-                    mSentenceLevelAdapter = sentenceLevelAdapter;
+                    sentenceLevelAdapter = SentenceLevelAdapter(mResources, localeString!!.constructLocale())
+                    mSentenceLevelAdapter = sentenceLevelAdapter
                 }
             }
         }
         if (sentenceLevelAdapter == null) {
-            return SentenceLevelAdapter.getEmptySentenceSuggestionsInfo();
+            return SentenceLevelAdapter.getEmptySentenceSuggestionsInfo()
         }
-        final int infosSize = textInfos.length;
-        final SentenceSuggestionsInfo[] retval = new SentenceSuggestionsInfo[infosSize];
-        for (int i = 0; i < infosSize; ++i) {
-            final SentenceLevelAdapter.SentenceTextInfoParams textInfoParams =
-                    sentenceLevelAdapter.getSplitWords(textInfos[i]);
-            final ArrayList<SentenceLevelAdapter.SentenceWordItem> mItems =
-                    textInfoParams.mItems;
-            final int itemsSize = mItems.size();
-            final TextInfo[] splitTextInfos = new TextInfo[itemsSize];
-            for (int j = 0; j < itemsSize; ++j) {
-                splitTextInfos[j] = mItems.get(j).mTextInfo;
-            }
+        val infosSize = textInfos.size
+        val retval = arrayOfNulls<SentenceSuggestionsInfo>(infosSize)
+        for (i in 0..<infosSize) {
+            val textInfoParams = sentenceLevelAdapter.getSplitWords(textInfos[i])
+            val mItems = textInfoParams.mItems
+            val itemsSize = mItems.size
+            val splitTextInfos = Array(itemsSize) { mItems[it].mTextInfo }
             retval[i] = SentenceLevelAdapter.reconstructSuggestions(
-                    textInfoParams, onGetSuggestionsMultiple(
-                            splitTextInfos, suggestionsLimit, true));
+                textInfoParams, onGetSuggestionsMultiple(
+                    splitTextInfos, suggestionsLimit, true
+                )
+            )
         }
-        return retval;
+        return retval
     }
 
-    @Override
-    public SuggestionsInfo[] onGetSuggestionsMultiple(TextInfo[] textInfos,
-            int suggestionsLimit, boolean sequentialWords) {
-        long ident = Binder.clearCallingIdentity();
+    override fun onGetSuggestionsMultiple(textInfos: Array<TextInfo>, suggestionsLimit: Int, sequentialWords: Boolean): Array<SuggestionsInfo?> {
+        val ident = Binder.clearCallingIdentity()
         try {
-            final int length = textInfos.length;
-            final SuggestionsInfo[] retval = new SuggestionsInfo[length];
-            for (int i = 0; i < length; ++i) {
-                final CharSequence prevWord;
+            return Array(textInfos.size) { i ->
+                val prevWord: CharSequence?
                 if (sequentialWords && i > 0) {
-                    final TextInfo prevTextInfo = textInfos[i - 1];
-                    final CharSequence prevWordCandidate = prevTextInfo.getCharSequence();
-                    // Note that an empty string would be used to indicate the initial word
-                    // in the future.
-                    prevWord = TextUtils.isEmpty(prevWordCandidate) ? null : prevWordCandidate;
+                    val prevTextInfo = textInfos[i - 1]
+                    val prevWordCandidate = prevTextInfo.charSequence
+                    // Note that an empty string would be used to indicate the initial word in the future.
+                    prevWord = if (TextUtils.isEmpty(prevWordCandidate)) null else prevWordCandidate
                 } else {
-                    prevWord = null;
+                    prevWord = null
                 }
-                final NgramContext ngramContext =
-                        new NgramContext(new NgramContext.WordInfo(prevWord));
-                final TextInfo textInfo = textInfos[i];
-                retval[i] = onGetSuggestionsInternal(textInfo, ngramContext, suggestionsLimit);
-                retval[i].setCookieAndSequence(textInfo.getCookie(), textInfo.getSequence());
+                val ngramContext =
+                    NgramContext(WordInfo(prevWord))
+                val textInfo = textInfos[i]
+                val suggestions = onGetSuggestionsInternal(textInfo, ngramContext, suggestionsLimit)
+                suggestions.setCookieAndSequence(textInfo.cookie, textInfo.sequence)
+                suggestions
             }
-            return retval;
         } finally {
-            Binder.restoreCallingIdentity(ident);
+            Binder.restoreCallingIdentity(ident)
         }
+    }
+
+    companion object {
+        private val TAG: String = AndroidSpellCheckerSession::class.java.simpleName
+        private const val DBG = false
     }
 }
