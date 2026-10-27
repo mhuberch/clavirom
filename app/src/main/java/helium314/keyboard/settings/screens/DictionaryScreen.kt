@@ -33,7 +33,7 @@ import helium314.keyboard.latin.common.LocaleUtils
 import helium314.keyboard.latin.common.LocaleUtils.localizedDisplayName
 import helium314.keyboard.latin.common.splitOnWhitespace
 import helium314.keyboard.latin.utils.DictionaryInfoUtils
-import helium314.keyboard.latin.utils.SubtypeLocaleUtils
+import helium314.keyboard.latin.utils.IntentUtils
 import helium314.keyboard.latin.utils.SubtypeSettings
 import helium314.keyboard.latin.utils.getDictionaryLocales
 import helium314.keyboard.latin.utils.htmlToAnnotated
@@ -68,10 +68,12 @@ fun DictionaryScreen(
         filteredItems = { term ->
             if (term.isBlank()) dictionaryLocales
             else dictionaryLocales.filter { loc ->
-                if (loc == null) return@filter false
-                val displayName = loc.getSpecialDisplayName(loc.localizedDisplayName(ctx.resources))
-                displayName.replace("(", "")
-                    .splitOnWhitespace().any { it.startsWith(term, true) }
+                if (loc == null) false
+                else {
+                    val displayName = loc.getSpecialDisplayName(loc.localizedDisplayName(ctx.resources))
+                    displayName.replace("(", "")
+                        .splitOnWhitespace().any { it.startsWith(term, true) }
+                }
             }
         },
         itemContent = { locale ->
@@ -83,6 +85,7 @@ fun DictionaryScreen(
                         .clickable { showAddDictDialog = true }
                         .padding(vertical = 4.dp, horizontal = 16.dp)
                         .fillMaxWidth()
+                        .clickable { showAddDictDialog = true }
                 ) {
                     Text(
                         stringResource(R.string.add_new_dictionary_title),
@@ -115,9 +118,8 @@ fun DictionaryScreen(
         ConfirmationDialog(
             onDismissRequest = { showAddDictDialog = false },
             onConfirmed = {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                    .addCategory(Intent.CATEGORY_OPENABLE)
-                    .setType("application/octet-stream")
+                val intent = IntentUtils.getResolvableTypeIntent(ctx, "*/*")
+                    .setAction(Intent.ACTION_OPEN_DOCUMENT)
                 dictPicker.launch(intent)
             },
             title = { Text(stringResource(R.string.add_new_dictionary_title)) },

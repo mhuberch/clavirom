@@ -61,6 +61,7 @@ import helium314.keyboard.settings.Step4Content
 import helium314.keyboard.settings.Step5SupportContent
 import helium314.keyboard.settings.dialogs.ThreeButtonAlertDialog
 import helium314.keyboard.settings.getWizardStrings
+import helium314.keyboard.latin.utils.IntentUtils
 import java.util.Locale
 
 @Composable
@@ -155,7 +156,7 @@ fun createAboutSettings(context: Context) = listOf(
                 prefs.edit { putBoolean(DebugSettings.PREF_SHOW_DEBUG_SETTINGS, true) }
                 Toast.makeText(ctx, R.string.prefs_debug_settings_enabled, Toast.LENGTH_LONG).show()
             },
-            icon = R.drawable.ic_settings_about
+            icon = R.drawable.ic_settings_about_version
         )
     },
     Setting(context, SettingsWithoutKey.LICENSE, R.string.license, R.string.gnu_gpl) {
@@ -178,6 +179,8 @@ fun createAboutSettings(context: Context) = listOf(
             name = it.title,
             description = it.description,
             onClick = {
+                // Compose dialogs are in a rather sad state. They don't understand HTML, and don't scroll without customization.
+                // this should be re-done in compose, but... bah
                 val link = ("<a href=\"https://developer.android.com/reference/android/content/Context#createDeviceProtectedStorageContext()\">"
                         + ctx.getString(R.string.hidden_features_text) + "</a>")
                 val message = ctx.getString(R.string.hidden_features_message, link)
@@ -219,7 +222,7 @@ fun createAboutSettings(context: Context) = listOf(
                 intent.action = Intent.ACTION_VIEW
                 ctx.startActivity(intent)
             },
-            icon = R.drawable.ic_link
+            icon = R.drawable.ic_settings_about_community
         )
      },
     Setting(context, SettingsWithoutKey.GITHUB, R.string.about_github_link) {
@@ -257,14 +260,13 @@ fun createAboutSettings(context: Context) = listOf(
             description = setting.description,
             onClick = {
                 val date = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US).format(Calendar.getInstance().time)
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-                    .addCategory(Intent.CATEGORY_OPENABLE)
+                val intent = IntentUtils.getResolvableTypeIntent(ctx, "text/plain")
+                    .setAction(Intent.ACTION_CREATE_DOCUMENT)
                     .putExtra(
                         Intent.EXTRA_TITLE,
                         ctx.getString(R.string.english_ime_name)
                             .replace(" ", "_") + "_log_$date.txt"
                     )
-                    .setType("text/plain")
                 launcher.launch(intent)
             },
             icon = R.drawable.ic_settings_about_log

@@ -208,7 +208,7 @@ public final class EmojiPalettesView extends LinearLayout
     public EmojiPalettesView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         mColors = Settings.getValues().mColors;
-        final KeyboardLayoutSet.Builder builder = new KeyboardLayoutSet.Builder(context, null);
+        final KeyboardLayoutSet.Builder builder = new KeyboardLayoutSet.Builder(context, null, null);
         final Resources res = context.getResources();
         mEmojiLayoutParams = new EmojiLayoutParams(res);
         builder.setSubtype(RichInputMethodSubtype.Companion.getEmojiSubtype());
@@ -246,6 +246,14 @@ public final class EmojiPalettesView extends LinearLayout
         host.addView(iconView);
         iconView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
         iconView.setOnClickListener(this);
+        if (category == EmojiCategory.Category.RECENTS) {
+            iconView.setOnLongClickListener(v -> {
+                AudioAndHapticFeedbackManager.getInstance().performHapticAndAudioFeedback(KeyCode.NOT_SPECIFIED, this, HapticEvent.KEY_LONG_PRESS);
+                clearRecentKeys();
+
+                return true;
+            });
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -253,7 +261,7 @@ public final class EmojiPalettesView extends LinearLayout
         if (initialized) return;
         mEmojiCategory.initialize();
         mTabStrip = (LinearLayout) KeyboardSwitcher.getInstance().getEmojiTabStrip();
-        if (Settings.getValues().mSecondaryStripVisible) {
+        if (Settings.getValues().isSecondaryStripVisible()) {
             for (EmojiCategory.CategoryProperties properties : mEmojiCategory.getShownCategories()) {
                 addTab(mTabStrip, properties.getCategory());
             }
@@ -293,7 +301,7 @@ public final class EmojiPalettesView extends LinearLayout
     @Override
     public void onPressKey(final Key key) {
         final int code = key.getCode();
-        mKeyboardActionListener.onPressKey(code, 0, true, HapticEvent.KEY_PRESS);
+        mKeyboardActionListener.onPressKey(code, 0, 1, HapticEvent.KEY_PRESS);
     }
 
     /**
@@ -309,12 +317,26 @@ public final class EmojiPalettesView extends LinearLayout
             // todo: when we enter some emoticons, e.g. :-D, inline emoji search is triggered and emoji view is closed
             //  (one more instance of "emoji search should recognize emoticons", but in this case could be fixed in other ways)
             mKeyboardActionListener.onTextInput(key.getOutputText());
-        } else {
+        } else if (code != KeyCode.UNSPECIFIED) {
             mKeyboardActionListener.onCodeInput(code, NOT_A_COORDINATE, NOT_A_COORDINATE, false);
         }
         mKeyboardActionListener.onReleaseKey(code, false);
         if (Settings.getValues().mAlphaAfterEmojiInEmojiView)
             mKeyboardActionListener.onCodeInput(KeyCode.ALPHA, NOT_A_COORDINATE, NOT_A_COORDINATE, false);
+    }
+
+    @Override
+    public void onRemoveRecentsKey(Key key)
+    {
+        getRecentsKeyboard().removeRecentsKey(key);
+    }
+
+    private void clearRecentKeys() {
+        if (RecentEmojis.get().isEmpty()) return;
+        RecentEmojis.clear();
+        getRecentsKeyboard().removeAllKeys();
+        mPager.getAdapter().notifyItemChanged(mEmojiCategory.getRecentTabId());
+        KeyboardSwitcher.getInstance().showToast(getResources().getString(R.string.recent_emojis_cleared), true);
     }
 
     @Override
@@ -345,22 +367,22 @@ public final class EmojiPalettesView extends LinearLayout
         final KeyDrawParams params = new KeyDrawParams();
         params.updateParams(mEmojiLayoutParams.getBottomRowKeyboardHeight(), keyVisualAttr);
         new EmojiLayoutParams(getResources()).setEmojiListProperties(mPager); // necessary when floating
+        mEmojiCategory.reloadRecents(); // in case recents changed from outside emoji keyboards
         setupSidePadding();
         initDictionaryFacilitator();
     }
 
-    void addRecentKey(final Key key) {
+    private void addRecentKey(Key key) {
         if (Settings.getValues().mIncognitoModeEnabled) {
             // We do not want to log recent keys while being in incognito
             return;
         }
-        if (getVisibility() == VISIBLE && mEmojiCategory.isInRecentTab()) {
+        if (mEmojiCategory.isInRecentTab()) {
             getRecentsKeyboard().addPendingKey(key);
             return;
         }
         getRecentsKeyboard().addKeyFirst(key);
-        if (initialized)
-            mPager.getAdapter().notifyItemChanged(mEmojiCategory.getRecentTabId());
+        mPager.getAdapter().notifyItemChanged(mEmojiCategory.getRecentTabId());
     }
 
     private void setupBottomRowKeyboard(EditorInfo editorInfo, KeyboardActionListener keyboardActionListener) {
@@ -430,7 +452,7 @@ public final class EmojiPalettesView extends LinearLayout
                                 mEmojiCategory.getCurrentCategory()), ! initial && ! isAnimationsDisabled());
             }
 
-            if (Settings.getValues().mSecondaryStripVisible) {
+            if (Settings.getValues().isSecondaryStripVisible()) {
                 View old = mTabStrip.findViewWithTag(oldCategory);
                 View current = mTabStrip.findViewWithTag(category);
 

@@ -56,6 +56,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     // theme-related stuff
     public static final String PREF_THEME_STYLE = "theme_style";
     public static final String PREF_ICON_STYLE = "icon_style";
+    public static final String PREF_ACCENT_SHIFTED_ICON = "accent_shifted_icon";
     public static final String PREF_THEME_COLORS = "theme_colors";
     public static final String PREF_THEME_COLORS_NIGHT = "theme_colors_night";
     public static final String PREF_THEME_KEY_BORDERS = "theme_key_borders";
@@ -92,7 +93,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_SHOW_LANGUAGE_SWITCH_KEY = "show_language_switch_key";
     public static final String PREF_LANGUAGE_SWITCH_KEY = "language_switch_key";
     public static final String PREF_SHOW_EMOJI_KEY = "show_emoji_key";
-    public static final String PREF_VARIABLE_TOOLBAR_DIRECTION = "var_toolbar_direction";
+    public static final String PREF_SHOW_DPAD_KEY = "show_dpad_key";
+   public static final String PREF_VARIABLE_TOOLBAR_DIRECTION = "var_toolbar_direction";
     public static final String PREF_ADDITIONAL_SUBTYPES = "additional_subtypes";
     public static final String PREF_ENABLE_SPLIT_KEYBOARD = "split_keyboard";
     public static final String PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE = "split_keyboard_landscape";
@@ -132,6 +134,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_KEYPRESS_SOUND_VOLUME = "keypress_sound_volume";
     public static final String PREF_KEY_LONGPRESS_TIMEOUT = "key_longpress_timeout";
     public static final String PREF_ENABLE_EMOJI_ALT_PHYSICAL_KEY = "enable_emoji_alt_physical_key";
+    public static final String PREF_ENABLE_HARDWARE_KEYBOARD = "enable_hardware_keyboard";
     public static final String PREF_GESTURE_PREVIEW_TRAIL = "gesture_preview_trail";
     public static final String PREF_GESTURE_FLOATING_PREVIEW_TEXT = "gesture_floating_preview_text";
     public static final String PREF_GESTURE_FLOATING_PREVIEW_DYNAMIC = "gesture_floating_preview_dynamic";
@@ -199,7 +202,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     // Emoji
     public static final String PREF_EMOJI_MAX_SDK = "emoji_max_sdk";
-    public static final String PREF_EMOJI_RECENT_KEYS = "emoji_recent_keys";
+    public static final String PREF_RECENT_EMOJIS = "recent_emojis";
     public static final String PREF_LAST_SHOWN_EMOJI_CATEGORY_ID = "last_shown_emoji_category_id";
     public static final String PREF_LAST_SHOWN_EMOJI_CATEGORY_PAGE_ID = "last_shown_emoji_category_page_id";
 
@@ -221,7 +224,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     // preferences that are not used in SettingsValues and thus should not trigger reload when changed
     private static boolean reloadOnChanged(String key) {
         return switch (key) {
-            case PREF_LAST_SHOWN_EMOJI_CATEGORY_PAGE_ID, PREF_LAST_SHOWN_EMOJI_CATEGORY_ID, PREF_EMOJI_RECENT_KEYS,
+            case PREF_LAST_SHOWN_EMOJI_CATEGORY_PAGE_ID, PREF_LAST_SHOWN_EMOJI_CATEGORY_ID, PREF_RECENT_EMOJIS,
                  PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG, PREF_SELECTED_SUBTYPE -> false;
             default -> !key.startsWith(PREF_SAVED_APP_SUBTYPE_PREFIX) && !key.startsWith("floating_pos");
         };

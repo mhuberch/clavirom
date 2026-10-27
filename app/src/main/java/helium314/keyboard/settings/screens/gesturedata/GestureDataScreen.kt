@@ -717,13 +717,16 @@ private fun BinaryDictionary.addWords(words: MutableList<WeightedWord>) {
 }
 
 private fun calculateWordWeight(frequency: Int, length: Int): Double {
-    // val length_percent = length / 48.0
-    // val min_length = 2.0
-    // val lenBias = min_length * (1.0 - length_percent) + (4.0 * length_percent)
     val freq = frequency.toDouble()
-    val weight = 2.0.pow(freq/8.9)
-
-    return weight // lenBias
+    val weight = 2.0.pow(freq/14.0) * when (length) {
+        2 -> .5
+        3 -> .9
+        4 -> 1.0
+        5 -> .8
+        6 -> .5
+        else -> 2.0/length
+    }
+    return weight
 }
 
 // words will be added to the list while we're choosing -> ignore the new words
@@ -758,7 +761,9 @@ private fun <T> List<Pair<T, Double>>.searchFirstExceedingScore(scoreToExceed: D
     return null
 }
 
-const val END_DATE_EPOCH_MILLIS = 1796079600000L // Dec 1st 2026
+// background gathering will end and code will be removed
+// active gathering might remain in some special mode for debugging purpose
+const val END_DATE_EPOCH_MILLIS = 1798758000000L // Jan 1st 2027
 const val TWO_WEEKS_IN_MILLIS = 14L * 24 * 3600 * 1000
 
 @Preview

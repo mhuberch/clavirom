@@ -87,6 +87,16 @@ class ClipboardHistoryManager(
         }
     }
 
+    fun getPrimaryClipIfText(): String? {
+        if (tempPrimaryClip) return null // avoid updating history
+        val clipData = clipboardManager.primaryClip ?: return null
+        if (clipData.itemCount == 0) return null
+        val clipItem = clipData.getItemAt(0) ?: return null
+        return if (clipData.description?.hasMimeType("text/*") == true)
+            clipItem.coerceToText(latinIME).toString().takeIf { it.isNotEmpty() }
+        else null
+    }
+
     // fallback method because in some apps there is no supported mime type and commitContend does nothing,
     // but KeyEvent.KEYCODE_PASTE for pasting from primary clip works fine
     // (actually we do change the primary clip, but (try to) revert immediately)
@@ -191,13 +201,15 @@ class ClipboardHistoryManager(
         val binding = ClipboardSuggestionBinding.inflate(LayoutInflater.from(latinIME), parent, false)
         val textView = binding.clipboardSuggestionText
         val clipIcon = KeyboardIconsSet.instance.getIconDrawable(ToolbarKey.PASTE.name.lowercase())
-        textView.setCompoundDrawablesRelativeWithIntrinsicBounds(clipIcon, null, null, null)
+        clipIcon?.setBounds(0, 0, textView.lineHeight, textView.lineHeight) // scale the icon to the text
+        textView.setCompoundDrawablesRelative(clipIcon, null, null, null)
         val inputType = editorInfo?.inputType ?: InputType.TYPE_NULL
         if (hasText) {
             if (TextUtils.isEmpty(content)) return null
             if (InputTypeUtils.isNumberInputType(inputType) && !content.isValidNumber()) return null
+            val shortenedContent = content.take(200) // for display only
             KeyboardTypeface.applyToTextView(textView)
-            textView.text = (if (isClipSensitive(inputType)) "*".repeat(content.length.coerceAtMost(200)) else content)
+            textView.text = (if (isClipSensitive(inputType)) "*".repeat(shortenedContent.length) else shortenedContent)
         }
         val onClickListener = View.OnClickListener {
             dontShowCurrentSuggestion = true
@@ -224,11 +236,13 @@ class ClipboardHistoryManager(
 
         val closeButton = binding.clipboardSuggestionClose
         closeButton.setImageDrawable(KeyboardIconsSet.instance.getIconDrawable(ToolbarKey.CLOSE_HISTORY.name.lowercase()))
+        closeButton.layoutParams.width = textView.lineHeight // scale the icon to the text
+        closeButton.layoutParams.height = textView.lineHeight
         closeButton.setOnClickListener { removeClipboardSuggestion() }
 
         val colors = latinIME.mSettings.current.mColors
         textView.setTextColor(colors.get(ColorType.KEY_TEXT))
-        clipIcon?.let { colors.setColor(it, ColorType.KEY_ICON) }
+        clipIcon?.let { colors.setColor(it, ColorType.CLIPBOARD_SUGGESTION_ICON) }
         colors.setColor(closeButton, ColorType.REMOVE_SUGGESTION_ICON)
         colors.setBackground(binding.root, ColorType.CLIPBOARD_SUGGESTION_BACKGROUND)
 

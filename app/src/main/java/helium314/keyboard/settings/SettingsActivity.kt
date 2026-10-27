@@ -25,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -41,6 +42,7 @@ import helium314.keyboard.latin.utils.BackButton
 import helium314.keyboard.latin.utils.DeviceProtectedUtils
 import helium314.keyboard.latin.utils.ExecutorUtils
 import helium314.keyboard.latin.utils.GestureDataGatheringSettings
+import helium314.keyboard.latin.utils.IntentUtils
 import helium314.keyboard.latin.utils.JniUtils
 import helium314.keyboard.latin.utils.Theme
 import helium314.keyboard.latin.utils.UncachedInputMethodManagerUtils
@@ -129,6 +131,7 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
                                 finish = this::finish
                             )
                         } else if (crashReports.isNotEmpty()) {
+                            val ctx = LocalContext.current
                             ConfirmationDialog(
                                 cancelButtonText = "ignore",
                                 onDismissRequest = { crashReportFiles.value = emptyList() },
@@ -136,10 +139,9 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
                                 onNeutral = { crashReports.forEach { it.delete() }; crashReportFiles.value = emptyList() },
                                 confirmButtonText = "get",
                                 onConfirmed = {
-                                    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-                                    intent.addCategory(Intent.CATEGORY_OPENABLE)
-                                    intent.putExtra(Intent.EXTRA_TITLE, "crash_reports.zip")
-                                    intent.type = "application/zip"
+                                    val intent = IntentUtils.getResolvableTypeIntent(ctx, "application/zip")
+                                        .setAction(Intent.ACTION_CREATE_DOCUMENT)
+                                        .putExtra(Intent.EXTRA_TITLE, "crash_reports.zip")
                                     crashFilePicker.launch(intent)
                                 },
                                 content = { Text("Crash report files found") },

@@ -219,7 +219,7 @@ public final class AndroidSpellCheckerService extends SpellCheckerService
     private KeyboardLayoutSet createKeyboardSetForSpellChecker(final InputMethodSubtype subtype) {
         final EditorInfo editorInfo = new EditorInfo();
         editorInfo.inputType = InputType.TYPE_CLASS_TEXT;
-        final KeyboardLayoutSet.Builder builder = new KeyboardLayoutSet.Builder(this, editorInfo);
+        final KeyboardLayoutSet.Builder builder = new KeyboardLayoutSet.Builder(this, editorInfo, null);
         return builder
                 .setKeyboardGeometry(SPELLCHECKER_DUMMY_KEYBOARD_WIDTH, SPELLCHECKER_DUMMY_KEYBOARD_HEIGHT)
                 .setSubtype(RichInputMethodSubtype.Companion.get(subtype))

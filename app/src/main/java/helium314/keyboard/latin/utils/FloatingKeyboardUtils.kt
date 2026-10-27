@@ -4,11 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
+import android.os.Build
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.edit
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import helium314.keyboard.keyboard.KeyboardSwitcher
@@ -27,6 +30,12 @@ object FloatingKeyboardUtils {
     fun setFloating(view: View?) {
         val lp = view?.layoutParams as? ViewGroup.MarginLayoutParams ?: return
         view.getWindowVisibleDisplayFrame(windowFrame)
+        // On Android 15+ (edge-to-edge) getWindowVisibleDisplayFrame includes the area behind the navbar, so we remove it here
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            val navBarBottom = ViewCompat.getRootWindowInsets(view)
+                ?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
+            windowFrame.bottom -= navBarBottom
+        }
         extraHeight = getSuggestionStripHeight(view.resources) + getFloatingHandleHeight(view.resources)
         val (x, y) = readPosition(
             view.context,
@@ -140,10 +149,16 @@ object FloatingKeyboardUtils {
                     val availableHeight = windowFrame.bottom - windowFrame.top
                     val maxWidth = (availableWidth * 0.9f).toInt()
                     val maxHeight = (availableHeight * 0.9f).toInt()
+                    // min size should be independent of orientation
+                    val minWidth = (minOf(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels) * 0.2)
+                        .toInt().coerceAtLeast(200)
+                    val minHeight = (minWidth * 0.75).toInt()
                     // avoid setting window outside windowFrame, view behaves strange otherwise
-                    val newWidth = (Settings.getValues().mFloatingWidth + dx / scale).toInt().coerceIn(150, maxWidth)
+                    val newWidth = (Settings.getValues().mFloatingWidth + dx / scale).toInt()
+                        .coerceIn(minWidth, maxWidth)
                         .coerceAtMost(availableWidth - lp.leftMargin)
-                    val newHeight = (Settings.getValues().mFloatingHeight + dy / scale).toInt().coerceIn(100, maxHeight)
+                    val newHeight = (Settings.getValues().mFloatingHeight + dy / scale).toInt()
+                        .coerceIn(minHeight, maxHeight)
                         .coerceAtMost(availableHeight - extraHeight.toInt() - lp.topMargin)
                     setFloatingSize(context, newWidth, newHeight)
                     KeyboardSwitcher.getInstance().reloadKeyboard()

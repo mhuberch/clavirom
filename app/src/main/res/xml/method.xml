@@ -197,19 +197,19 @@
         android:isAsciiCapable="true"
         />
     <subtype android:icon="@drawable/ic_ime_switcher"
-        android:label="@string/subtype_en_US"
-        android:subtypeId="0xc9194f98"
-        android:imeSubtypeLocale="en_US"
-        android:languageTag="en-US"
-        android:imeSubtypeMode="keyboard"
-        android:imeSubtypeExtraValue="TrySuppressingImeSwitcher,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable"
-        android:isAsciiCapable="true"
-        />
-    <subtype android:icon="@drawable/ic_ime_switcher"
         android:label="@string/subtype_generic"
         android:subtypeId="0xc9194f97"
         android:imeSubtypeLocale="en_AU"
         android:languageTag="en-AU"
+        android:imeSubtypeMode="keyboard"
+        android:imeSubtypeExtraValue="TrySuppressingImeSwitcher,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable"
+        android:isAsciiCapable="true"
+    />
+    <subtype android:icon="@drawable/ic_ime_switcher"
+        android:label="@string/subtype_en_US"
+        android:subtypeId="0xc9194f98"
+        android:imeSubtypeLocale="en_US"
+        android:languageTag="en-US"
         android:imeSubtypeMode="keyboard"
         android:imeSubtypeExtraValue="TrySuppressingImeSwitcher,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable"
         android:isAsciiCapable="true"
@@ -222,7 +222,7 @@
         android:imeSubtypeMode="keyboard"
         android:imeSubtypeExtraValue="TrySuppressingImeSwitcher,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable"
         android:isAsciiCapable="true"
-        />
+    />
     <subtype android:icon="@drawable/ic_ime_switcher"
         android:label="@string/subtype_en_GB"
         android:subtypeId="0xb045e755"
@@ -232,15 +232,6 @@
         android:imeSubtypeExtraValue="TrySuppressingImeSwitcher,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable"
         android:isAsciiCapable="true"
     />
-    <subtype android:icon="@drawable/ic_ime_switcher"
-        android:label="@string/subtype_generic"
-        android:subtypeId="0x8d58fc2d"
-        android:imeSubtypeLocale="en_IN"
-        android:languageTag="en-IN"
-        android:imeSubtypeMode="keyboard"
-        android:imeSubtypeExtraValue="AsciiCapable,EmojiCapable"
-        android:isAsciiCapable="true"
-        />
     <subtype android:icon="@drawable/ic_ime_switcher"
         android:label="@string/subtype_generic"
         android:subtypeId="0x6f972360"
