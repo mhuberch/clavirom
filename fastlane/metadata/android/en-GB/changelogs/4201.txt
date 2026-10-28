@@ -1,3 +1,4 @@
+## HeliBoard
 * update shift key icon
 * rearrange Arabic punctuation popups and add dotted-circle markers
 * add option to toggle hardware keyboard support (still buggy)
@@ -8,3 +9,7 @@
 * fix unreachable floating keyboard handles
 * fix crash in emoji search
 * minor fixes and improvements
+
+## ClaviRom
+* fix displayed languages in multilingual typing
+* updated Romansh dictionaries
