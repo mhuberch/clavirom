@@ -58,6 +58,7 @@ import helium314.keyboard.latin.settings.Settings;
 import helium314.keyboard.latin.utils.KtxKt;
 import helium314.keyboard.latin.utils.LanguageOnSpacebarUtils;
 import helium314.keyboard.latin.utils.Log;
+import helium314.keyboard.settings.ClaviromKt;
 import helium314.keyboard.latin.utils.TypefaceUtils;
 
 import java.util.ArrayList;
@@ -753,7 +754,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
             final Locale displayLocale = ConfigurationCompatKt.locale(getResources().getConfiguration());
             for (Locale locale : secondaryLocales) {
                 sb.append(" - ");
-                sb.append(locale.getDisplayLanguage(displayLocale));
+                sb.append(ClaviromKt.getSpecialDisplayName(locale, locale.getDisplayLanguage(displayLocale)));
             }
             final String full = sb.toString();
             if (fitsTextIntoWidth(width, full, paint)) {

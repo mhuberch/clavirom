@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.common.LocaleUtils.localizedDisplayName
 import helium314.keyboard.settings.DropDownField
+import helium314.keyboard.settings.getSpecialDisplayName
 import helium314.keyboard.settings.SearchScreen
 import helium314.keyboard.settings.dialogs.ThreeButtonAlertDialog
 import java.util.Locale
@@ -256,7 +257,8 @@ private fun getSpecificallySortedLocales(firstLocale: Locale?): List<Locale?> {
 }
 
 fun Locale?.getLocaleDisplayNameForUserDictSettings(context: Context) =
-    this?.localizedDisplayName(context.resources) ?: context.resources.getString(R.string.user_dict_settings_all_languages)
+    this?.let { it.getSpecialDisplayName(it.localizedDisplayName(context.resources)) }
+        ?: context.resources.getString(R.string.user_dict_settings_all_languages)
 
 // weight is frequency but different name towards user
 private data class Word(val word: String, val shortcut: String?, val weight: Int?)

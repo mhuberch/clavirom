@@ -38,10 +38,18 @@ val CLAVIROM_BOLD_WORDS = listOf("HeliBoard", "Lia Rumantscha", "far.ch")
 val CLAVIROM_WIZARD_LANGUAGES_ROMANSH = listOf("rm-SR", "rm-ST", "rm-SM", "rm-PU", "rm-VA")
 val CLAVIROM_WIZARD_LANGUAGES_OTHER = listOf("de-CH", "it-CH", "en")
 
-fun Locale.isClaviromPrivileged(): Boolean = CLAVIROM_WIZARD_DISPLAY_NAMES.containsKey(toLanguageTag()) || CLAVIROM_WIZARD_DISPLAY_NAMES.containsKey(language)
+fun Locale.isClaviromPrivileged(): Boolean {
+    val tag = toLanguageTag().replace("_", "-")
+    val lang = language.substringBefore("_").substringBefore("-")
+    return CLAVIROM_WIZARD_DISPLAY_NAMES.keys.any { it.equals(tag, ignoreCase = true) || it.equals(lang, ignoreCase = true) }
+}
 
 fun Locale.getSpecialDisplayName(default: String): String {
-    return CLAVIROM_WIZARD_DISPLAY_NAMES[toLanguageTag()] ?: CLAVIROM_WIZARD_DISPLAY_NAMES[language] ?: default
+    val tag = toLanguageTag().replace("_", "-")
+    val lang = language.substringBefore("_").substringBefore("-")
+    return CLAVIROM_WIZARD_DISPLAY_NAMES.entries.firstOrNull { it.key.equals(tag, ignoreCase = true) }?.value
+        ?: CLAVIROM_WIZARD_DISPLAY_NAMES.entries.firstOrNull { it.key.equals(lang, ignoreCase = true) }?.value
+        ?: default
 }
 
 /**

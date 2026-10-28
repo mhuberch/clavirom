@@ -84,6 +84,7 @@ import helium314.keyboard.settings.dialogs.ListPickerDialog
 import helium314.keyboard.settings.dialogs.MultiListPickerDialog
 import helium314.keyboard.settings.dialogs.ReorderDialog
 import helium314.keyboard.settings.getSpecialDisplayName
+import helium314.keyboard.settings.isClaviromPrivileged
 import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.layoutFilePicker
 import helium314.keyboard.settings.layoutIntent
@@ -126,7 +127,8 @@ fun SubtypeScreen(
             setCurrentSubtype(currentSubtype.with(ExtraValue.NO_SHIFT_KEY))
     }
 
-    val availableLocalesForScript = getAvailableSecondaryLocales(ctx, currentSubtype.locale).sortedBy { it.toLanguageTag() }
+    val availableLocalesForScript = getAvailableSecondaryLocales(ctx, currentSubtype.locale)
+        .sortedWith(compareBy({ !it.isClaviromPrivileged() }, { it.getSpecialDisplayName(it.localizedDisplayName(ctx.resources)) }))
     var showSecondaryLocaleDialog by remember { mutableStateOf(false) }
     var showKeyOrderDialog by remember { mutableStateOf(false) }
     var showHintOrderDialog by remember { mutableStateOf(false) }

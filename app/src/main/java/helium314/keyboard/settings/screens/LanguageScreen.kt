@@ -102,7 +102,7 @@ private fun SubtypeRow(subtype: InputMethodSubtype, isEnabled: Boolean) {
             Text(subtype.displayName(), style = MaterialTheme.typography.bodyLarge)
             val description = if (SubtypeSettings.isAdditionalSubtype(subtype)) {
                 val secondaryLocales = subtype.getExtraValueOf(ExtraValue.SECONDARY_LOCALES)?.split(Separators.KV)
-                    ?.joinToString(", ") { it.constructLocale().localizedDisplayName(ctx.resources) }
+                    ?.joinToString(", ") { val loc = it.constructLocale(); loc.getSpecialDisplayName(loc.localizedDisplayName(ctx.resources)) }
                 stringResource(R.string.custom_subtype) + (secondaryLocales?.let { "\n$it" } ?: "")
             } else null
             if (description != null)
